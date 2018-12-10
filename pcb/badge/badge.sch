@@ -1,5 +1,4 @@
 EESchema Schematic File Version 4
-LIBS:badge-cache
 EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
@@ -18,8 +17,8 @@ $Comp
 L COM-08892:COM-08892 IC1
 U 1 1 5BF74A63
 P 7950 1950
-F 0 "IC1" H 10391 1296 50  0000 L CNN
-F 1 "COM-08892" H 10391 1205 50  0000 L CNN
+F 0 "IC1" H 9100 1500 50  0000 L CNN
+F 1 "COM-08892" H 8950 1600 50  0000 L CNN
 F 2 "COM-08892:QFP50P900X900X160-48N" H 10200 2450 50  0001 L CNN
 F 3 "https://www.google.co.jp/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwiAkKC8ipDWAhWEWrwKHciZB0kQFggpMAA&url=https%3A%2F%2Fwww.sparkfun.com%2Fdatasheets%2FComponents%2FSMD%2Fvs1053.pdf&usg=AFQjCNGfjeIOxgMtdfoxEnZ7Zp1IsEDwzA" H 10200 2350 50  0001 L CNN
 F 4 "SparkFun Accessories MP3 and MIDI Codec - VS1053B" H 10200 2250 50  0001 L CNN "Description"
@@ -366,4 +365,84 @@ Wire Wire Line
 	7050 1400 7050 1700
 Text Label 7050 1700 1    50   ~ 0
 GBUF
+$Comp
+L Connector:Conn_01x08_Male J?
+U 1 1 5C0E7589
+P 5100 3400
+F 0 "J?" H 5206 3878 50  0000 C CNN
+F 1 "Conn_01x08_Male" H 5206 3787 50  0000 C CNN
+F 2 "" H 5100 3400 50  0001 C CNN
+F 3 "~" H 5100 3400 50  0001 C CNN
+	1    5100 3400
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5C0E8288
+P 5700 3100
+F 0 "#PWR?" H 5700 2850 50  0001 C CNN
+F 1 "GND" V 5705 2972 50  0000 R CNN
+F 2 "" H 5700 3100 50  0001 C CNN
+F 3 "" H 5700 3100 50  0001 C CNN
+	1    5700 3100
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	5300 3100 5700 3100
+Wire Wire Line
+	5300 3200 5750 3200
+Wire Wire Line
+	5300 3300 5750 3300
+Wire Wire Line
+	5300 3400 5700 3400
+Wire Wire Line
+	5300 3600 5800 3600
+Wire Wire Line
+	5300 3700 5800 3700
+Wire Wire Line
+	5300 3800 5800 3800
+Wire Wire Line
+	5300 3500 5750 3500
+Text Label 5450 3200 0    50   ~ 0
+MOSI
+Text Label 5350 3300 0    50   ~ 0
+MISO
+Text Label 5400 3400 0    50   ~ 0
+SCLK
+Text Label 5400 3500 0    50   ~ 0
+XRESET
+Text Label 5350 3600 0    50   ~ 0
+DREQ
+Text Label 5400 3700 0    50   ~ 0
+xDCS
+Text Label 5450 3800 0    50   ~ 0
+xCS
+Wire Wire Line
+	7950 2150 7500 2150
+Text Label 7550 2150 0    50   ~ 0
+XRESET
+Wire Wire Line
+	10350 2550 10700 2550
+Text Label 10400 2550 0    50   ~ 0
+MISO
+Wire Wire Line
+	10350 2650 10750 2650
+Text Label 10550 2650 0    50   ~ 0
+MOSI
+Text Label 10550 2750 0    50   ~ 0
+SCLK
+Wire Wire Line
+	10350 2750 10800 2750
+Wire Wire Line
+	7950 2650 7550 2650
+Text Label 7700 2650 0    50   ~ 0
+DREQ
+Wire Wire Line
+	8550 4050 8550 4250
+Text Label 8550 4200 1    50   ~ 0
+xDCS
+Wire Wire Line
+	9550 4050 9550 4350
+Text Label 9550 4200 1    50   ~ 0
+xCS
 $EndSCHEMATC
