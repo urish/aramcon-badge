@@ -1823,7 +1823,7 @@
   (gr_text SCLK (at 75.438 97.7265) (layer F.SilkS) (tstamp 5C0F2090)
     (effects (font (size 0.75 0.75) (thickness 0.15)))
   )
-  (gr_text MOSI (at 75.384429 95.1865) (layer F.SilkS) (tstamp 5C0F207F)
+  (gr_text MISO (at 75.384429 95.1865) (layer F.SilkS) (tstamp 5C0F207F)
     (effects (font (size 0.75 0.75) (thickness 0.15)))
   )
   (gr_text MOSI (at 75.384429 92.6465) (layer F.SilkS) (tstamp 5C0F207C)
