@@ -1,3 +1,4 @@
 (sym_lib_table
   (lib (name COM-08892)(type Legacy)(uri ${KIPRJMOD}/lib/COM-08892.lib)(options "")(descr ""))
+  (lib (name ebyte)(type Legacy)(uri C:/Users/ariel/Desktop/aramcon-badge/aramcon-badge/pcb/badge/ebyte.lib)(options "")(descr ""))
 )
