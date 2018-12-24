@@ -31,8 +31,8 @@ $Comp
 L ebyte:E73-2G4M08S1C U3
 U 1 1 5C1F197E
 P 4700 3250
-F 0 "U3" H 4850 2050 50  0000 C CNN
-F 1 "E73-2G4M08S1C" H 4875 2137 50  0000 C CNN
+F 0 "U3" H 4700 3250 50  0000 C CNN
+F 1 "E73-2G4M08S1C" H 4650 3400 50  0000 C CNN
 F 2 "EBYTE:E73-2G4M08S1C" H 4600 3300 50  0001 C CNN
 F 3 "" H 4600 3300 50  0001 C CNN
 	1    4700 3250
@@ -158,7 +158,7 @@ SNDDREQ
 Text Label 1550 1200 2    50   ~ 0
 SNDRESET
 Wire Wire Line
-	5800 3850 6100 3850
+	5400 2150 5400 1850
 Wire Wire Line
 	5800 3400 6100 3400
 Wire Wire Line
@@ -168,14 +168,14 @@ Wire Wire Line
 Wire Wire Line
 	3650 3400 3400 3400
 Wire Wire Line
-	5800 3700 6150 3700
+	5250 2150 5250 1800
 Wire Wire Line
 	5800 4000 6100 4000
 Text Label 5850 4000 0    50   ~ 0
 MOSI
-Text Label 5850 3850 0    50   ~ 0
+Text Label 5400 2100 1    50   ~ 0
 MISO
-Text Label 5850 3700 0    50   ~ 0
+Text Label 5250 2100 1    50   ~ 0
 SCLK
 Text Label 5850 3400 0    50   ~ 0
 SNDCS
@@ -290,12 +290,12 @@ F 3 "" H 8500 1900 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 Wire Wire Line
-	5400 2150 5400 1800
+	4950 4300 4950 4650
 Wire Wire Line
-	5250 2150 5250 1800
-Text Label 5400 2100 1    50   ~ 0
+	5100 4300 5100 4650
+Text Label 4950 4350 3    50   ~ 0
 DISPCS
-Text Label 5250 2100 1    50   ~ 0
+Text Label 5100 4350 3    50   ~ 0
 DISPDC
 Wire Wire Line
 	4350 4300 4350 4750
@@ -331,4 +331,84 @@ Wire Wire Line
 	8050 2100 9100 2100
 Wire Wire Line
 	1450 2500 1800 2500
+$Comp
+L power:GND #PWR0162
+U 1 1 5C2E4386
+P 5250 4300
+F 0 "#PWR0162" H 5250 4050 50  0001 C CNN
+F 1 "GND" H 5255 4127 50  0000 C CNN
+F 2 "" H 5250 4300 50  0001 C CNN
+F 3 "" H 5250 4300 50  0001 C CNN
+	1    5250 4300
+	1    0    0    -1  
+$EndComp
+$Comp
+L touch-buttons:touch-button U5
+U 1 1 5C2E49F6
+P 7100 4050
+F 0 "U5" H 7482 4042 50  0000 L CNN
+F 1 "touch-button" H 7482 3951 50  0000 L CNN
+F 2 "touch-buttons:TOUCH-CIRCLE" H 7100 4050 50  0001 C CNN
+F 3 "" H 7100 4050 50  0001 C CNN
+	1    7100 4050
+	1    0    0    -1  
+$EndComp
+$Comp
+L touch-buttons:touch-button U6
+U 1 1 5C2E4A86
+P 8450 4050
+F 0 "U6" H 8832 4042 50  0000 L CNN
+F 1 "touch-button" H 8832 3951 50  0000 L CNN
+F 2 "touch-buttons:TOUCH-CIRCLE" H 8450 4050 50  0001 C CNN
+F 3 "" H 8450 4050 50  0001 C CNN
+	1    8450 4050
+	1    0    0    -1  
+$EndComp
+$Comp
+L touch-buttons:touch-slider-4pin U4
+U 1 1 5C2E4B1E
+P 6600 2900
+F 0 "U4" V 6554 3077 50  0000 L CNN
+F 1 "touch-slider-4pin" V 6645 3077 50  0000 L CNN
+F 2 "touch-buttons:TouchSlider-4_50x10mm" H 6600 2900 50  0001 C CNN
+F 3 "" H 6600 2900 50  0001 C CNN
+	1    6600 2900
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	6350 3200 5800 3200
+Wire Wire Line
+	5800 3200 5800 3250
+Wire Wire Line
+	6350 3000 5800 3000
+Wire Wire Line
+	5800 3000 5800 3100
+Wire Wire Line
+	5800 2950 5800 2900
+Wire Wire Line
+	5800 2900 6350 2900
+Wire Wire Line
+	6350 2900 6350 2800
+Wire Wire Line
+	6350 2600 6100 2600
+Wire Wire Line
+	6100 2600 6100 2800
+Wire Wire Line
+	6100 2800 5800 2800
+Wire Wire Line
+	7100 4500 7100 4950
+Wire Wire Line
+	8450 4500 8450 4950
+Text Label 7100 4900 1    50   ~ 0
+TouchBTN1
+Text Label 8450 4900 1    50   ~ 0
+TouchBTN2
+Text Label 6250 3700 2    50   ~ 0
+TouchBTN1
+Wire Wire Line
+	5800 3700 6350 3700
+Wire Wire Line
+	5800 3850 6350 3850
+Text Label 6300 3850 2    50   ~ 0
+TouchBTN2
 $EndSCHEMATC
