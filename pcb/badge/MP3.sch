@@ -1328,4 +1328,11 @@ Text HLabel 6500 7150 2    50   Input ~ 0
 xDCS
 Text HLabel 6500 7250 2    50   Input ~ 0
 xCS
+NoConn ~ 6150 1200
+NoConn ~ 6650 1400
+NoConn ~ 8350 1800
+NoConn ~ 10150 3400
+NoConn ~ 8550 4600
+NoConn ~ 7750 2600
+NoConn ~ 7750 2500
 $EndSCHEMATC

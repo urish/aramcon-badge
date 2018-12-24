@@ -201,15 +201,13 @@ Wire Wire Line
 Wire Wire Line
 	1450 2400 1800 2400
 Wire Wire Line
-	1450 2500 1800 2500
-Wire Wire Line
 	1450 2600 1800 2600
 Text Label 1500 2300 0    50   ~ 0
 VCC
 Text Label 1500 2400 0    50   ~ 0
 SWDIO
 Text Label 1500 2500 0    50   ~ 0
-SWCLK
+SWDCLK
 Text Label 1500 2600 0    50   ~ 0
 GND
 $Comp
@@ -331,4 +329,6 @@ Wire Wire Line
 	8050 2200 9100 2200
 Wire Wire Line
 	8050 2100 9100 2100
+Wire Wire Line
+	1450 2500 1800 2500
 $EndSCHEMATC
