@@ -281,17 +281,6 @@ $EndComp
 Wire Wire Line
 	8800 5750 8500 5750
 Connection ~ 8800 5750
-$Comp
-L Connector:AudioJack4_Ground J1
-U 1 1 5BF87719
-P 6550 1200
-F 0 "J1" V 6470 1405 50  0000 L CNN
-F 1 "AudioJack4_Ground" V 6561 1405 50  0000 L CNN
-F 2 "audio:Jack_3.5mm_PJ320D_Horizontal" H 6550 1200 50  0001 C CNN
-F 3 "~" H 6550 1200 50  0001 C CNN
-	1    6550 1200
-	0    1    1    0   
-$EndComp
 Text Label 6350 1700 1    50   ~ 0
 LEFT
 Text Label 6450 1700 1    50   ~ 0
@@ -1188,69 +1177,6 @@ Connection ~ 3250 6650
 Wire Wire Line
 	3250 6650 3800 6650
 $Comp
-L Connector:Conn_01x04_Male J2
-U 1 1 5C241429
-P 1200 1600
-F 0 "J2" H 1306 1878 50  0000 C CNN
-F 1 "Conn_01x04_Male" H 1306 1787 50  0000 C CNN
-F 2 "Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Vertical" H 1200 1600 50  0001 C CNN
-F 3 "~" H 1200 1600 50  0001 C CNN
-	1    1200 1600
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:GND #PWR0137
-U 1 1 5C241497
-P 1600 1800
-F 0 "#PWR0137" H 1600 1550 50  0001 C CNN
-F 1 "GND" V 1605 1672 50  0000 R CNN
-F 2 "" H 1600 1800 50  0001 C CNN
-F 3 "" H 1600 1800 50  0001 C CNN
-	1    1600 1800
-	0    -1   -1   0   
-$EndComp
-$Comp
-L power:GND #PWR0138
-U 1 1 5C241556
-P 1600 1500
-F 0 "#PWR0138" H 1600 1250 50  0001 C CNN
-F 1 "GND" V 1605 1372 50  0000 R CNN
-F 2 "" H 1600 1500 50  0001 C CNN
-F 3 "" H 1600 1500 50  0001 C CNN
-	1    1600 1500
-	0    -1   -1   0   
-$EndComp
-$Comp
-L power:+3V3 #PWR0139
-U 1 1 5C2415A9
-P 1600 1600
-F 0 "#PWR0139" H 1600 1450 50  0001 C CNN
-F 1 "+3V3" V 1615 1728 50  0000 L CNN
-F 2 "" H 1600 1600 50  0001 C CNN
-F 3 "" H 1600 1600 50  0001 C CNN
-	1    1600 1600
-	0    1    1    0   
-$EndComp
-$Comp
-L power:+5V #PWR0140
-U 1 1 5C241BBA
-P 1600 1700
-F 0 "#PWR0140" H 1600 1550 50  0001 C CNN
-F 1 "+5V" V 1615 1828 50  0000 L CNN
-F 2 "" H 1600 1700 50  0001 C CNN
-F 3 "" H 1600 1700 50  0001 C CNN
-	1    1600 1700
-	0    1    1    0   
-$EndComp
-Wire Wire Line
-	1400 1500 1600 1500
-Wire Wire Line
-	1600 1600 1400 1600
-Wire Wire Line
-	1400 1700 1600 1700
-Wire Wire Line
-	1400 1800 1600 1800
-$Comp
 L Device:R R7
 U 1 1 5C26550C
 P 5700 4850
@@ -1328,11 +1254,21 @@ Text HLabel 6500 7150 2    50   Input ~ 0
 xDCS
 Text HLabel 6500 7250 2    50   Input ~ 0
 xCS
-NoConn ~ 6150 1200
 NoConn ~ 6650 1400
 NoConn ~ 8350 1800
 NoConn ~ 10150 3400
 NoConn ~ 8550 4600
 NoConn ~ 7750 2600
 NoConn ~ 7750 2500
+$Comp
+L Connector:AudioJack4 J1
+U 1 1 5C2EE96B
+P 6550 1200
+F 0 "J1" V 6459 1388 50  0000 L CNN
+F 1 "AudioJack4" V 6550 1388 50  0000 L CNN
+F 2 "audio:Jack_3.5mm_PJ320D_Horizontal" H 6550 1200 50  0001 C CNN
+F 3 "~" H 6550 1200 50  0001 C CNN
+	1    6550 1200
+	0    1    1    0   
+$EndComp
 $EndSCHEMATC

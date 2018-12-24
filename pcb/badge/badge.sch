@@ -88,7 +88,7 @@ F 3 "" H 4800 2000 50  0001 C CNN
 $EndComp
 NoConn ~ 4350 2150
 Wire Wire Line
-	3100 2800 3650 2800
+	3100 2800 3300 2800
 Wire Wire Line
 	3100 3000 3250 3000
 Text Label 3150 3000 0    50   ~ 0
@@ -173,13 +173,13 @@ Wire Wire Line
 	5800 4000 6100 4000
 Text Label 5850 4000 0    50   ~ 0
 MOSI
-Text Label 5400 2100 1    50   ~ 0
+Text Label 4950 2050 1    50   ~ 0
 MISO
 Text Label 5250 2100 1    50   ~ 0
 SCLK
 Text Label 5850 3400 0    50   ~ 0
 SNDCS
-Text Label 4950 2100 1    50   ~ 0
+Text Label 5400 2150 1    50   ~ 0
 SNDRESET
 Text Label 3600 3250 2    50   ~ 0
 SNDDREQ
@@ -293,15 +293,15 @@ Wire Wire Line
 	4950 4300 4950 4650
 Wire Wire Line
 	5100 4300 5100 4650
-Text Label 4950 4350 3    50   ~ 0
-DISPCS
 Text Label 5100 4350 3    50   ~ 0
+DISPCS
+Text Label 4950 4350 3    50   ~ 0
 DISPDC
 Wire Wire Line
 	4350 4300 4350 4750
-Text Label 4350 4650 1    50   ~ 0
+Text Label 4500 4650 1    50   ~ 0
 DISPRST
-Text Label 4500 4700 1    50   ~ 0
+Text Label 4350 4700 1    50   ~ 0
 DISPBUSY
 Wire Wire Line
 	4500 4300 4500 4750
@@ -411,4 +411,20 @@ Wire Wire Line
 	5800 3850 6350 3850
 Text Label 6300 3850 2    50   ~ 0
 TouchBTN2
+Wire Wire Line
+	3300 2800 3300 2700
+Connection ~ 3300 2800
+Wire Wire Line
+	3300 2800 3650 2800
+$Comp
+L power:+5V #PWR?
+U 1 1 5C30DCF7
+P 3300 2700
+F 0 "#PWR?" H 3300 2550 50  0001 C CNN
+F 1 "+5V" H 3315 2873 50  0000 C CNN
+F 2 "" H 3300 2700 50  0001 C CNN
+F 3 "" H 3300 2700 50  0001 C CNN
+	1    3300 2700
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
