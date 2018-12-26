@@ -1,0 +1,118 @@
+<!DOCTYPE CrossStudio_Project_File>
+<solution Name="aramcon-badge" target="8" version="2">
+  <project Name="epaper">
+    <configuration
+      Name="Common"
+      Placement="Flash"
+      Target="nRF52840_xxAA"
+      arm_architecture="v7EM"
+      arm_core_type="Cortex-M4"
+      arm_endian="Little"
+      arm_fp_abi="Hard"
+      arm_fpu_type="FPv4-SP-D16"
+      arm_interwork="No"
+      arm_linker_heap_size="256"
+      arm_linker_process_stack_size="0"
+      arm_linker_stack_size="256"
+      arm_simulator_memory_simulation_parameter="ROM;0x00000000;0x00100000;RAM;0x20000000;0x00040000"
+      arm_target_debug_interface_type="ADIv5"
+      arm_target_device_name="nRF52840_xxAA"
+      arm_target_interface_type="SWD"
+      c_preprocessor_definitions="NRF52840_XXAA;__nRF_FAMILY;ARM_MATH_CM4;FLASH_PLACEMENT=1"
+      c_user_include_directories="$(ProjectDir)/EPD;$(ProjectDir)/CMSIS_4/CMSIS/Include;$(ProjectDir)/nRF/CMSIS/Device/Include;$(NRF5_SDK)/components/libraries/util;$(NRF5_SDK)/components/libraries/timer;$(NRF5_SDK)/components/libraries/atomic_fifo;$(NRF5_SDK)/components/libraries/memobj;$(NRF5_SDK)/components/libraries/delay;$(NRF5_SDK)/components/libraries/log;$(NRF5_SDK)/components/libraries/ringbuf;$(NRF5_SDK)/components/libraries/usbd;$(NRF5_SDK)/components/libraries/usbd/class/cdc/;$(NRF5_SDK)/components/libraries/usbd/class/cdc/acm/;$(NRF5_SDK)/components/drivers_nrf/usbd/;$(NRF5_SDK)/components/libraries/strerror;$(NRF5_SDK)/components/libraries/balloc;$(NRF5_SDK)/components/libraries/atomic;$(NRF5_SDK)/components/libraries/log/src;$(NRF5_SDK)/components/libraries/experimental_section_vars;$(NRF5_SDK)/components/boards;$(NRF5_SDK)/components/proprietary_rf/esb;$(NRF5_SDK)/components/softdevice/s140/headers;$(NRF5_SDK)/modules/nrfx;$(NRF5_SDK)/modules/nrfx/drivers/include;$(NRF5_SDK)/integration/nrfx/legacy;$(NRF5_SDK)/integration/nrfx;$(NRF5_SDK)/modules/nrfx/hal;$(NRF5_SDK)/modules/nrfx/mdk;$(NRF5_SDK)/modules/nrfx/mdk;$(NRF5_SDK)/external/fprintf;$(NRF5_SDK)/external/utf_converter;$(ProjectDir)/config;$(ProjectDir)"
+      debug_register_definition_file="$(ProjectDir)/nrf52840_Registers.xml"
+      debug_target_connection="J-Link"
+      gcc_entry_point="Reset_Handler"
+      linker_memory_map_file="$(ProjectDir)/nRF52840_xxAA_MemoryMap.xml"
+      linker_output_format="hex"
+      linker_printf_width_precision_supported="Yes"
+      linker_section_placement_file="$(ProjectDir)/flash_placement.xml"
+      macros="DeviceHeaderFile=$(PackagesDir)/nRF/CMSIS/Device/Include/nrf.h;DeviceLibraryIdentifier=M4lf;DeviceSystemFile=$(PackagesDir)/nRF/CMSIS/Device/Source/system_nrf52840.c;DeviceVectorsFile=$(PackagesDir)/nRF/Source/ses_nrf52840_Vectors.s;DeviceFamily=nRF;Target=nRF52840_xxAA;Placement=Flash"
+      project_directory="epaper"
+      project_type="Executable"
+      target_reset_script="Reset();"
+      target_script_file="$(ProjectDir)/nRF_Target.js"
+      target_trace_initialize_script="EnableTrace(&quot;$(TraceInterfaceType)&quot;)" />
+    <folder Name="CMSIS Files">
+      <file file_name="nRF/CMSIS/Device/Include/nrf.h" />
+      <file file_name="nRF/CMSIS/Device/Source/system_nrf52840.c">
+        <configuration
+          Name="Common"
+          default_code_section=".init"
+          default_const_section=".init_rodata" />
+      </file>
+    </folder>
+    <folder Name="RTT Files">
+      <file file_name="SEGGER_RTT.c" />
+      <file file_name="SEGGER_RTT.h" />
+      <file file_name="SEGGER_RTT_Conf.h" />
+      <file file_name="SEGGER_RTT_SES.c" />
+    </folder>
+    <folder Name="Script Files">
+      <file file_name="nRF/Scripts/nRF_Target.js">
+        <configuration Name="Common" file_type="Reset Script" />
+      </file>
+    </folder>
+    <folder Name="Source Files">
+      <configuration Name="Common" filter="c;cpp;cxx;cc;h;s;asm;inc" />
+      <file file_name="main.c" />
+      <file file_name="$(ProjectDir)/EPD/EPD_1in54.h" />
+      <file file_name="$(ProjectDir)/EPD/ImageData.c" />
+      <file file_name="$(ProjectDir)/EPD/ImageData.h" />
+      <file file_name="$(ProjectDir)/EPD/EPD_1in54.c" />
+      <file file_name="$(ProjectDir)/EPD/GUI_Paint.h" />
+      <file file_name="$(ProjectDir)/EPD/GUI_Paint.c" />
+      <file file_name="$(ProjectDir)/DEV_Config.c" />
+      <file file_name="$(ProjectDir)/DEV_Config.h" />
+    </folder>
+    <folder Name="System Files">
+      <file file_name="thumb_crt0.s" />
+      <file file_name="nRF/Source/ses_nRF_Startup.s" />
+      <file file_name="nRF/Source/ses_nrf52840_Vectors.s">
+        <configuration Name="Common" file_type="Assembly" />
+      </file>
+    </folder>
+    <folder Name="nRF_Drivers">
+      <file file_name="$(NRF5_SDK)/integration/nrfx/legacy/nrf_drv_spi.c" />
+      <file file_name="$(NRF5_SDK)/integration/nrfx/legacy/nrf_drv_clock.c" />
+      <file file_name="$(NRF5_SDK)/integration/nrfx/legacy/nrf_drv_power.c" />
+      <file file_name="$(NRF5_SDK)/components/drivers_nrf/usbd/nrf_drv_usbd.c" />
+      <file file_name="$(NRF5_SDK)/modules/nrfx/drivers/src/nrfx_clock.c" />
+      <file file_name="$(NRF5_SDK)/modules/nrfx/drivers/src/nrfx_power.c" />
+      <file file_name="$(NRF5_SDK)/modules/nrfx/drivers/src/nrfx_power_clock.c" />
+      <file file_name="$(NRF5_SDK)/modules/nrfx/drivers/src/prs/nrfx_prs.c" />
+      <file file_name="$(NRF5_SDK)/modules/nrfx/drivers/src/nrfx_spi.c" />
+      <file file_name="$(NRF5_SDK)/modules/nrfx/drivers/src/nrfx_spim.c" />
+    </folder>
+    <folder Name="nRF_Libraries">
+      <file file_name="$(NRF5_SDK)/components/libraries/timer/app_timer.c" />
+      <file file_name="$(NRF5_SDK)/components/libraries/util/app_error.c" />
+      <file file_name="$(NRF5_SDK)/components/libraries/util/app_error_handler_gcc.c" />
+      <file file_name="$(NRF5_SDK)/components/libraries/util/app_error_weak.c" />
+      <file file_name="$(NRF5_SDK)/components/libraries/util/app_util_platform.c" />
+      <file file_name="$(NRF5_SDK)/components/libraries/util/nrf_assert.c" />
+      <file file_name="$(NRF5_SDK)/components/libraries/atomic/nrf_atomic.c" />
+      <file file_name="$(NRF5_SDK)/components/libraries/atomic_fifo/nrf_atfifo.c" />
+      <file file_name="$(NRF5_SDK)/components/libraries/balloc/nrf_balloc.c" />
+      <file file_name="$(NRF5_SDK)/external/fprintf/nrf_fprintf.c" />
+      <file file_name="$(NRF5_SDK)/external/fprintf/nrf_fprintf_format.c" />
+      <file file_name="$(NRF5_SDK)/components/libraries/memobj/nrf_memobj.c" />
+      <file file_name="$(NRF5_SDK)/components/libraries/ringbuf/nrf_ringbuf.c" />
+      <file file_name="$(NRF5_SDK)/components/libraries/strerror/nrf_strerror.c" />
+      <file file_name="$(NRF5_SDK)/components/libraries/usbd/app_usbd.c" />
+      <file file_name="$(NRF5_SDK)/components/libraries/usbd/class/cdc/acm/app_usbd_cdc_acm.c" />
+      <file file_name="$(NRF5_SDK)/components/libraries/usbd/app_usbd_core.c" />
+      <file file_name="$(NRF5_SDK)/components/libraries/usbd/app_usbd_serial_num.c" />
+      <file file_name="$(NRF5_SDK)/components/libraries/usbd/app_usbd_string_desc.c" />
+    </folder>
+    <folder Name="nRF_Log">
+      <file file_name="$(NRF5_SDK)/components/libraries/log/src/nrf_log_backend_rtt.c" />
+      <file file_name="$(NRF5_SDK)/components/libraries/log/src/nrf_log_backend_serial.c" />
+      <file file_name="$(NRF5_SDK)/components/libraries/log/src/nrf_log_backend_uart.c" />
+      <file file_name="$(NRF5_SDK)/components/libraries/log/src/nrf_log_default_backends.c" />
+      <file file_name="$(NRF5_SDK)/components/libraries/log/src/nrf_log_frontend.c" />
+      <file file_name="$(NRF5_SDK)/components/libraries/log/src/nrf_log_str_formatter.c" />
+    </folder>
+    <folder Name="Fonts" exclude="" filter="*.c" path="Fonts" recurse="No" />
+  </project>
+</solution>
