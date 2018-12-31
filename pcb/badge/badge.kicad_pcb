@@ -1961,13 +1961,13 @@
     )
   )
 
-  (module Jumper:SolderJumper-2_P1.3mm_Bridged2Bar_RoundedPad1.0x1.5mm (layer F.Cu) (tedit 5B3916F8) (tstamp 5C0F91E6)
+  (module Jumper:SolderJumper-2_P1.3mm_Bridged2Bar_RoundedPad1.0x1.5mm (layer F.Cu) (tedit 5C27F9D8) (tstamp 5C0F91E6)
     (at 100.315 97.79)
     (descr "SMD Solder Jumper, 1x1.5mm, rounded Pads, 0.3mm gap, bridged with 2 copper strips")
     (tags "solder jumper open")
     (path /5C1D48B0/5C26550C)
     (attr virtual)
-    (fp_text reference R7 (at 0 -1.8) (layer F.SilkS)
+    (fp_text reference R7 (at 0 -1.8) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_text value 0 (at 0 1.9) (layer F.Fab)
