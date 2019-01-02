@@ -11,10 +11,10 @@
 #include "GUI_Paint.h"
 #include "ImageData.h"
 
-#define SCK_PIN NRF_GPIO_PIN_MAP(1, 15)  // D13
-#define MOSI_PIN NRF_GPIO_PIN_MAP(1, 13) // D12
+#define SCK_PIN NRF_GPIO_PIN_MAP(0, 1)
+#define MOSI_PIN NRF_GPIO_PIN_MAP(1, 10)
 
-#define LED_PIN NRF_GPIO_PIN_MAP(1, 12) // D7
+#define LED_PIN NRF_GPIO_PIN_MAP(1, 11)
 
 const nrf_drv_spi_t m_spi_master_0 = NRF_DRV_SPI_INSTANCE(0);
 

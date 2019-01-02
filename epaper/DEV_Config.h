@@ -65,10 +65,10 @@
 /**
  * e-Paper GPIO
 **/
-#define EPD_RST_PIN NRF_GPIO_PIN_MAP(1, 11) // D6
-#define EPD_DC_PIN NRF_GPIO_PIN_MAP(1, 10)  // D5
-#define EPD_CS_PIN NRF_GPIO_PIN_MAP(0, 8)   // D10
-#define EPD_BUSY_PIN NRF_GPIO_PIN_MAP(1, 8) // D4
+#define EPD_RST_PIN NRF_GPIO_PIN_MAP(0, 6)
+#define EPD_DC_PIN NRF_GPIO_PIN_MAP(0, 12)
+#define EPD_CS_PIN NRF_GPIO_PIN_MAP(0, 7)
+#define EPD_BUSY_PIN NRF_GPIO_PIN_MAP(0, 26)
 
 /**
  * GPIO read and write
