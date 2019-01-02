@@ -1266,7 +1266,7 @@ U 1 1 5C2EE96B
 P 6550 1200
 F 0 "J1" V 6459 1388 50  0000 L CNN
 F 1 "AudioJack4" V 6550 1388 50  0000 L CNN
-F 2 "audio:Jack_3.5mm_PJ320D_Horizontal" H 6550 1200 50  0001 C CNN
+F 2 "connectors:Jack_3.5mm_PJ320D_Horizontal" H 6550 1200 50  0001 C CNN
 F 3 "~" H 6550 1200 50  0001 C CNN
 	1    6550 1200
 	0    1    1    0   

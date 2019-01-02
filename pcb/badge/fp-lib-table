@@ -1,5 +1,5 @@
 (fp_lib_table
-  (lib (name audio)(type KiCad)(uri ${KIPRJMOD}/audio.pretty)(options "")(descr ""))
+  (lib (name connectors)(type KiCad)(uri ${KIPRJMOD}/connectors.pretty)(options "")(descr ""))
   (lib (name EBYTE)(type KiCad)(uri ${KIPRJMOD}/EBYTE.pretty)(options "")(descr ""))
   (lib (name touch-buttons)(type KiCad)(uri ${KIPRJMOD}/touch-buttons.pretty)(options "")(descr ""))
   (lib (name logo)(type KiCad)(uri ${KIPRJMOD}/logo.pretty)(options "")(descr Logos))
