@@ -60,12 +60,12 @@
       <file file_name="DEV_Config.h" />
     </folder>
     <folder Name="EPD">
-      <file file_name="EPD/EPD_1in54.h" />
+      <file file_name="EPD/EPD_2in9.h" />
       <file file_name="EPD/GUI_Paint.c" />
       <file file_name="EPD/GUI_Paint.h" />
       <file file_name="EPD/ImageData.c" />
       <file file_name="EPD/ImageData.h" />
-      <file file_name="EPD/EPD_1in54.c" />
+      <file file_name="EPD/EPD_2in9.c" />
     </folder>
     <folder Name="Fonts">
       <file file_name="Fonts/font24CN.c" />

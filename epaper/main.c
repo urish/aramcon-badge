@@ -7,7 +7,7 @@
 #include "nrf_log.h"
 
 #include "DEV_Config.h"
-#include "EPD_1in54.h"
+#include "EPD_2in9.h"
 #include "GUI_Paint.h"
 #include "ImageData.h"
 
