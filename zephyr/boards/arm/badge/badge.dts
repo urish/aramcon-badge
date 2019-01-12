@@ -14,7 +14,7 @@
 		     "nordic,nrf52840";
 
 	chosen {
-		zephyr,console = &uart0;
+		zephyr,console = &usb_cdc;
 		zephyr,shell-uart = &uart0;
 		zephyr,uart-mcumgr = &uart0;
 		zephyr,sram = &sram0;

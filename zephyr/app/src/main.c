@@ -35,6 +35,7 @@ struct led_rgb strip_colors[STRIP_NUM_LEDS];
 void main(void) {
 	struct device *strip;
 	struct device *gpio;
+	uint16_t counter = 0;
 
 	gpio = device_get_binding(LED_PORT);
 	gpio_pin_configure(gpio, LED, GPIO_DIR_OUT);
@@ -47,6 +48,8 @@ void main(void) {
 	}
 
 	while (1) {
+		printk("Blink %d!\n", counter++);
+
 		gpio_pin_write(gpio, LED, 0);
 		strip_colors[0] = red;
 		strip_colors[1] = green;
