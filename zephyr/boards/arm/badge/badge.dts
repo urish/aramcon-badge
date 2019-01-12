@@ -66,28 +66,18 @@
 	scl-pin = <27>;
 };
 
-&i2c1 {
-	status = "ok";
-	sda-pin = <30>;
-	scl-pin = <31>;
-};
-
-/*
- * By default, not adding all available SPI instances (spi2, spi3) due to
- * limited GPIOs available on dongle board.
- */
 &spi0 {
 	status = "ok";
-	sck-pin = <27>;
-	mosi-pin = <26>;
-	miso-pin = <42>;
+	sck-pin = <1>;
+	mosi-pin = <42>;
+	miso-pin = <41>;
 };
 
 &spi1 {
 	status = "ok";
-	sck-pin = <31>;
-	mosi-pin = <30>;
-	miso-pin = <45>;
+	sck-pin = <2>;
+	mosi-pin = <8>;
+	miso-pin = <12>;
 };
 
 /* Include flash partition table.
