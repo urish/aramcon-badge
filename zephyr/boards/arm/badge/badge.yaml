@@ -1,0 +1,14 @@
+identifier: badge
+name: BADGE
+type: mcu
+arch: arm
+ram: 256
+flash: 1024
+toolchain:
+  - zephyr
+  - gnuarmemb
+  - xtools
+supported:
+  - usb_device
+  - ble
+  - ieee802154
