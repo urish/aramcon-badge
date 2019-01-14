@@ -1,0 +1,1 @@
+python svg2mod/svg2mod.py -f 1.0 -i "board-shape.svg" -o badge/logo.pretty/board-shape
