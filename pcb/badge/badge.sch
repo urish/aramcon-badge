@@ -557,4 +557,69 @@ Wire Wire Line
 	4650 4900 4650 5050
 Wire Wire Line
 	4650 6350 4650 6150
+$Comp
+L Switch:SW_Push SW1
+U 1 1 5C3D29EC
+P 6800 2650
+F 0 "SW1" H 6800 2935 50  0000 C CNN
+F 1 "SW_Push" H 6800 2844 50  0000 C CNN
+F 2 "Button_Switch_Keyboard:SW_Cherry_MX1A_1.00u_PCB" H 6800 2850 50  0001 C CNN
+F 3 "" H 6800 2850 50  0001 C CNN
+	1    6800 2650
+	1    0    0    -1  
+$EndComp
+$Comp
+L Switch:SW_Push SW2
+U 1 1 5C3D2AC9
+P 6800 3050
+F 0 "SW2" H 6800 3335 50  0000 C CNN
+F 1 "SW_Push" H 6800 3244 50  0000 C CNN
+F 2 "Button_Switch_Keyboard:SW_Cherry_MX1A_1.00u_PCB" H 6800 3250 50  0001 C CNN
+F 3 "" H 6800 3250 50  0001 C CNN
+	1    6800 3050
+	1    0    0    -1  
+$EndComp
+$Comp
+L Switch:SW_Push SW3
+U 1 1 5C3D2B3F
+P 6800 3450
+F 0 "SW3" H 6800 3735 50  0000 C CNN
+F 1 "SW_Push" H 6800 3644 50  0000 C CNN
+F 2 "Button_Switch_Keyboard:SW_Cherry_MX1A_1.00u_PCB" H 6800 3650 50  0001 C CNN
+F 3 "" H 6800 3650 50  0001 C CNN
+	1    6800 3450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6350 2850 5800 2850
+$Comp
+L power:GND #PWR?
+U 1 1 5C3DF0EC
+P 7200 3050
+F 0 "#PWR?" H 7200 2800 50  0001 C CNN
+F 1 "GND" V 7205 2922 50  0000 R CNN
+F 2 "" H 7200 3050 50  0001 C CNN
+F 3 "" H 7200 3050 50  0001 C CNN
+	1    7200 3050
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	6350 2850 6350 2650
+Wire Wire Line
+	6350 2650 6600 2650
+Wire Wire Line
+	5800 3150 6600 3150
+Wire Wire Line
+	6600 3150 6600 3450
+Wire Wire Line
+	6600 3050 6600 3000
+Wire Wire Line
+	6600 3000 5800 3000
+Wire Wire Line
+	7000 2650 7000 3050
+Wire Wire Line
+	7000 3050 7200 3050
+Connection ~ 7000 3050
+Wire Wire Line
+	7000 3050 7000 3450
 $EndSCHEMATC
