@@ -328,69 +328,6 @@ F 3 "" H 5250 4350 50  0001 C CNN
 	1    5250 4350
 	1    0    0    -1  
 $EndComp
-$Comp
-L touch-buttons:touch-button U5
-U 1 1 5C2E49F6
-P 7100 4050
-F 0 "U5" H 7482 4042 50  0000 L CNN
-F 1 "touch-button" H 7482 3951 50  0000 L CNN
-F 2 "touch-buttons:TOUCH-CIRCLE" H 7100 4050 50  0001 C CNN
-F 3 "" H 7100 4050 50  0001 C CNN
-	1    7100 4050
-	1    0    0    -1  
-$EndComp
-$Comp
-L touch-buttons:touch-button U6
-U 1 1 5C2E4A86
-P 8450 4050
-F 0 "U6" H 8832 4042 50  0000 L CNN
-F 1 "touch-button" H 8832 3951 50  0000 L CNN
-F 2 "touch-buttons:TOUCH-CIRCLE" H 8450 4050 50  0001 C CNN
-F 3 "" H 8450 4050 50  0001 C CNN
-	1    8450 4050
-	1    0    0    -1  
-$EndComp
-$Comp
-L touch-buttons:touch-slider-4pin U4
-U 1 1 5C2E4B1E
-P 6600 2800
-F 0 "U4" V 6554 2977 50  0000 L CNN
-F 1 "touch-slider-4pin" V 6645 2977 50  0000 L CNN
-F 2 "touch-buttons:TouchSlider-4_50x10mm" H 6600 2800 50  0001 C CNN
-F 3 "" H 6600 2800 50  0001 C CNN
-	1    6600 2800
-	0    1    1    0   
-$EndComp
-Wire Wire Line
-	6350 3100 5800 3100
-Wire Wire Line
-	6350 2900 5800 2900
-Wire Wire Line
-	5800 2800 6350 2800
-Wire Wire Line
-	6350 2800 6350 2700
-Wire Wire Line
-	6350 2500 6100 2500
-Wire Wire Line
-	6100 2500 6100 2700
-Wire Wire Line
-	6100 2700 5800 2700
-Wire Wire Line
-	7100 4500 7100 4950
-Wire Wire Line
-	8450 4500 8450 4950
-Text Label 7100 4900 1    50   ~ 0
-TouchBTN1
-Text Label 8450 4900 1    50   ~ 0
-TouchBTN2
-Text Label 6250 3600 2    50   ~ 0
-TouchBTN1
-Wire Wire Line
-	5800 3600 6350 3600
-Wire Wire Line
-	5800 3750 6350 3750
-Text Label 6250 3750 2    50   ~ 0
-TouchBTN2
 Wire Wire Line
 	3300 2850 3300 2750
 Connection ~ 3300 2850
@@ -407,12 +344,6 @@ F 3 "" H 3300 2750 50  0001 C CNN
 	1    3300 2750
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	5800 3100 5800 3150
-Wire Wire Line
-	5800 2900 5800 3000
-Wire Wire Line
-	5800 2800 5800 2850
 Wire Wire Line
 	4650 1900 4650 2050
 Wire Wire Line
