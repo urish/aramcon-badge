@@ -179,41 +179,22 @@ Text Label 3600 3300 2    50   ~ 0
 SNDDREQ
 Text Label 3600 3450 2    50   ~ 0
 SNDxDCS
-$Comp
-L Connector:Conn_01x04_Male J6
-U 1 1 5C1C7A0F
-P 1250 2400
-F 0 "J6" H 1356 2678 50  0000 C CNN
-F 1 "Conn_01x04_Male" H 1350 2800 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical" H 1250 2400 50  0001 C CNN
-F 3 "~" H 1250 2400 50  0001 C CNN
-	1    1250 2400
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
-	1450 2300 1800 2300
-Wire Wire Line
-	1450 2400 1800 2400
-Wire Wire Line
-	1450 2600 1800 2600
-Text Label 1500 2300 0    50   ~ 0
-VCC
-Text Label 1500 2400 0    50   ~ 0
+	1700 3100 2050 3100
+Text Label 1750 3100 0    50   ~ 0
 SWDIO
-Text Label 1500 2500 0    50   ~ 0
+Text Label 1750 3000 0    50   ~ 0
 SWDCLK
-Text Label 1500 2600 0    50   ~ 0
-GND
 $Comp
 L power:+3.3V #PWR0148
 U 1 1 5C1C8FC9
-P 1800 2300
-F 0 "#PWR0148" H 1800 2150 50  0001 C CNN
-F 1 "+3.3V" H 1815 2473 50  0000 C CNN
-F 2 "" H 1800 2300 50  0001 C CNN
-F 3 "" H 1800 2300 50  0001 C CNN
-	1    1800 2300
-	0    1    1    0   
+P 1200 2400
+F 0 "#PWR0148" H 1200 2250 50  0001 C CNN
+F 1 "+3.3V" H 1215 2573 50  0000 C CNN
+F 2 "" H 1200 2400 50  0001 C CNN
+F 3 "" H 1200 2400 50  0001 C CNN
+	1    1200 2400
+	1    0    0    -1  
 $EndComp
 Wire Wire Line
 	3650 3750 3250 3750
@@ -226,13 +207,13 @@ SWDCLK
 $Comp
 L power:GND #PWR0149
 U 1 1 5C1CA857
-P 1800 2600
-F 0 "#PWR0149" H 1800 2350 50  0001 C CNN
-F 1 "GND" H 1805 2427 50  0000 C CNN
-F 2 "" H 1800 2600 50  0001 C CNN
-F 3 "" H 1800 2600 50  0001 C CNN
-	1    1800 2600
-	0    -1   -1   0   
+P 1200 3900
+F 0 "#PWR0149" H 1200 3650 50  0001 C CNN
+F 1 "GND" H 1205 3727 50  0000 C CNN
+F 2 "" H 1200 3900 50  0001 C CNN
+F 3 "" H 1200 3900 50  0001 C CNN
+	1    1200 3900
+	1    0    0    -1  
 $EndComp
 $Comp
 L Connector:Conn_01x08_Male J5
@@ -316,7 +297,7 @@ Wire Wire Line
 Wire Wire Line
 	8050 2100 9100 2100
 Wire Wire Line
-	1450 2500 1800 2500
+	1700 3000 2050 3000
 $Comp
 L power:GND #PWR0162
 U 1 1 5C2E4386
@@ -593,10 +574,10 @@ $EndComp
 Wire Wire Line
 	6350 2850 5800 2850
 $Comp
-L power:GND #PWR?
+L power:GND #PWR0165
 U 1 1 5C3DF0EC
 P 7200 3050
-F 0 "#PWR?" H 7200 2800 50  0001 C CNN
+F 0 "#PWR0165" H 7200 2800 50  0001 C CNN
 F 1 "GND" V 7205 2922 50  0000 R CNN
 F 2 "" H 7200 3050 50  0001 C CNN
 F 3 "" H 7200 3050 50  0001 C CNN
@@ -622,4 +603,19 @@ Wire Wire Line
 Connection ~ 7000 3050
 Wire Wire Line
 	7000 3050 7000 3450
+$Comp
+L Connector:Conn_ARM_JTAG_SWD_10 J6
+U 1 1 5C3F1CD3
+P 1200 3100
+F 0 "J6" V 650 3150 50  0000 R CNN
+F 1 "Conn_ARM_JTAG_SWD_10" V 750 3500 50  0000 R CNN
+F 2 "Connector_PinHeader_1.27mm:PinHeader_2x05_P1.27mm_Vertical_SMD" H 1250 2550 50  0001 L TNN
+F 3 "http://infocenter.arm.com/help/topic/com.arm.doc.faqs/attached/13634/cortex_debug_connectors.pdf" V 850 1850 50  0001 C CNN
+	1    1200 3100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1200 3700 1200 3900
+Wire Wire Line
+	1200 2400 1200 2500
 $EndSCHEMATC
