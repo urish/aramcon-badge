@@ -2,7 +2,7 @@
 
   (general
     (thickness 1.6)
-    (drawings 19)
+    (drawings 20)
     (tracks 783)
     (zones 0)
     (modules 75)
@@ -3995,6 +3995,9 @@
     )
   )
 
+  (gr_text 1 (at 83.693 69.1515) (layer B.SilkS)
+    (effects (font (size 1 1) (thickness 0.2)) (justify mirror))
+  )
   (gr_text AUDIO (at 69.32 98.98 270) (layer F.SilkS)
     (effects (font (size 1.5 1.5) (thickness 0.3)))
   )
