@@ -618,4 +618,59 @@ Wire Wire Line
 	1200 3700 1200 3900
 Wire Wire Line
 	1200 2400 1200 2500
+$Comp
+L Connector_Generic:Conn_02x02_Top_Bottom J2
+U 1 1 5C4210C2
+P 8350 4100
+F 0 "J2" H 8400 4317 50  0000 C CNN
+F 1 "SAO_CONN" H 8400 4226 50  0000 C CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_2x02_P2.54mm_Vertical" H 8350 4100 50  0001 C CNN
+F 3 "~" H 8350 4100 50  0001 C CNN
+	1    8350 4100
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR0166
+U 1 1 5C4211E2
+P 7850 4100
+F 0 "#PWR0166" H 7850 3950 50  0001 C CNN
+F 1 "+3.3V" H 7865 4273 50  0000 C CNN
+F 2 "" H 7850 4100 50  0001 C CNN
+F 3 "" H 7850 4100 50  0001 C CNN
+	1    7850 4100
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	8150 4100 7850 4100
+Wire Wire Line
+	8150 4200 7850 4200
+Wire Wire Line
+	7850 4200 7850 4300
+$Comp
+L power:GND #PWR0167
+U 1 1 5C42404A
+P 7850 4300
+F 0 "#PWR0167" H 7850 4050 50  0001 C CNN
+F 1 "GND" V 7855 4172 50  0000 R CNN
+F 2 "" H 7850 4300 50  0001 C CNN
+F 3 "" H 7850 4300 50  0001 C CNN
+	1    7850 4300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8650 4100 8900 4100
+Text Label 8750 4100 0    50   ~ 0
+SDA
+Wire Wire Line
+	8650 4200 8900 4200
+Text Label 8750 4200 0    50   ~ 0
+SCL
+Wire Wire Line
+	5800 3600 6100 3600
+Wire Wire Line
+	5800 3750 6100 3750
+Text Label 5900 3600 0    50   ~ 0
+SCL
+Text Label 5900 3750 0    50   ~ 0
+SDA
 $EndSCHEMATC
