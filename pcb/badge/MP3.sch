@@ -118,7 +118,7 @@ F 1 "+1V8" H 9465 4973 50  0000 C CNN
 F 2 "" H 9450 4800 50  0001 C CNN
 F 3 "" H 9450 4800 50  0001 C CNN
 	1    9450 4800
-	-1   0    0    1   
+	0    1    1    0   
 $EndComp
 Wire Wire Line
 	9450 4800 9450 4600
@@ -291,86 +291,20 @@ Text Label 8950 1800 1    50   ~ 0
 GBUF
 Text Label 6550 1700 1    50   ~ 0
 GBUF
-$Comp
-L Connector:Conn_01x08_Male J3
-U 1 1 5C0E7589
-P 5800 6850
-F 0 "J3" H 5906 7328 50  0000 C CNN
-F 1 "Conn_01x08_Male" H 5906 7237 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical" H 5800 6850 50  0001 C CNN
-F 3 "~" H 5800 6850 50  0001 C CNN
-	1    5800 6850
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:GND #PWR0146
-U 1 1 5C0E8288
-P 6400 6550
-F 0 "#PWR0146" H 6400 6300 50  0001 C CNN
-F 1 "GND" V 6405 6422 50  0000 R CNN
-F 2 "" H 6400 6550 50  0001 C CNN
-F 3 "" H 6400 6550 50  0001 C CNN
-	1    6400 6550
-	0    -1   -1   0   
-$EndComp
 Wire Wire Line
-	6000 6550 6400 6550
-Wire Wire Line
-	6000 6650 6450 6650
-Wire Wire Line
-	6000 6750 6450 6750
-Wire Wire Line
-	6000 6850 6400 6850
-Wire Wire Line
-	6000 7050 6500 7050
-Wire Wire Line
-	6000 7150 6500 7150
-Wire Wire Line
-	6000 7250 6500 7250
-Wire Wire Line
-	6000 6950 6450 6950
-Text Label 6150 6650 0    50   ~ 0
-MOSI
-Text Label 6050 6750 0    50   ~ 0
-MISO
-Text Label 6100 6850 0    50   ~ 0
-SCLK
-Text Label 6100 6950 0    50   ~ 0
-XRESET
-Text Label 6050 7050 0    50   ~ 0
-DREQ
-Text Label 6100 7150 0    50   ~ 0
-xDCS
-Text Label 6150 7250 0    50   ~ 0
-xCS
-Wire Wire Line
-	7750 2700 7300 2700
-Text Label 7350 2700 0    50   ~ 0
-XRESET
+	7750 2700 7450 2700
 Wire Wire Line
 	10150 3100 10500 3100
-Text Label 10200 3100 0    50   ~ 0
-MISO
 Wire Wire Line
-	10150 3200 10550 3200
-Text Label 10350 3200 0    50   ~ 0
-MOSI
-Text Label 10350 3300 0    50   ~ 0
-SCLK
+	10150 3200 10500 3200
 Wire Wire Line
-	10150 3300 10600 3300
+	10150 3300 10500 3300
 Wire Wire Line
-	7750 3200 7350 3200
-Text Label 7500 3200 0    50   ~ 0
-DREQ
+	7750 3200 7450 3200
 Wire Wire Line
 	8350 4600 8350 4800
-Text Label 8350 4750 1    50   ~ 0
-xDCS
 Wire Wire Line
-	9350 4600 9350 4900
-Text Label 9350 4750 1    50   ~ 0
-xCS
+	9350 4600 9350 4850
 $Comp
 L power:GND #PWR0147
 U 1 1 5C105720
@@ -1240,19 +1174,19 @@ F 3 "" H 10900 2550 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	10900 2550 10800 2550
-Text HLabel 6450 6650 2    50   Input ~ 0
+Text HLabel 10500 3200 2    50   Input ~ 0
 MOSI
-Text HLabel 6450 6750 2    50   Output ~ 0
+Text HLabel 10500 3100 2    50   Output ~ 0
 MISO
-Text HLabel 6400 6850 2    50   Input ~ 0
+Text HLabel 10500 3300 2    50   Input ~ 0
 SCLK
-Text HLabel 6450 6950 2    50   Input ~ 0
+Text HLabel 7450 2700 0    50   Input ~ 0
 XRESET
-Text HLabel 6500 7050 2    50   Output ~ 0
+Text HLabel 7450 3200 0    50   Output ~ 0
 DREQ
-Text HLabel 6500 7150 2    50   Input ~ 0
+Text HLabel 8350 4800 0    50   Input ~ 0
 xDCS
-Text HLabel 6500 7250 2    50   Input ~ 0
+Text HLabel 9350 4850 3    50   Input ~ 0
 xCS
 NoConn ~ 6650 1400
 NoConn ~ 8350 1800

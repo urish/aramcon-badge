@@ -215,55 +215,18 @@ F 3 "" H 1200 3900 50  0001 C CNN
 	1    1200 3900
 	1    0    0    -1  
 $EndComp
-$Comp
-L Connector:Conn_01x08_Male J5
-U 1 1 5C1CAC01
-P 7850 2200
-F 0 "J5" H 7956 2678 50  0000 C CNN
-F 1 "Conn_01x08_Male" H 7900 2800 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical" H 7850 2200 50  0001 C CNN
-F 3 "~" H 7850 2200 50  0001 C CNN
-	1    7850 2200
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	8050 1900 8500 1900
-Wire Wire Line
-	8050 2000 8500 2000
-Text Label 8100 2100 0    50   ~ 0
+Text Label 8700 2100 0    50   ~ 0
 MOSI
-Text Label 8100 2200 0    50   ~ 0
+Text Label 8700 2200 0    50   ~ 0
 SCLK
-Text Label 8100 2300 0    50   ~ 0
+Text Label 8700 2300 0    50   ~ 0
 DISPCS
-Text Label 8100 2400 0    50   ~ 0
+Text Label 8700 2400 0    50   ~ 0
 DISPDC
-Text Label 8100 2500 0    50   ~ 0
+Text Label 8700 2500 0    50   ~ 0
 DISPRST
-Text Label 8100 2600 0    50   ~ 0
+Text Label 8700 2600 0    50   ~ 0
 DISPBUSY
-$Comp
-L power:GND #PWR0150
-U 1 1 5C21556B
-P 8500 2000
-F 0 "#PWR0150" H 8500 1750 50  0001 C CNN
-F 1 "GND" V 8505 1872 50  0000 R CNN
-F 2 "" H 8500 2000 50  0001 C CNN
-F 3 "" H 8500 2000 50  0001 C CNN
-	1    8500 2000
-	0    -1   -1   0   
-$EndComp
-$Comp
-L power:+3.3V #PWR0151
-U 1 1 5C215595
-P 8500 1900
-F 0 "#PWR0151" H 8500 1750 50  0001 C CNN
-F 1 "+3.3V" V 8500 2150 50  0000 C CNN
-F 2 "" H 8500 1900 50  0001 C CNN
-F 3 "" H 8500 1900 50  0001 C CNN
-	1    8500 1900
-	0    1    1    0   
-$EndComp
 Text Label 5100 4400 3    50   ~ 0
 DISPCS
 Text Label 4950 4350 3    50   ~ 0
@@ -285,17 +248,17 @@ F6 "RST" I L 9100 2500 50
 F7 "BUSY" O L 9100 2600 50 
 $EndSheet
 Wire Wire Line
-	8050 2300 9100 2300
+	8700 2300 9100 2300
 Wire Wire Line
-	8050 2400 9100 2400
+	8700 2400 9100 2400
 Wire Wire Line
-	8050 2500 9100 2500
+	8700 2500 9100 2500
 Wire Wire Line
-	8050 2600 9100 2600
+	8700 2600 9100 2600
 Wire Wire Line
-	8050 2200 9100 2200
+	8700 2200 9100 2200
 Wire Wire Line
-	8050 2100 9100 2100
+	8700 2100 9100 2100
 Wire Wire Line
 	1700 3000 2050 3000
 $Comp
