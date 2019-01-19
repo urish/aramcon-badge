@@ -2,4 +2,5 @@
   (lib (name COM-08892)(type Legacy)(uri ${KIPRJMOD}/lib/COM-08892.lib)(options "")(descr ""))
   (lib (name ebyte)(type Legacy)(uri ${KIPRJMOD}/ebyte.lib)(options "")(descr ""))
   (lib (name touch-buttons)(type Legacy)(uri ${KIPRJMOD}/touch-buttons.lib)(options "")(descr ""))
+  (lib (name regulator)(type Legacy)(uri /home/el/Code/aramcon/aramcon-badge/pcb/badge/regulator.lib)(options "")(descr ""))
 )
