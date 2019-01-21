@@ -84,45 +84,45 @@ F 3 "" H 4650 1900 50  0001 C CNN
 $EndComp
 NoConn ~ 4200 2050
 Wire Wire Line
-	3100 2850 3300 2850
+	1850 2850 2050 2850
 Wire Wire Line
-	3100 3050 3250 3050
-Text Label 3150 3050 0    50   ~ 0
+	1850 3050 2000 3050
+Text Label 1900 3050 0    50   ~ 0
 D+
 Wire Wire Line
-	3100 3150 3250 3150
-Text Label 3150 3150 0    50   ~ 0
+	1850 3150 2000 3150
+Text Label 1900 3150 0    50   ~ 0
 D-
-NoConn ~ 3100 3250
-NoConn ~ 2700 3450
+NoConn ~ 1850 3250
+NoConn ~ 1450 3450
 $Comp
 L power:GND #PWR0105
 U 1 1 5C1F1C91
-P 2800 3450
-F 0 "#PWR0105" H 2800 3200 50  0001 C CNN
-F 1 "GND" H 2805 3277 50  0000 C CNN
-F 2 "" H 2800 3450 50  0001 C CNN
-F 3 "" H 2800 3450 50  0001 C CNN
-	1    2800 3450
+P 1550 3450
+F 0 "#PWR0105" H 1550 3200 50  0001 C CNN
+F 1 "GND" H 1555 3277 50  0000 C CNN
+F 2 "" H 1550 3450 50  0001 C CNN
+F 3 "" H 1550 3450 50  0001 C CNN
+	1    1550 3450
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	3650 3000 3500 3000
-Text Label 3550 3000 0    50   ~ 0
+	2400 3000 2250 3000
+Text Label 2300 3000 0    50   ~ 0
 D-
 Wire Wire Line
-	3650 3150 3500 3150
-Text Label 3500 3150 0    50   ~ 0
+	2400 3150 2250 3150
+Text Label 2250 3150 0    50   ~ 0
 D+
 $Comp
 L Connector:USB_B_Micro J4
 U 1 1 5C1F1B13
-P 2800 3050
-F 0 "J4" H 2855 3517 50  0000 C CNN
-F 1 "USB_B_Micro" H 2855 3426 50  0000 C CNN
-F 2 "Connector_USB:USB_Micro-B_Molex-105017-0001" H 2950 3000 50  0001 C CNN
-F 3 "~" H 2950 3000 50  0001 C CNN
-	1    2800 3050
+P 1550 3050
+F 0 "J4" H 1605 3517 50  0000 C CNN
+F 1 "USB_B_Micro" H 1605 3426 50  0000 C CNN
+F 2 "Connector_USB:USB_Micro-B_Molex-105017-0001" H 1700 3000 50  0001 C CNN
+F 3 "~" H 1700 3000 50  0001 C CNN
+	1    1550 3050
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
@@ -158,9 +158,9 @@ Wire Wire Line
 Wire Wire Line
 	4800 2050 4800 1700
 Wire Wire Line
-	3650 3300 3250 3300
+	2400 3300 2000 3300
 Wire Wire Line
-	3650 3450 3250 3450
+	2400 3450 2000 3450
 Wire Wire Line
 	5100 2050 5100 1700
 Wire Wire Line
@@ -175,44 +175,44 @@ Text Label 5850 3300 0    50   ~ 0
 SNDCS
 Text Label 5250 2000 1    50   ~ 0
 SNDRESET
-Text Label 3600 3300 2    50   ~ 0
+Text Label 2350 3300 2    50   ~ 0
 SNDDREQ
-Text Label 3600 3450 2    50   ~ 0
+Text Label 2350 3450 2    50   ~ 0
 SNDxDCS
 Wire Wire Line
-	1700 3100 2050 3100
-Text Label 1750 3100 0    50   ~ 0
+	8300 1450 8650 1450
+Text Label 8350 1450 0    50   ~ 0
 SWDIO
-Text Label 1750 3000 0    50   ~ 0
+Text Label 8350 1350 0    50   ~ 0
 SWDCLK
 $Comp
 L power:+3.3V #PWR0148
 U 1 1 5C1C8FC9
-P 1200 2400
-F 0 "#PWR0148" H 1200 2250 50  0001 C CNN
-F 1 "+3.3V" H 1215 2573 50  0000 C CNN
-F 2 "" H 1200 2400 50  0001 C CNN
-F 3 "" H 1200 2400 50  0001 C CNN
-	1    1200 2400
+P 7800 750
+F 0 "#PWR0148" H 7800 600 50  0001 C CNN
+F 1 "+3.3V" H 7815 923 50  0000 C CNN
+F 2 "" H 7800 750 50  0001 C CNN
+F 3 "" H 7800 750 50  0001 C CNN
+	1    7800 750 
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	3650 3750 3250 3750
+	2400 3750 2000 3750
 Wire Wire Line
-	3650 3600 3250 3600
-Text Label 3350 3600 0    50   ~ 0
+	2400 3600 2000 3600
+Text Label 2100 3600 0    50   ~ 0
 SWDIO
-Text Label 3300 3750 0    50   ~ 0
+Text Label 2050 3750 0    50   ~ 0
 SWDCLK
 $Comp
 L power:GND #PWR0149
 U 1 1 5C1CA857
-P 1200 3900
-F 0 "#PWR0149" H 1200 3650 50  0001 C CNN
-F 1 "GND" H 1205 3727 50  0000 C CNN
-F 2 "" H 1200 3900 50  0001 C CNN
-F 3 "" H 1200 3900 50  0001 C CNN
-	1    1200 3900
+P 7800 2250
+F 0 "#PWR0149" H 7800 2000 50  0001 C CNN
+F 1 "GND" H 7805 2077 50  0000 C CNN
+F 2 "" H 7800 2250 50  0001 C CNN
+F 3 "" H 7800 2250 50  0001 C CNN
+	1    7800 2250
 	1    0    0    -1  
 $EndComp
 Text Label 8700 2100 0    50   ~ 0
@@ -260,7 +260,7 @@ Wire Wire Line
 Wire Wire Line
 	8700 2100 9100 2100
 Wire Wire Line
-	1700 3000 2050 3000
+	8300 1350 8650 1350
 $Comp
 L power:GND #PWR0162
 U 1 1 5C2E4386
@@ -273,19 +273,19 @@ F 3 "" H 5250 4350 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	3300 2850 3300 2750
-Connection ~ 3300 2850
+	2050 2850 2050 2750
+Connection ~ 2050 2850
 Wire Wire Line
-	3300 2850 3650 2850
+	2050 2850 2400 2850
 $Comp
 L power:+5V #PWR0137
 U 1 1 5C30DCF7
-P 3300 2750
-F 0 "#PWR0137" H 3300 2600 50  0001 C CNN
-F 1 "+5V" H 3315 2923 50  0000 C CNN
-F 2 "" H 3300 2750 50  0001 C CNN
-F 3 "" H 3300 2750 50  0001 C CNN
-	1    3300 2750
+P 2050 2750
+F 0 "#PWR0137" H 2050 2600 50  0001 C CNN
+F 1 "+5V" H 2065 2923 50  0000 C CNN
+F 2 "" H 2050 2750 50  0001 C CNN
+F 3 "" H 2050 2750 50  0001 C CNN
+	1    2050 2750
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
@@ -569,18 +569,18 @@ Wire Wire Line
 $Comp
 L Connector:Conn_ARM_JTAG_SWD_10 J6
 U 1 1 5C3F1CD3
-P 1200 3100
-F 0 "J6" V 650 3150 50  0000 R CNN
-F 1 "Conn_ARM_JTAG_SWD_10" V 750 3500 50  0000 R CNN
-F 2 "Connector_PinHeader_1.27mm:PinHeader_2x05_P1.27mm_Vertical_SMD" H 1250 2550 50  0001 L TNN
-F 3 "http://infocenter.arm.com/help/topic/com.arm.doc.faqs/attached/13634/cortex_debug_connectors.pdf" V 850 1850 50  0001 C CNN
-	1    1200 3100
+P 7800 1450
+F 0 "J6" V 7250 1500 50  0000 R CNN
+F 1 "Conn_ARM_JTAG_SWD_10" V 7350 1850 50  0000 R CNN
+F 2 "Connector_PinHeader_1.27mm:PinHeader_2x05_P1.27mm_Vertical_SMD" H 7850 900 50  0001 L TNN
+F 3 "http://infocenter.arm.com/help/topic/com.arm.doc.faqs/attached/13634/cortex_debug_connectors.pdf" V 7450 200 50  0001 C CNN
+	1    7800 1450
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	1200 3700 1200 3900
+	7800 2050 7800 2250
 Wire Wire Line
-	1200 2400 1200 2500
+	7800 750  7800 850 
 $Comp
 L Connector_Generic:Conn_02x02_Top_Bottom J2
 U 1 1 5C4210C2
