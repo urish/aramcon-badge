@@ -1,0 +1,124 @@
+EESchema Schematic File Version 4
+EELAYER 26 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L MCU_Microchip_ATtiny:ATtiny45-20SU U1
+U 1 1 5C488DE3
+P 5150 3550
+F 0 "U1" H 4620 3596 50  0000 R CNN
+F 1 "ATtiny45-20SU" H 4620 3505 50  0000 R CNN
+F 2 "Package_SO:SOIJ-8_5.3x5.3mm_P1.27mm" H 5150 3550 50  0001 C CIN
+F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/atmel-2586-avr-8-bit-microcontroller-attiny25-attiny45-attiny85_datasheet.pdf" H 5150 3550 50  0001 C CNN
+	1    5150 3550
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_02x02_Counter_Clockwise J1
+U 1 1 5C488EC3
+P 7150 3600
+F 0 "J1" H 7200 3817 50  0000 C CNN
+F 1 "Conn_02x02_Counter_Clockwise" H 7200 3726 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_2x02_P2.54mm_Vertical" H 7150 3600 50  0001 C CNN
+F 3 "~" H 7150 3600 50  0001 C CNN
+	1    7150 3600
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR0101
+U 1 1 5C488F6D
+P 6950 3600
+F 0 "#PWR0101" H 6950 3450 50  0001 C CNN
+F 1 "VCC" V 6968 3727 50  0000 L CNN
+F 2 "" H 6950 3600 50  0001 C CNN
+F 3 "" H 6950 3600 50  0001 C CNN
+	1    6950 3600
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR0102
+U 1 1 5C488FB5
+P 6950 3700
+F 0 "#PWR0102" H 6950 3450 50  0001 C CNN
+F 1 "GND" H 6955 3527 50  0000 C CNN
+F 2 "" H 6950 3700 50  0001 C CNN
+F 3 "" H 6950 3700 50  0001 C CNN
+	1    6950 3700
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0103
+U 1 1 5C488FD3
+P 5150 4150
+F 0 "#PWR0103" H 5150 3900 50  0001 C CNN
+F 1 "GND" H 5155 3977 50  0000 C CNN
+F 2 "" H 5150 4150 50  0001 C CNN
+F 3 "" H 5150 4150 50  0001 C CNN
+	1    5150 4150
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR0104
+U 1 1 5C488FE2
+P 5150 2950
+F 0 "#PWR0104" H 5150 2800 50  0001 C CNN
+F 1 "VCC" H 5167 3123 50  0000 C CNN
+F 2 "" H 5150 2950 50  0001 C CNN
+F 3 "" H 5150 2950 50  0001 C CNN
+	1    5150 2950
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7450 3700 7700 3700
+Wire Wire Line
+	7450 3600 7700 3600
+Text Label 7500 3700 0    50   ~ 0
+SCL
+Text Label 7500 3600 0    50   ~ 0
+SDA
+$Comp
+L Switch:SW_Push SW1
+U 1 1 5C489067
+P 5950 3750
+F 0 "SW1" H 5950 3950 50  0000 C CNN
+F 1 "SW_Push" H 5950 3650 50  0000 C CNN
+F 2 "switches:TACTILE-SWITCH-1101NE" H 5950 3950 50  0001 C CNN
+F 3 "" H 5950 3950 50  0001 C CNN
+	1    5950 3750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6200 3750 6150 3750
+Wire Wire Line
+	6200 3750 6200 3950
+$Comp
+L power:GND #PWR0105
+U 1 1 5C489137
+P 6200 3950
+F 0 "#PWR0105" H 6200 3700 50  0001 C CNN
+F 1 "GND" H 6205 3777 50  0000 C CNN
+F 2 "" H 6200 3950 50  0001 C CNN
+F 3 "" H 6200 3950 50  0001 C CNN
+	1    6200 3950
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5750 3250 6000 3250
+Text Label 5850 3250 0    50   ~ 0
+SDA
+Wire Wire Line
+	5750 3450 6000 3450
+Text Label 5850 3450 0    50   ~ 0
+SCL
+$EndSCHEMATC
