@@ -1,7 +1,7 @@
 (fp_lib_table
   (lib (name connectors)(type KiCad)(uri ${KIPRJMOD}/connectors.pretty)(options "")(descr ""))
   (lib (name EBYTE)(type KiCad)(uri ${KIPRJMOD}/EBYTE.pretty)(options "")(descr ""))
-  (lib (name touch-buttons)(type KiCad)(uri ${KIPRJMOD}/touch-buttons.pretty)(options "")(descr ""))
   (lib (name logo)(type KiCad)(uri ${KIPRJMOD}/logo.pretty)(options "")(descr Logos))
   (lib (name PMPB15XP_115)(type Legacy)(uri ${KIPRJMOD}/lib/PMPB15XP_115.mod)(options "")(descr ""))
+  (lib (name AA_battery_clip)(type KiCad)(uri ${KIPRJMOD}/AA_battery_clip.pretty)(options "")(descr ""))
 )
