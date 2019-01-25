@@ -4,4 +4,5 @@
   (lib (name touch-buttons)(type Legacy)(uri ${KIPRJMOD}/touch-buttons.lib)(options "")(descr ""))
   (lib (name regulator)(type Legacy)(uri ${KIPRJMOD}/regulator.lib)(options "")(descr ""))
   (lib (name PMPB15XP_115)(type Legacy)(uri ${KIPRJMOD}/lib/PMPB15XP_115.lib)(options "")(descr ""))
+  (lib (name LIS2DH12TR)(type Legacy)(uri ${KIPRJMOD}/lib/LIS2DH12TR.lib)(options "")(descr ""))
 )

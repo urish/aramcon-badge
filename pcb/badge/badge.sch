@@ -772,4 +772,140 @@ Wire Wire Line
 	9200 5250 8750 5250
 Text Label 8750 5250 0    50   ~ 0
 V_BAT
+Wire Wire Line
+	6800 5300 6700 5300
+Wire Wire Line
+	6700 5300 6700 5200
+$Comp
+L power:+3.3V #PWR0177
+U 1 1 5C4C3434
+P 6700 5200
+F 0 "#PWR0177" H 6700 5050 50  0001 C CNN
+F 1 "+3.3V" H 6715 5373 50  0000 C CNN
+F 2 "" H 6700 5200 50  0001 C CNN
+F 3 "" H 6700 5200 50  0001 C CNN
+	1    6700 5200
+	1    0    0    -1  
+$EndComp
+NoConn ~ 8200 5300
+NoConn ~ 8200 5400
+$Comp
+L power:GND #PWR0178
+U 1 1 5C4C88FE
+P 8250 6050
+F 0 "#PWR0178" H 8250 5800 50  0001 C CNN
+F 1 "GND" V 8255 5922 50  0000 R CNN
+F 2 "" H 8250 6050 50  0001 C CNN
+F 3 "" H 8250 6050 50  0001 C CNN
+	1    8250 6050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8250 6050 8250 6000
+Wire Wire Line
+	8250 6000 8200 6000
+Wire Wire Line
+	6800 5500 6500 5500
+Text Label 6500 5500 0    50   ~ 0
+SCL
+Wire Wire Line
+	6800 5600 6500 5600
+Text Label 6500 5600 0    50   ~ 0
+SDA
+Wire Wire Line
+	8200 5900 8250 5900
+Wire Wire Line
+	8250 5900 8250 6000
+Connection ~ 8250 6000
+$Comp
+L power:+3.3V #PWR0179
+U 1 1 5C4D72C9
+P 8400 4950
+F 0 "#PWR0179" H 8400 4800 50  0001 C CNN
+F 1 "+3.3V" H 8415 5123 50  0000 C CNN
+F 2 "" H 8400 4950 50  0001 C CNN
+F 3 "" H 8400 4950 50  0001 C CNN
+	1    8400 4950
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8400 4950 8400 5000
+Wire Wire Line
+	8400 5000 8300 5000
+Wire Wire Line
+	8300 5100 8300 5000
+Connection ~ 8300 5000
+Wire Wire Line
+	8300 5000 8200 5000
+$Comp
+L Device:C C38
+U 1 1 5C4DE596
+P 8400 5500
+F 0 "C38" H 8515 5546 50  0000 L CNN
+F 1 "10uF" H 8515 5455 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 8438 5350 50  0001 C CNN
+F 3 "~" H 8400 5500 50  0001 C CNN
+	1    8400 5500
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C39
+U 1 1 5C4DE630
+P 8800 5500
+F 0 "C39" H 8915 5546 50  0000 L CNN
+F 1 "100nF" H 8915 5455 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 8838 5350 50  0001 C CNN
+F 3 "~" H 8800 5500 50  0001 C CNN
+	1    8800 5500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8400 5100 8400 5350
+Wire Wire Line
+	8200 5100 8300 5100
+Connection ~ 8300 5100
+Wire Wire Line
+	8300 5100 8400 5100
+Connection ~ 8400 5350
+Wire Wire Line
+	8250 5650 8250 5900
+Connection ~ 8400 5650
+Wire Wire Line
+	8400 5650 8250 5650
+Connection ~ 8250 5900
+Wire Wire Line
+	8400 5350 8800 5350
+Wire Wire Line
+	8400 5650 8800 5650
+$Comp
+L power:GND #PWR0180
+U 1 1 5C4F7416
+P 6700 5750
+F 0 "#PWR0180" H 6700 5500 50  0001 C CNN
+F 1 "GND" V 6705 5622 50  0000 R CNN
+F 2 "" H 6700 5750 50  0001 C CNN
+F 3 "" H 6700 5750 50  0001 C CNN
+	1    6700 5750
+	1    0    0    -1  
+$EndComp
+$Comp
+L LIS2DH12TR:LIS2DH12TR U7
+U 1 1 5C4C0967
+P 7500 5500
+F 0 "U7" H 7500 6270 50  0000 C CNN
+F 1 "LIS2DH12TR" H 7500 6179 50  0000 C CNN
+F 2 "Package_LGA:LGA-12_2x2mm_P0.5mm" H 7500 5500 50  0001 L BNN
+F 3 "497-14851-1-ND" H 7500 5500 50  0001 L BNN
+F 4 "LGA-12 STMicroelectronics" H 7500 5500 50  0001 L BNN "Field4"
+F 5 "https://www.digikey.com/product-detail/en/stmicroelectronics/LIS2DH12TR/497-14851-1-ND/4899838?utm_source=snapeda&utm_medium=aggregator&utm_campaign=symbol" H 7500 5500 50  0001 L BNN "Field5"
+F 6 "STMicroelectronics" H 7500 5500 50  0001 L BNN "Field6"
+F 7 "LIS2DH12TR" H 7500 5500 50  0001 L BNN "Field7"
+F 8 "MEMS digital output motion sensor: ultra low-power high performance 3-axes femto accelerometer" H 7500 5500 50  0001 L BNN "Field8"
+	1    7500 5500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6800 5700 6700 5700
+Wire Wire Line
+	6700 5700 6700 5750
 $EndSCHEMATC
