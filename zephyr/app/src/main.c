@@ -22,13 +22,15 @@ LOG_MODULE_REGISTER(main);
 #define LED_PORT LED0_GPIO_CONTROLLER
 #define LED	LED0_GPIO_PIN
 
-#define STRIP_NUM_LEDS 2
+#define STRIP_NUM_LEDS 4
 #define STRIP_DEV_NAME CONFIG_WS2812_STRIP_NAME
 
 #define SLEEP_TIME 	500
 
 static const struct led_rgb red = { .r = 0x20, .g = 0x00, .b = 0x00 };
 static const struct led_rgb green = { .r = 0x0, .g = 0x20, .b = 0x0 };
+static const struct led_rgb blue = { .r = 0x0, .g = 0x0, .b = 0x20 };
+static const struct led_rgb purple = { .r = 0x10, .g = 0x0, .b = 0x20 };
 
 struct led_rgb strip_colors[STRIP_NUM_LEDS];
 
@@ -48,17 +50,21 @@ void main(void) {
 	}
 
 	while (1) {
-		printk("Blink %d!\n", counter++);
+		// printk("Blink %d!\n", counter++);
 
 		gpio_pin_write(gpio, LED, 0);
 		strip_colors[0] = red;
 		strip_colors[1] = green;
+		strip_colors[2] = purple;
+		strip_colors[3] = blue;
 		led_strip_update_rgb(strip, strip_colors, STRIP_NUM_LEDS);
 		k_sleep(SLEEP_TIME);
 
 		gpio_pin_write(gpio, LED, 1);
 		strip_colors[0] = green;
 		strip_colors[1] = red;
+		strip_colors[2] = blue;
+		strip_colors[3] = purple;
 		led_strip_update_rgb(strip, strip_colors, STRIP_NUM_LEDS);
 		k_sleep(SLEEP_TIME);
 	}
