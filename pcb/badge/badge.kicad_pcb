@@ -2,7 +2,7 @@
 
   (general
     (thickness 1.6)
-    (drawings 7)
+    (drawings 8)
     (tracks 1168)
     (zones 0)
     (modules 88)
@@ -6698,6 +6698,7 @@
     )
   )
 
+  (gr_circle (center 48.387 85.217) (end 48.387 85.017) (layer F.SilkS) (width 0.2) (tstamp 5C573E48))
   (gr_text Power (at 43.688 112.268 270) (layer B.SilkS) (tstamp 5C55812F)
     (effects (font (size 1.5 1.5) (thickness 0.3)) (justify mirror))
   )
@@ -6714,7 +6715,7 @@
   (gr_text 1 (at 83.693 69.1515) (layer B.SilkS)
     (effects (font (size 1 1) (thickness 0.2)) (justify mirror))
   )
-  (gr_circle (center 89.7 101.1) (end 89.7 100.9) (layer F.SilkS) (width 0.2))
+  (gr_circle (center 88.519 99.949) (end 88.519 99.749) (layer F.SilkS) (width 0.2))
 
   (segment (start 91.272 115.746) (end 91.272 116.754) (width 0.25) (layer F.Cu) (net 1) (status 10))
   (segment (start 91.272 116.754) (end 90.043 117.983) (width 0.25) (layer F.Cu) (net 1) (status 20))
