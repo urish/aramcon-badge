@@ -75,6 +75,26 @@
 	sck-pin = <1>;
 	mosi-pin = <42>;
 	miso-pin = <41>;
+	cs-gpios = <&gpio0 7 0>;
+
+	ssd1673fb@0 {
+		compatible = "solomon,ssd1673fb", "hink,e0154a05";
+		label = "SSD1673";
+		spi-max-frequency = <4000000>;
+		reg = <0>;
+		width = <128>;
+		height = <296>;
+		pp-width-bits = <8>;
+		pp-height-bits = <8>;
+		reset-gpios = <&gpio0 6 0>;
+		dc-gpios = <&gpio0 12 0>;
+		busy-gpios = <&gpio0 26 0>;
+		gdv-a = <0x10>;
+		gdv-b = <0x0a>;
+		sdv = <0x19>;
+		vcom = <0xa8>;
+		border-waveform = <0x71>;
+	};
 };
 
 &spi1 {
