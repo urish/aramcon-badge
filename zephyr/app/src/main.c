@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2017 Linaro Limited
- * Copyright (c) 2018 Intel Corporation
+ * Badge Hardware Test App
+ * Author: Uri Shaked
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,7 +23,7 @@ LOG_MODULE_REGISTER(main);
 #define LED	LED0_GPIO_PIN
 
 #define STRIP_NUM_LEDS 4
-#define STRIP_DEV_NAME CONFIG_WS2812_STRIP_NAME
+#define STRIP_DEV_NAME DT_WORLDSEMI_WS2812_0_LABEL
 
 #define SLEEP_TIME 	500
 
@@ -42,9 +42,8 @@ void main(void) {
 	gpio = device_get_binding(LED_PORT);
 	gpio_pin_configure(gpio, LED, GPIO_DIR_OUT);
 
-
-    strip = device_get_binding(STRIP_DEV_NAME);
-    if (!strip) {
+	strip = device_get_binding(STRIP_DEV_NAME);
+	if (!strip) {
 		LOG_ERR("LED strip device %s not found", STRIP_DEV_NAME);
 		return;
 	}

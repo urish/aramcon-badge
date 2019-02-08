@@ -78,6 +78,13 @@
 	sck-pin = <2>;
 	mosi-pin = <8>;
 	miso-pin = <12>;
+
+	ws2812@0 {
+		compatible = "worldsemi,ws2812";
+		reg = <0>;
+		spi-max-frequency = <5250000>;
+		label = "WS2812";
+	};
 };
 
 /* Include flash partition table.
