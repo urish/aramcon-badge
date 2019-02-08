@@ -15,8 +15,6 @@
 
 	chosen {
 		zephyr,console = &usb_cdc;
-		zephyr,shell-uart = &uart0;
-		zephyr,uart-mcumgr = &uart0;
 		zephyr,sram = &sram0;
 		zephyr,flash = &flash0;
 	};
@@ -66,20 +64,10 @@
 	status ="ok";
 };
 
-&uart0 {
-	compatible = "nordic,nrf-uarte";
-	current-speed = <115200>;
-	status = "ok";
-	tx-pin = <20>;
-	rx-pin = <24>;
-	rts-pin = <17>;
-	cts-pin = <22>;
-};
-
 &i2c0 {
 	status = "ok";
-	sda-pin = <26>;
-	scl-pin = <27>;
+	sda-pin = <3>;
+	scl-pin = <28>;
 };
 
 &spi0 {
@@ -93,7 +81,7 @@
 	status = "ok";
 	sck-pin = <2>;
 	mosi-pin = <8>;
-	miso-pin = <12>;
+	miso-pin = <9>;
 
 	ws2812@0 {
 		compatible = "worldsemi,ws2812";
