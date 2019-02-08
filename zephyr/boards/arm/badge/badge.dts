@@ -23,18 +23,34 @@
 
 	leds {
 		compatible = "gpio-leds";
-		led0_green: led_0 {
+		led0_red: led_0 {
 			gpios = <&gpio1 11 GPIO_INT_ACTIVE_LOW>;
 			label = "LED 0";
 		};
 	};
 
-	buttons {
+	gpio_keys {
+		compatible = "gpio-keys";
+		key_right: button_0 {
+			gpios = <&gpio0 31 GPIO_PUD_PULL_UP>;
+			label = "Right key";
+		};
+		key_middle: button_1 {
+			gpios = <&gpio0 29 GPIO_PUD_PULL_UP>;
+			label = "Middle key";
+		};
+		key_left: button_2 {
+			gpios = <&gpio0 2 GPIO_PUD_PULL_UP>;
+			label = "Left key";
+		};
 	};
 
 	/* These aliases are provided for compatibility with samples */
 	aliases {
-		led0 = &led0_green;
+		led0 = &led0_red;
+		sw0 = &key_right;
+		sw1 = &key_middle;
+		sw2 = &key_left;
 	};
 };
 
