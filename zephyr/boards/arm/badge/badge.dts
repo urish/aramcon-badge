@@ -72,6 +72,13 @@
 	status = "ok";
 	sda-pin = <3>;
 	scl-pin = <28>;
+
+	lis2dh@18 {
+		compatible = "st,lis2dh";
+		reg = <0x18>;
+		label = "LIS2DH";
+		irq-gpios = <&gpio0 10 0>;
+	};
 };
 
 &spi0 {

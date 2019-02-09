@@ -102,6 +102,7 @@ void update_display() {
 
 	// TODO display MP3 status
 	// TODO display Flash status
+	// TODO display accelerometer status (LIS2DH driver)
 
 	char *status = "\\|/-";
 	sprintf(buf, "%c", status[counter % sizeof(status)]);
@@ -249,6 +250,9 @@ void main(void) {
 	}	
 
 	while (1) {
+		// TODO test buttons
+		// TODO test vibration motor
+
 		ret = adc_read(adc_dev, &sequence);
 		if (ret) {
 			LOG_ERR("adc read failed: %d", ret);
