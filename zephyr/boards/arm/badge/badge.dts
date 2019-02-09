@@ -79,7 +79,7 @@
 
 	ssd1673fb@0 {
 		compatible = "solomon,ssd1673fb", "hink,e0154a05";
-		label = "SSD1673";
+		label = "DISPLAY";
 		spi-max-frequency = <4000000>;
 		reg = <0>;
 		width = <296>;
