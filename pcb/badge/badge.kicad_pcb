@@ -5927,12 +5927,12 @@
     )
   )
 
-  (module Button_Switch_Keyboard:SW_Cherry_MX1A_1.00u_PCB (layer B.Cu) (tedit 5A02FE24) (tstamp 5C49D1AE)
+  (module Button_Switch_Keyboard:SW_Cherry_MX1A_1.00u_PCB (layer B.Cu) (tedit 5C5EF992) (tstamp 5C49D1AE)
     (at 54.6608 119.355 180)
     (descr "Cherry MX keyswitch, MX1A, 1.00u, PCB mount, http://cherryamericas.com/wp-content/uploads/2014/12/mx_cat.pdf")
     (tags "cherry mx keyswitch MX1A 1.00u PCB")
     (path /5C3D29EC)
-    (fp_text reference SW1 (at -2.54 2.794 180) (layer B.SilkS)
+    (fp_text reference SW1 (at -2.54 2.794 180) (layer B.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
     )
     (fp_text value SW_Push (at -2.54 -12.954 180) (layer B.Fab)
@@ -5971,12 +5971,12 @@
     )
   )
 
-  (module Button_Switch_Keyboard:SW_Cherry_MX1A_1.00u_PCB (layer B.Cu) (tedit 5A02FE24) (tstamp 5C49D1C8)
+  (module Button_Switch_Keyboard:SW_Cherry_MX1A_1.00u_PCB (layer B.Cu) (tedit 5C5EF98C) (tstamp 5C49D1C8)
     (at 77.2922 123.85 180)
     (descr "Cherry MX keyswitch, MX1A, 1.00u, PCB mount, http://cherryamericas.com/wp-content/uploads/2014/12/mx_cat.pdf")
     (tags "cherry mx keyswitch MX1A 1.00u PCB")
     (path /5C3D2AC9)
-    (fp_text reference SW2 (at -2.54 2.794 180) (layer B.SilkS)
+    (fp_text reference SW2 (at -2.54 2.794 180) (layer B.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
     )
     (fp_text value SW_Push (at -2.54 -12.954 180) (layer B.Fab)
@@ -6015,12 +6015,12 @@
     )
   )
 
-  (module Button_Switch_Keyboard:SW_Cherry_MX1A_1.00u_PCB (layer B.Cu) (tedit 5A02FE24) (tstamp 5C49D1E2)
+  (module Button_Switch_Keyboard:SW_Cherry_MX1A_1.00u_PCB (layer B.Cu) (tedit 5C5EF97E) (tstamp 5C49D1E2)
     (at 99.695 119.38 180)
     (descr "Cherry MX keyswitch, MX1A, 1.00u, PCB mount, http://cherryamericas.com/wp-content/uploads/2014/12/mx_cat.pdf")
     (tags "cherry mx keyswitch MX1A 1.00u PCB")
     (path /5C3D2B3F)
-    (fp_text reference SW3 (at -2.54 2.794 180) (layer B.SilkS)
+    (fp_text reference SW3 (at -2.54 2.794 180) (layer B.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
     )
     (fp_text value SW_Push (at -2.54 -12.954 180) (layer B.Fab)
