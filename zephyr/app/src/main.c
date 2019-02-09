@@ -13,6 +13,7 @@
 LOG_MODULE_REGISTER(main);
 
 #include <zephyr.h>
+#include <adc.h>
 #include <device.h>
 #include <gpio.h>
 #include <stdio.h>
@@ -26,11 +27,15 @@ LOG_MODULE_REGISTER(main);
 #include <bluetooth/uuid.h>
 #include <bluetooth/gatt.h>
 
+#include <hal/nrf_saadc.h>
+
 #define LED_PORT LED0_GPIO_CONTROLLER
 #define LED	LED0_GPIO_PIN
 
 #define STRIP_NUM_LEDS 4
 #define STRIP_DEV_NAME DT_WORLDSEMI_WS2812_0_LABEL
+
+#define BATTERY_VOLTAGE_PIN NRF_SAADC_INPUT_AIN6
 
 #define SLEEP_TIME 	500
 
@@ -47,6 +52,17 @@ static uint16_t counter = 0;
 static struct device *display;
 static bool bluetooth_ready = false;
 static const bt_addr_le_t *remote_device = NULL;
+static int16_t adc_buffer[1] = {0};
+
+static float adc_val_to_voltage(int16_t adc_val) {
+		const u8_t adc_resolution = 10;
+    const float adc_gain = 1/6.;
+		const float adc_ref_voltage = 0.6f;
+		if (adc_val < 0) {
+			adc_val = 0;
+		}
+    return adc_val / ((adc_gain / (adc_ref_voltage)) * (1 << adc_resolution));
+}
 
 static char *bluetooth_mac_to_str(const bt_addr_le_t* addr) {
 	static char buf[BT_ADDR_LE_STR_LEN];
@@ -62,21 +78,25 @@ void update_display() {
 	char buf[64];
 	cfb_framebuffer_clear(display, true);
 	cfb_print(display, "*** Badge Self-Test ***", 0, 0);
+
+	sprintf(buf, "Battery: %.2fv", adc_val_to_voltage(adc_buffer[0]));
+	cfb_print(display, buf, 0, 16);	
+
 	if (bluetooth_ready) {
 		sprintf(buf, "Name: %s", bt_get_name());
-		cfb_print(display, buf, 0, 16);
+		cfb_print(display, buf, 0, 32);
 
 		bt_addr_le_t addr;
 		size_t count = 1;
 		bt_id_get(&addr, &count);
 		if (count) {
 			sprintf(buf, "Mac:  %s", bluetooth_mac_to_str(&addr));
-			cfb_print(display, buf, 0, 32);
+			cfb_print(display, buf, 0, 48);
 		}
 
 		if (remote_device) {
 			sprintf(buf, "Connected! %s", bluetooth_mac_to_str(remote_device));
-			cfb_print(display, buf, 0, 48);
+			cfb_print(display, buf, 0, 64);
 		}
 	}
 
@@ -193,6 +213,34 @@ void main(void) {
 
 	update_display();
 
+	// ADC
+	struct device *adc_dev = device_get_binding(DT_ADC_0_NAME);
+	if (!adc_dev) {
+		LOG_ERR("adc init failed :-(");
+		return;
+	}
+	
+	struct adc_channel_cfg adc_channel_cfg = {
+		.gain             = ADC_GAIN_1_6,
+		.reference        = ADC_REF_INTERNAL,
+		.acquisition_time = ADC_ACQ_TIME(ADC_ACQ_TIME_MICROSECONDS, 10),
+		.channel_id       = 0,
+		.input_positive   = BATTERY_VOLTAGE_PIN,
+	};
+
+	u32_t ret = adc_channel_setup(adc_dev, &adc_channel_cfg);
+	if (ret) {
+		LOG_ERR("adc channel setup failed :-(");
+		return;
+	}
+
+	const struct adc_sequence sequence = {
+		.channels    = BIT(0),
+		.buffer      = adc_buffer,
+		.buffer_size = sizeof(adc_buffer),
+		.resolution  = 10,
+	};
+
 	// Bluetooth
 	int err = bt_enable(bt_ready);
 	if (err) {
@@ -201,6 +249,11 @@ void main(void) {
 	}	
 
 	while (1) {
+		ret = adc_read(adc_dev, &sequence);
+		if (ret) {
+			LOG_ERR("adc read failed: %d", ret);
+		}
+
 		update_display();
 		counter++;
 
