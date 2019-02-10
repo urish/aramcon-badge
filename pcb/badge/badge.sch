@@ -908,4 +908,82 @@ Wire Wire Line
 	6800 5700 6700 5700
 Wire Wire Line
 	6700 5700 6700 5750
+$Comp
+L Connector:TestPoint TP1
+U 1 1 5C5F862C
+P 4950 900
+F 0 "TP1" H 5008 1020 50  0000 L CNN
+F 1 "TP_3V3" H 5008 929 50  0000 L CNN
+F 2 "TestPoint:TestPoint_Pad_D1.5mm" H 5150 900 50  0001 C CNN
+F 3 "~" H 5150 900 50  0001 C CNN
+	1    4950 900 
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR0181
+U 1 1 5C5F8E6E
+P 4950 1100
+F 0 "#PWR0181" H 4950 950 50  0001 C CNN
+F 1 "+3.3V" H 4965 1273 50  0000 C CNN
+F 2 "" H 4950 1100 50  0001 C CNN
+F 3 "" H 4950 1100 50  0001 C CNN
+	1    4950 1100
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	4950 900  4950 1100
+$Comp
+L Connector:TestPoint TP2
+U 1 1 5C5FC8D2
+P 5400 900
+F 0 "TP2" H 5458 1020 50  0000 L CNN
+F 1 "TP_SWDIO" H 5458 929 50  0000 L CNN
+F 2 "TestPoint:TestPoint_Pad_D1.5mm" H 5600 900 50  0001 C CNN
+F 3 "~" H 5600 900 50  0001 C CNN
+	1    5400 900 
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:TestPoint TP3
+U 1 1 5C5FC94C
+P 5850 900
+F 0 "TP3" H 5908 1020 50  0000 L CNN
+F 1 "TP_SWCLK" H 5908 929 50  0000 L CNN
+F 2 "TestPoint:TestPoint_Pad_D1.5mm" H 6050 900 50  0001 C CNN
+F 3 "~" H 6050 900 50  0001 C CNN
+	1    5850 900 
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:TestPoint TP4
+U 1 1 5C5FC99E
+P 6300 900
+F 0 "TP4" H 6358 1020 50  0000 L CNN
+F 1 "TP_GND" H 6358 929 50  0000 L CNN
+F 2 "TestPoint:TestPoint_Pad_D1.5mm" H 6500 900 50  0001 C CNN
+F 3 "~" H 6500 900 50  0001 C CNN
+	1    6300 900 
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5400 900  5400 1250
+Wire Wire Line
+	5850 900  5850 1250
+$Comp
+L power:GND #PWR0182
+U 1 1 5C607C1C
+P 6300 1100
+F 0 "#PWR0182" H 6300 850 50  0001 C CNN
+F 1 "GND" H 6305 927 50  0000 C CNN
+F 2 "" H 6300 1100 50  0001 C CNN
+F 3 "" H 6300 1100 50  0001 C CNN
+	1    6300 1100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6300 900  6300 1100
+Text Label 5850 950  3    50   ~ 0
+SWDCLK
+Text Label 5400 1250 1    50   ~ 0
+SWDIO
 $EndSCHEMATC
