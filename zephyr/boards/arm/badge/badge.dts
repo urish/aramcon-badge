@@ -53,19 +53,19 @@
 };
 
 &adc {
-	status ="ok";
+	status = "ok";
 };
 
 &gpiote {
-	status ="ok";
+	status = "ok";
 };
 
 &gpio0 {
-	status ="ok";
+	status = "ok";
 };
 
 &gpio1 {
-	status ="ok";
+	status = "ok";
 };
 
 &i2c0 {
