@@ -32,6 +32,13 @@ LOG_MODULE_REGISTER(main);
 #define LED_PORT LED0_GPIO_CONTROLLER
 #define LED	LED0_GPIO_PIN
 
+#define BUTTON0_PORT SW0_GPIO_CONTROLLER
+#define BUTTON0 SW0_GPIO_PIN
+#define BUTTON1_PORT SW0_GPIO_CONTROLLER
+#define BUTTON1 SW1_GPIO_PIN
+#define BUTTON2_PORT SW0_GPIO_CONTROLLER
+#define BUTTON2 SW2_GPIO_PIN
+
 #define STRIP_NUM_LEDS 4
 #define STRIP_DEV_NAME DT_WORLDSEMI_WS2812_0_LABEL
 
@@ -40,6 +47,10 @@ LOG_MODULE_REGISTER(main);
 #define SLEEP_TIME 	500
 
 #define DISPLAY_DRIVER		"DISPLAY"
+
+static u32_t button_val0 = 0U;
+static u32_t button_val1 = 0U;
+static u32_t button_val2 = 0U;
 
 static const struct led_rgb red = { .r = 0x20, .g = 0x00, .b = 0x00 };
 static const struct led_rgb green = { .r = 0x0, .g = 0x20, .b = 0x0 };
@@ -94,9 +105,12 @@ void update_display() {
 			cfb_print(display, buf, 0, 48);
 		}
 
+		sprintf(buf, "BTNs R:%d M:%d L:%d", button_val0, button_val1, button_val2);
+		cfb_print(display, buf, 0, 64);
+
 		if (remote_device) {
 			sprintf(buf, "Connected! %s", bluetooth_mac_to_str(remote_device));
-			cfb_print(display, buf, 0, 64);
+			cfb_print(display, buf, 0, 80);
 		}
 	}
 
@@ -162,6 +176,15 @@ void main(void) {
 	// LED
 	struct device *gpio = device_get_binding(LED_PORT);
 	gpio_pin_configure(gpio, LED, GPIO_DIR_OUT);
+  
+	// Buttons
+	struct device *gpiob0 = device_get_binding(BUTTON0_PORT);
+	struct device *gpiob1 = device_get_binding(BUTTON1_PORT);
+	struct device *gpiob2 = device_get_binding(BUTTON2_PORT);
+
+	gpio_pin_configure(gpiob0, BUTTON0,	GPIO_DIR_IN |  SW0_GPIO_FLAGS);
+	gpio_pin_configure(gpiob1, BUTTON1,	GPIO_DIR_IN |  SW1_GPIO_FLAGS);
+	gpio_pin_configure(gpiob2, BUTTON2,	GPIO_DIR_IN |  SW2_GPIO_FLAGS);
 
 	// Neopixels
 	struct device *strip = device_get_binding(STRIP_DEV_NAME);
@@ -250,8 +273,10 @@ void main(void) {
 	}	
 
 	while (1) {
-		// TODO test buttons
 		// TODO test vibration motor
+		gpio_pin_read(gpiob0, BUTTON0, &button_val0);
+		gpio_pin_read(gpiob1, BUTTON1, &button_val1);
+		gpio_pin_read(gpiob2, BUTTON2, &button_val2);
 
 		ret = adc_read(adc_dev, &sequence);
 		if (ret) {
@@ -271,6 +296,10 @@ void main(void) {
 
 		update_display();
 		counter++;
+
+		gpio_pin_read(gpiob0, BUTTON0, &button_val0);
+		gpio_pin_read(gpiob1, BUTTON1, &button_val1);
+		gpio_pin_read(gpiob2, BUTTON2, &button_val2);
 
 		gpio_pin_write(gpio, LED, 1);
 		strip_colors[0] = green;
