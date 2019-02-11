@@ -114,7 +114,7 @@
 
 &spi1 {
 	status = "ok";
-	sck-pin = <2>;
+	sck-pin = <15>;
 	mosi-pin = <8>;
 	miso-pin = <9>;
 
