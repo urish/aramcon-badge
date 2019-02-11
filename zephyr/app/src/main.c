@@ -39,6 +39,9 @@ LOG_MODULE_REGISTER(main);
 #define BUTTON2_PORT SW0_GPIO_CONTROLLER
 #define BUTTON2 SW2_GPIO_PIN
 
+#define VIBRATION_PORT "GPIO_0"
+#define VIBRATION_PIN 17
+
 #define STRIP_NUM_LEDS 4
 #define STRIP_DEV_NAME DT_WORLDSEMI_WS2812_0_LABEL
 
@@ -182,6 +185,10 @@ void main(void) {
 	struct device *gpiob1 = device_get_binding(BUTTON1_PORT);
 	struct device *gpiob2 = device_get_binding(BUTTON2_PORT);
 
+	// Motor
+	struct device *gpio_vib = device_get_binding(VIBRATION_PORT);
+	gpio_pin_configure(gpio_vib, VIBRATION_PIN, GPIO_DIR_OUT);
+
 	gpio_pin_configure(gpiob0, BUTTON0,	GPIO_DIR_IN |  SW0_GPIO_FLAGS);
 	gpio_pin_configure(gpiob1, BUTTON1,	GPIO_DIR_IN |  SW1_GPIO_FLAGS);
 	gpio_pin_configure(gpiob2, BUTTON2,	GPIO_DIR_IN |  SW2_GPIO_FLAGS);
@@ -273,7 +280,6 @@ void main(void) {
 	}	
 
 	while (1) {
-		// TODO test vibration motor
 		gpio_pin_read(gpiob0, BUTTON0, &button_val0);
 		gpio_pin_read(gpiob1, BUTTON1, &button_val1);
 		gpio_pin_read(gpiob2, BUTTON2, &button_val2);
@@ -282,6 +288,9 @@ void main(void) {
 		if (ret) {
 			LOG_ERR("adc read failed: %d", ret);
 		}
+
+		// Control the vibrator, based on middle button
+		gpio_pin_write(gpio_vib, VIBRATION_PIN, !button_val1);
 
 		gpio_pin_write(gpio, LED, counter % 2);
 		if (counter % 2) {
