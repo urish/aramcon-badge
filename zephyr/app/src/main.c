@@ -105,7 +105,7 @@ void update_display() {
 			cfb_print(display, buf, 0, 48);
 		}
 
-		sprintf(buf, "BTNs R:%d M:%d L:%d", button_val0, button_val1, button_val2);
+		sprintf(buf, "BTNs R:%d M:%d L:%d", !button_val0, !button_val1, !button_val2);
 		cfb_print(display, buf, 0, 64);
 
 		if (remote_device) {
@@ -283,30 +283,22 @@ void main(void) {
 			LOG_ERR("adc read failed: %d", ret);
 		}
 
-		update_display();
-		counter++;
-
-		gpio_pin_write(gpio, LED, 0);
-		strip_colors[0] = red;
-		strip_colors[1] = green;
-		strip_colors[2] = purple;
-		strip_colors[3] = blue;
+		gpio_pin_write(gpio, LED, counter % 2);
+		if (counter % 2) {
+			strip_colors[0] = red;
+			strip_colors[1] = green;
+			strip_colors[2] = purple;
+			strip_colors[3] = blue;
+		} else {
+			strip_colors[0] = green;
+			strip_colors[1] = red;
+			strip_colors[2] = blue;
+			strip_colors[3] = purple;
+		}
 		led_strip_update_rgb(strip, strip_colors, STRIP_NUM_LEDS);
+		update_display();
 		k_sleep(SLEEP_TIME);
 
-		update_display();
 		counter++;
-
-		gpio_pin_read(gpiob0, BUTTON0, &button_val0);
-		gpio_pin_read(gpiob1, BUTTON1, &button_val1);
-		gpio_pin_read(gpiob2, BUTTON2, &button_val2);
-
-		gpio_pin_write(gpio, LED, 1);
-		strip_colors[0] = green;
-		strip_colors[1] = red;
-		strip_colors[2] = blue;
-		strip_colors[3] = purple;
-		led_strip_update_rgb(strip, strip_colors, STRIP_NUM_LEDS);
-		k_sleep(SLEEP_TIME);
 	}
 }
