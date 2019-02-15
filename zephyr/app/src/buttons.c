@@ -1,17 +1,10 @@
-#define BUTTON0_PORT SW0_GPIO_CONTROLLER
-#define BUTTON0 SW0_GPIO_PIN
-#define BUTTON1_PORT SW0_GPIO_CONTROLLER
-#define BUTTON1 SW1_GPIO_PIN
-#define BUTTON2_PORT SW0_GPIO_CONTROLLER
-#define BUTTON2 SW2_GPIO_PIN
-
 #include "buttons.h"
 #include <device.h>
 #include <gpio.h>
 
 static struct device *gpio_bindings[BUTTON_COUNT]  = {};
-static const u32_t button_pin_map[BUTTON_COUNT] = {BUTTON0, BUTTON1, BUTTON2};
-static const const char *button_port_map[BUTTON_COUNT] = {BUTTON0_PORT, BUTTON0_PORT, BUTTON0_PORT};
+static const u32_t button_pin_map[BUTTON_COUNT] = {SW0_GPIO_PIN, SW1_GPIO_PIN, SW2_GPIO_PIN};
+static const const char *button_port_map[BUTTON_COUNT] = {SW0_GPIO_CONTROLLER, SW1_GPIO_CONTROLLER, SW2_GPIO_CONTROLLER};
 void init_buttons()
 {
     for (u32_t i = 0; i < BUTTON_COUNT; ++i)
