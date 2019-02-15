@@ -28,16 +28,10 @@ LOG_MODULE_REGISTER(main);
 #include <bluetooth/gatt.h>
 
 #include <hal/nrf_saadc.h>
+#include "buttons.h"
 
 #define LED_PORT LED0_GPIO_CONTROLLER
 #define LED	LED0_GPIO_PIN
-
-#define BUTTON0_PORT SW0_GPIO_CONTROLLER
-#define BUTTON0 SW0_GPIO_PIN
-#define BUTTON1_PORT SW0_GPIO_CONTROLLER
-#define BUTTON1 SW1_GPIO_PIN
-#define BUTTON2_PORT SW0_GPIO_CONTROLLER
-#define BUTTON2 SW2_GPIO_PIN
 
 #define VIBRATION_PORT "GPIO_0"
 #define VIBRATION_PIN 17
@@ -51,9 +45,7 @@ LOG_MODULE_REGISTER(main);
 
 #define DISPLAY_DRIVER		"DISPLAY"
 
-static u32_t button_val0 = 0U;
-static u32_t button_val1 = 0U;
-static u32_t button_val2 = 0U;
+static u32_t button_val[BUTTON_COUNT] = {}; 
 
 static const struct led_rgb red = { .r = 0x20, .g = 0x00, .b = 0x00 };
 static const struct led_rgb green = { .r = 0x0, .g = 0x20, .b = 0x0 };
@@ -108,7 +100,7 @@ void update_display() {
 			cfb_print(display, buf, 0, 48);
 		}
 
-		sprintf(buf, "BTNs R:%d M:%d L:%d", !button_val0, !button_val1, !button_val2);
+		sprintf(buf, "BTNs L:%d M:%d R:%d", !button_val[2], !button_val[1], !button_val[0]);
 		cfb_print(display, buf, 0, 64);
 
 		if (remote_device) {
@@ -180,18 +172,12 @@ void main(void) {
 	struct device *gpio = device_get_binding(LED_PORT);
 	gpio_pin_configure(gpio, LED, GPIO_DIR_OUT);
   
-	// Buttons
-	struct device *gpiob0 = device_get_binding(BUTTON0_PORT);
-	struct device *gpiob1 = device_get_binding(BUTTON1_PORT);
-	struct device *gpiob2 = device_get_binding(BUTTON2_PORT);
+	init_buttons();
 
 	// Motor
 	struct device *gpio_vib = device_get_binding(VIBRATION_PORT);
 	gpio_pin_configure(gpio_vib, VIBRATION_PIN, GPIO_DIR_OUT);
 
-	gpio_pin_configure(gpiob0, BUTTON0,	GPIO_DIR_IN |  SW0_GPIO_FLAGS);
-	gpio_pin_configure(gpiob1, BUTTON1,	GPIO_DIR_IN |  SW1_GPIO_FLAGS);
-	gpio_pin_configure(gpiob2, BUTTON2,	GPIO_DIR_IN |  SW2_GPIO_FLAGS);
 
 	// Neopixels
 	struct device *strip = device_get_binding(STRIP_DEV_NAME);
@@ -280,9 +266,9 @@ void main(void) {
 	}	
 
 	while (1) {
-		gpio_pin_read(gpiob0, BUTTON0, &button_val0);
-		gpio_pin_read(gpiob1, BUTTON1, &button_val1);
-		gpio_pin_read(gpiob2, BUTTON2, &button_val2);
+		for (u32_t i = 0; i < BUTTON_COUNT; ++i) {
+			button_read(i, &button_val[i]);
+		}
 
 		ret = adc_read(adc_dev, &sequence);
 		if (ret) {
@@ -290,7 +276,7 @@ void main(void) {
 		}
 
 		// Control the vibrator, based on middle button
-		gpio_pin_write(gpio_vib, VIBRATION_PIN, !button_val1);
+		gpio_pin_write(gpio_vib, VIBRATION_PIN, !button_val[1]);
 
 		gpio_pin_write(gpio, LED, counter % 2);
 		if (counter % 2) {
