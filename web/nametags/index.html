@@ -18,9 +18,20 @@
   </div>
   <canvas id="output" width="296" height="128"></canvas>
   <div>
-    Your name: 
-    <input id="name" value="Uri Shaked" oninput="drawName()" />
-    <script src="nametags.js"></script>  
+    <label>
+      Your name: 
+      <input id="name" value="Uri Shaked" oninput="drawName()" />    
+    </label>
   </div>
+  <div>
+    <label>
+      <input id="show-logo" checked oninput="drawName()" type="checkbox" />
+      Show Logo
+    </label>
+  </div>
+  <img src="assets/logo.png" id="logo" style="display:none"
+    onload="drawName()">
+  
+  <script src="nametags.js"></script>  
 </body>
 </html>

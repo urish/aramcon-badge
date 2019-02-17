@@ -1,5 +1,7 @@
 const outputCtx = document.querySelector('#output').getContext('2d');
 const nameInput = document.querySelector('#name');
+const logoElement = document.querySelector('#logo');
+const showLogo = document.querySelector('#show-logo');
 
 const displayWidth = 296;
 const displayHeight = 128;
@@ -10,8 +12,7 @@ function readCanvas() {
   for (let y = 0; y < displayHeight; y++) {
     for (let x = 0; x < displayWidth; x++) {
       const point = data[(y * displayWidth + x) * 4];
-      // TODO better algorithm for calculating pixel values?
-      if (point > 0) {
+      if (point > 0x80) {
         const bitmapOffs = Math.floor(y / 8) * displayWidth + x;
         const bit = 7 - (y % 8);
         bitmap[bitmapOffs] |= 1 << bit;
@@ -20,9 +21,6 @@ function readCanvas() {
   }
   return bitmap;
 }
-
-outputCtx.fillStyle = 'white';
-outputCtx.fillRect(0, 0, displayWidth, displayHeight);
 
 let lastImage = readCanvas();
 let displayCharacteristic = null;
@@ -40,7 +38,11 @@ async function updateDisplay() {
       const currentImage = readCanvas();
       for (let i = 0; i < currentImage.length; i++) {
         if (lastImage[i] != currentImage[i]) {
-          const data = [i & 0xff, (i >> 8) | 0x80, ...currentImage.slice(i, i + 18)];
+          const data = [
+            i & 0xff,
+            (i >> 8) | 0x80,
+            ...currentImage.slice(i, i + 18)
+          ];
           await displayCharacteristic.writeValue(new Uint8Array(data));
           for (let j = 0; j < 18; j++) {
             lastImage[i + j] = currentImage[i + j];
@@ -59,8 +61,14 @@ function drawName() {
   outputCtx.fillStyle = 'white';
   outputCtx.fillRect(0, 0, displayWidth, displayHeight);
   outputCtx.fillStyle = 'black';
+  outputCtx.textAlign = 'center';
   outputCtx.font = '48px cursive';
-  outputCtx.fillText(nameInput.value, 10, 40);
+  outputCtx.textBaseline = 'middle';
+  const center = (showLogo.checked ? 15 : 0) + displayWidth / 2;
+  outputCtx.fillText(nameInput.value, center, displayHeight / 2);
+  if (showLogo.checked) {
+    outputCtx.drawImage(logoElement, 0, 0);
+  }
   if (displayCharacteristic) {
     updateDisplay();
   }
