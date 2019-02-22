@@ -2,7 +2,7 @@
 #include <device.h>
 #include <gpio.h>
 
-struct device *gpio = NULL;
+static struct device *gpio = NULL;
 
 void init_led()
 {

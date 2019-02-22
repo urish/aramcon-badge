@@ -30,10 +30,7 @@ LOG_MODULE_REGISTER(main);
 #include <hal/nrf_saadc.h>
 #include "led.h"
 #include "buttons.h"
-
-
-#define VIBRATION_PORT "GPIO_0"
-#define VIBRATION_PIN 17
+#include "vibration_motor.h"
 
 #define STRIP_NUM_LEDS 4
 #define STRIP_DEV_NAME DT_WORLDSEMI_WS2812_0_LABEL
@@ -171,9 +168,7 @@ void main(void) {
   
 	init_buttons();
 
-	// Motor
-	struct device *gpio_vib = device_get_binding(VIBRATION_PORT);
-	gpio_pin_configure(gpio_vib, VIBRATION_PIN, GPIO_DIR_OUT);
+	init_vibration_motor();
 
 
 	// Neopixels
@@ -273,7 +268,7 @@ void main(void) {
 		}
 
 		// Control the vibrator, based on middle button
-		gpio_pin_write(gpio_vib, VIBRATION_PIN, !button_val[1]);
+		write_vibration_motor(!button_val[1]);
 
 		write_led(counter % 2);
 		if (counter % 2) {
