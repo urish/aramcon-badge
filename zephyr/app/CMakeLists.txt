@@ -6,7 +6,7 @@ project(badge_app)
 # Add your source file to the "app" target. This must come after
 # the boilerplate code, which defines the target.
 target_sources(app PRIVATE src/main.c)
-target_sources(app PRIVATE src/led.c)
-target_sources(app PRIVATE src/buttons.c)
-target_sources(app PRIVATE src/vibration_motor.c)
-target_sources(app PRIVATE src/neopixels.c)
+target_sources(app PRIVATE src/drivers/led.c)
+target_sources(app PRIVATE src/drivers/buttons.c)
+target_sources(app PRIVATE src/drivers/vibration_motor.c)
+target_sources(app PRIVATE src/drivers/neopixels.c)

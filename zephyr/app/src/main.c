@@ -27,10 +27,10 @@ LOG_MODULE_REGISTER(main);
 #include <bluetooth/gatt.h>
 
 #include <hal/nrf_saadc.h>
-#include "led.h"
-#include "buttons.h"
-#include "vibration_motor.h"
-#include "neopixels.h"
+#include "drivers/led.h"
+#include "drivers/buttons.h"
+#include "drivers/vibration_motor.h"
+#include "drivers/neopixels.h"
 
 #define BATTERY_VOLTAGE_PIN NRF_SAADC_INPUT_AIN6
 
@@ -262,7 +262,7 @@ void main(void) {
 			write_neopixel(3, purple);
 		}
 		update_neopixels();
-		
+
 		update_display();
 		k_sleep(SLEEP_TIME);
 
