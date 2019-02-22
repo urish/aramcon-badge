@@ -17,7 +17,6 @@ LOG_MODULE_REGISTER(main);
 #include <device.h>
 #include <gpio.h>
 #include <stdio.h>
-#include <led_strip.h>
 #include <display/cfb.h>
 #include <misc/util.h>
 
@@ -31,9 +30,7 @@ LOG_MODULE_REGISTER(main);
 #include "led.h"
 #include "buttons.h"
 #include "vibration_motor.h"
-
-#define STRIP_NUM_LEDS 4
-#define STRIP_DEV_NAME DT_WORLDSEMI_WS2812_0_LABEL
+#include "neopixels.h"
 
 #define BATTERY_VOLTAGE_PIN NRF_SAADC_INPUT_AIN6
 
@@ -42,13 +39,6 @@ LOG_MODULE_REGISTER(main);
 #define DISPLAY_DRIVER		"DISPLAY"
 
 static u32_t button_val[BUTTON_COUNT] = {}; 
-
-static const struct led_rgb red = { .r = 0x20, .g = 0x00, .b = 0x00 };
-static const struct led_rgb green = { .r = 0x0, .g = 0x20, .b = 0x0 };
-static const struct led_rgb blue = { .r = 0x0, .g = 0x0, .b = 0x20 };
-static const struct led_rgb purple = { .r = 0x10, .g = 0x0, .b = 0x20 };
-
-static struct led_rgb strip_colors[STRIP_NUM_LEDS];
 
 static uint16_t counter = 0;
 static struct device *display;
@@ -170,19 +160,7 @@ void main(void) {
 
 	init_vibration_motor();
 
-
-	// Neopixels
-	struct device *strip = device_get_binding(STRIP_DEV_NAME);
-	if (!strip) {
-		LOG_ERR("LED strip device %s not found", STRIP_DEV_NAME);
-		return;
-	}
-
-	strip_colors[0] = purple;
-	strip_colors[1] = purple;
-	strip_colors[2] = purple;
-	strip_colors[3] = purple;
-	led_strip_update_rgb(strip, strip_colors, STRIP_NUM_LEDS);
+	init_neopixels();
 	
 	// Display
 	display = device_get_binding(DISPLAY_DRIVER);
@@ -271,18 +249,20 @@ void main(void) {
 		write_vibration_motor(!button_val[1]);
 
 		write_led(counter % 2);
+
 		if (counter % 2) {
-			strip_colors[0] = red;
-			strip_colors[1] = green;
-			strip_colors[2] = purple;
-			strip_colors[3] = blue;
+			write_neopixel(0, red);
+			write_neopixel(1, green);
+			write_neopixel(2, purple);
+			write_neopixel(3, blue);
 		} else {
-			strip_colors[0] = green;
-			strip_colors[1] = red;
-			strip_colors[2] = blue;
-			strip_colors[3] = purple;
+			write_neopixel(0, green);
+			write_neopixel(1, red);
+			write_neopixel(2, blue);
+			write_neopixel(3, purple);
 		}
-		led_strip_update_rgb(strip, strip_colors, STRIP_NUM_LEDS);
+		update_neopixels();
+		
 		update_display();
 		k_sleep(SLEEP_TIME);
 
