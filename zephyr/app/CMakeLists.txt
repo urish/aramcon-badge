@@ -7,3 +7,4 @@ project(badge_app)
 # the boilerplate code, which defines the target.
 target_sources(app PRIVATE src/main.c)
 target_sources(app PRIVATE src/buttons.c)
+target_sources(app PRIVATE src/led.c)

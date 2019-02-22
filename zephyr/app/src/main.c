@@ -28,10 +28,9 @@ LOG_MODULE_REGISTER(main);
 #include <bluetooth/gatt.h>
 
 #include <hal/nrf_saadc.h>
+#include "led.h"
 #include "buttons.h"
 
-#define LED_PORT LED0_GPIO_CONTROLLER
-#define LED	LED0_GPIO_PIN
 
 #define VIBRATION_PORT "GPIO_0"
 #define VIBRATION_PIN 17
@@ -168,9 +167,7 @@ static void bt_ready(int err) {
 void main(void) {
 	LOG_INF("Starting app...\n");
 
-	// LED
-	struct device *gpio = device_get_binding(LED_PORT);
-	gpio_pin_configure(gpio, LED, GPIO_DIR_OUT);
+	init_led();
   
 	init_buttons();
 
@@ -278,7 +275,7 @@ void main(void) {
 		// Control the vibrator, based on middle button
 		gpio_pin_write(gpio_vib, VIBRATION_PIN, !button_val[1]);
 
-		gpio_pin_write(gpio, LED, counter % 2);
+		write_led(counter % 2);
 		if (counter % 2) {
 			strip_colors[0] = red;
 			strip_colors[1] = green;
