@@ -10,6 +10,6 @@ static const struct led_rgb purple = { .r = 0x10, .g = 0x0, .b = 0x20 };
 
 void init_neopixels();
 void write_neopixel(u32_t neopixel_number, struct led_rgb value);
-void update_neopixels();
+void flush_neopixels();
 
 #endif // __NEOPIXELS_H__

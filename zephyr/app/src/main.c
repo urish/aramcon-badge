@@ -33,6 +33,42 @@ static u32_t button_val[BUTTON_COUNT] = {};
 
 static uint16_t counter = 0;
 
+
+
+void init_drivers()
+{
+	init_led();
+	init_buttons();
+	init_vibration_motor();
+	init_neopixels();
+	init_display();
+	init_battery_voltage();
+}
+
+void read_inputs()
+{
+	for (u32_t i = 0; i < BUTTON_COUNT; ++i) {
+		button_read(i, &button_val[i]);
+	}
+
+	sample_battery_voltage();
+}
+
+void update_neopixels()
+{
+	if (counter % 2) {
+		write_neopixel(0, red);
+		write_neopixel(1, green);
+		write_neopixel(2, purple);
+		write_neopixel(3, blue);
+	} else {
+		write_neopixel(0, green);
+		write_neopixel(1, red);
+		write_neopixel(2, blue);
+		write_neopixel(3, purple);
+	}
+}
+
 void update_display() {
 	char buf[64];
 	clear_display();
@@ -68,60 +104,34 @@ void update_display() {
 	char *status = "\\|/-";
 	sprintf(buf, "%c", status[counter % sizeof(status)]);
 	print_line_to_display(6 , buf);
+}
 
-	flush_display();
+void update_state()
+{
+	update_neopixels();
+	update_display();
+}
+
+void write_outputs()
+{
+		// Control the vibrator, based on middle button
+		write_vibration_motor(!button_val[1]);
+		write_led(counter % 2);
+		flush_neopixels();
+		flush_display();
 }
 
 void main(void) {
 	LOG_INF("Starting app...\n");
 
-	init_led();
-  
-	init_buttons();
-
-	init_vibration_motor();
-
-	init_neopixels();
-	
-	// Display
-	init_display();
-
-	update_display();
-
-	// ADC
-	init_battery_voltage();
-
-	// Bluetooth
+	init_drivers();
 	init_ble_service();
 
 	while (1) {
-		for (u32_t i = 0; i < BUTTON_COUNT; ++i) {
-			button_read(i, &button_val[i]);
-		}
-
-		sample_battery_voltage();
-
-		// Control the vibrator, based on middle button
-		write_vibration_motor(!button_val[1]);
-
-		write_led(counter % 2);
-
-		if (counter % 2) {
-			write_neopixel(0, red);
-			write_neopixel(1, green);
-			write_neopixel(2, purple);
-			write_neopixel(3, blue);
-		} else {
-			write_neopixel(0, green);
-			write_neopixel(1, red);
-			write_neopixel(2, blue);
-			write_neopixel(3, purple);
-		}
-		update_neopixels();
-
-		update_display();
+		read_inputs();
+		update_state();
+		write_outputs();
 		k_sleep(SLEEP_TIME);
-
 		counter++;
 	}
 }

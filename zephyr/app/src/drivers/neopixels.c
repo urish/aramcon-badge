@@ -26,7 +26,7 @@ void write_neopixel(u32_t neopixel_number, struct led_rgb value)
     }
 }
 
-void update_neopixels()
+void flush_neopixels()
 {
     led_strip_update_rgb(neopixel_strip, neopixel_colors, NEOPIXEL_COUNT);
 }
