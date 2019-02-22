@@ -13,7 +13,7 @@
 LOG_MODULE_REGISTER(main);
 
 #include <zephyr.h>
-#include <adc.h>
+
 #include <device.h>
 #include <gpio.h>
 #include <stdio.h>
@@ -25,14 +25,12 @@ LOG_MODULE_REGISTER(main);
 #include <bluetooth/uuid.h>
 #include <bluetooth/gatt.h>
 
-#include <hal/nrf_saadc.h>
 #include "drivers/led.h"
 #include "drivers/buttons.h"
 #include "drivers/vibration_motor.h"
 #include "drivers/neopixels.h"
 #include "drivers/display.h"
-
-#define BATTERY_VOLTAGE_PIN NRF_SAADC_INPUT_AIN6
+#include "drivers/battery_voltage.h"
 
 #define SLEEP_TIME 	500
 
@@ -41,17 +39,6 @@ static u32_t button_val[BUTTON_COUNT] = {};
 static uint16_t counter = 0;
 static bool bluetooth_ready = false;
 static const bt_addr_le_t *remote_device = NULL;
-static int16_t adc_buffer[1] = {0};
-
-static float adc_val_to_voltage(int16_t adc_val) {
-		const u8_t adc_resolution = 10;
-    const float adc_gain = 1/6.;
-		const float adc_ref_voltage = 0.6f;
-		if (adc_val < 0) {
-			adc_val = 0;
-		}
-    return adc_val / ((adc_gain / (adc_ref_voltage)) * (1 << adc_resolution));
-}
 
 static char *bluetooth_mac_to_str(const bt_addr_le_t* addr) {
 	static char buf[BT_ADDR_LE_STR_LEN];
@@ -113,7 +100,7 @@ void update_display() {
 	clear_display();
 	print_line_to_display(0, "*** Badge Self-Test ***");
 
-	sprintf(buf, "Battery: %.2fv", adc_val_to_voltage(adc_buffer[0]));
+	sprintf(buf, "Battery: %.2fv", read_battery_voltage());
 	print_line_to_display(1, buf);	
 
 	if (bluetooth_ready) {
@@ -165,32 +152,7 @@ void main(void) {
 	update_display();
 
 	// ADC
-	struct device *adc_dev = device_get_binding(DT_ADC_0_NAME);
-	if (!adc_dev) {
-		LOG_ERR("adc init failed :-(");
-		return;
-	}
-	
-	struct adc_channel_cfg adc_channel_cfg = {
-		.gain             = ADC_GAIN_1_6,
-		.reference        = ADC_REF_INTERNAL,
-		.acquisition_time = ADC_ACQ_TIME(ADC_ACQ_TIME_MICROSECONDS, 10),
-		.channel_id       = 0,
-		.input_positive   = BATTERY_VOLTAGE_PIN,
-	};
-
-	u32_t ret = adc_channel_setup(adc_dev, &adc_channel_cfg);
-	if (ret) {
-		LOG_ERR("adc channel setup failed :-(");
-		return;
-	}
-
-	const struct adc_sequence sequence = {
-		.channels    = BIT(0),
-		.buffer      = adc_buffer,
-		.buffer_size = sizeof(adc_buffer),
-		.resolution  = 10,
-	};
+	init_battery_voltage();
 
 	// Bluetooth
 	int err = bt_enable(bt_ready);
@@ -204,10 +166,7 @@ void main(void) {
 			button_read(i, &button_val[i]);
 		}
 
-		ret = adc_read(adc_dev, &sequence);
-		if (ret) {
-			LOG_ERR("adc read failed: %d", ret);
-		}
+		sample_battery_voltage();
 
 		// Control the vibrator, based on middle button
 		write_vibration_motor(!button_val[1]);
