@@ -16,7 +16,7 @@ void init_buttons()
 
 void button_read(u32_t button_number, u32_t *value)
 {
-    if (button_number < 3) {
+    if (button_number < BUTTON_COUNT) {
         gpio_pin_read(
             gpio_bindings[button_number],
             button_pin_map[button_number],
