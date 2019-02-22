@@ -17,7 +17,6 @@ LOG_MODULE_REGISTER(main);
 #include <device.h>
 #include <gpio.h>
 #include <stdio.h>
-#include <display/cfb.h>
 #include <misc/util.h>
 
 #include <bluetooth/bluetooth.h>
@@ -31,17 +30,15 @@ LOG_MODULE_REGISTER(main);
 #include "drivers/buttons.h"
 #include "drivers/vibration_motor.h"
 #include "drivers/neopixels.h"
+#include "drivers/display.h"
 
 #define BATTERY_VOLTAGE_PIN NRF_SAADC_INPUT_AIN6
 
 #define SLEEP_TIME 	500
 
-#define DISPLAY_DRIVER		"DISPLAY"
-
 static u32_t button_val[BUTTON_COUNT] = {}; 
 
 static uint16_t counter = 0;
-static struct device *display;
 static bool bluetooth_ready = false;
 static const bt_addr_le_t *remote_device = NULL;
 static int16_t adc_buffer[1] = {0};
@@ -64,46 +61,6 @@ static char *bluetooth_mac_to_str(const bt_addr_le_t* addr) {
 		*space = 0;
 	}
 	return buf;
-}
-
-void update_display() {
-	char buf[64];
-	cfb_framebuffer_clear(display, true);
-	cfb_print(display, "*** Badge Self-Test ***", 0, 0);
-
-	sprintf(buf, "Battery: %.2fv", adc_val_to_voltage(adc_buffer[0]));
-	cfb_print(display, buf, 0, 16);	
-
-	if (bluetooth_ready) {
-		sprintf(buf, "Name: %s", bt_get_name());
-		cfb_print(display, buf, 0, 32);
-
-		bt_addr_le_t addr;
-		size_t count = 1;
-		bt_id_get(&addr, &count);
-		if (count) {
-			sprintf(buf, "Mac:  %s", bluetooth_mac_to_str(&addr));
-			cfb_print(display, buf, 0, 48);
-		}
-
-		sprintf(buf, "BTNs L:%d M:%d R:%d", !button_val[2], !button_val[1], !button_val[0]);
-		cfb_print(display, buf, 0, 64);
-
-		if (remote_device) {
-			sprintf(buf, "Connected! %s", bluetooth_mac_to_str(remote_device));
-			cfb_print(display, buf, 0, 80);
-		}
-	}
-
-	// TODO display MP3 status
-	// TODO display Flash status
-	// TODO display accelerometer status (LIS2DH driver)
-
-	char *status = "\\|/-";
-	sprintf(buf, "%c", status[counter % sizeof(status)]);
-	cfb_print(display, buf, 0, 96);
-
-	cfb_framebuffer_finalize(display);
 }
 
 /* Bluetooth */
@@ -151,6 +108,46 @@ static void bt_ready(int err) {
 	bluetooth_ready = true;
 }
 
+void update_display() {
+	char buf[64];
+	clear_display();
+	print_line_to_display(0, "*** Badge Self-Test ***");
+
+	sprintf(buf, "Battery: %.2fv", adc_val_to_voltage(adc_buffer[0]));
+	print_line_to_display(1, buf);	
+
+	if (bluetooth_ready) {
+		sprintf(buf, "Name: %s", bt_get_name());
+		print_line_to_display(2, buf);
+
+		bt_addr_le_t addr;
+		size_t count = 1;
+		bt_id_get(&addr, &count);
+		if (count) {
+			sprintf(buf, "Mac:  %s", bluetooth_mac_to_str(&addr));
+			print_line_to_display(3, buf);
+		}
+
+		sprintf(buf, "BTNs L:%d M:%d R:%d", !button_val[2], !button_val[1], !button_val[0]);
+		print_line_to_display(4, buf);
+
+		if (remote_device) {
+			sprintf(buf, "Connected! %s", bluetooth_mac_to_str(remote_device));
+			print_line_to_display(5, buf);
+		}
+	}
+
+	// TODO display MP3 status
+	// TODO display Flash status
+	// TODO display accelerometer status (LIS2DH driver)
+
+	char *status = "\\|/-";
+	sprintf(buf, "%c", status[counter % sizeof(status)]);
+	print_line_to_display(6 , buf);
+
+	flush_display();
+}
+
 void main(void) {
 	LOG_INF("Starting app...\n");
 
@@ -163,40 +160,7 @@ void main(void) {
 	init_neopixels();
 	
 	// Display
-	display = device_get_binding(DISPLAY_DRIVER);
-	if (display == NULL) {
-		LOG_ERR("Display device not found");
-		return;
-	}
-
-	if (display_set_pixel_format(display, PIXEL_FORMAT_MONO10) != 0) {
-		LOG_ERR("Failed to set required pixel format");
-		return;
-	}
-
-	if (cfb_framebuffer_init(display)) {
-		LOG_ERR("Framebuffer initialization failed!");
-		return;
-	}
-
-	cfb_framebuffer_clear(display, true);
-
-	display_blanking_off(display);
-
-	u16_t rows;
-	u8_t ppt;
-	u8_t font_width;
-	u8_t font_height;
-	rows = cfb_get_display_parameter(display, CFB_DISPLAY_ROWS);
-	ppt = cfb_get_display_parameter(display, CFB_DISPLAY_PPT);
-	for (int idx = 0; idx < 42; idx++) {
-		if (cfb_get_font_size(display, idx, &font_width, &font_height)) {
-			break;
-		}
-		cfb_framebuffer_set_font(display, idx);
-		LOG_INF("font width %d, font height %d\n",
-		       font_width, font_height);
-	}
+	init_display();
 
 	update_display();
 
