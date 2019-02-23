@@ -5457,7 +5457,7 @@
     (fp_text reference R11 (at 3.0225 0.127 180) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
-    (fp_text value 3R (at 0 1.43 180) (layer F.Fab)
+    (fp_text value 0.47R (at 0 1.43 180) (layer F.Fab)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_line (start -0.8 0.4) (end -0.8 -0.4) (layer F.Fab) (width 0.1))
