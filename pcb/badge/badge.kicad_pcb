@@ -303,6 +303,7 @@
   (module EBYTE:E73-2G4M08S1C (layer F.Cu) (tedit 5C584AD0) (tstamp 5C529891)
     (at 43.18 94.996 90)
     (path /5C1F197E)
+    (attr smd)
     (fp_text reference U3 (at 0.35 2.54 90) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
@@ -416,6 +417,7 @@
   (module AA_battery_clip:BK-53_MPD_AAClip (layer F.Cu) (tedit 59E2D3C4) (tstamp 5C9788B7)
     (at 80.085 66.04 270)
     (path /5C4AA0D1/5C4AE687)
+    (attr smd)
     (fp_text reference BT1 (at 0 0.5 270) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
@@ -453,7 +455,7 @@
     (at 78.5368 92.456)
     (descr "Imported from board-shape.svg")
     (tags svg2mod)
-    (attr smd)
+    (attr virtual)
     (fp_text reference SHAPE (at 0 -52.938055) (layer F.SilkS) hide
       (effects (font (size 1.524 1.524) (thickness 0.3048)))
     )
@@ -5636,7 +5638,7 @@
     (at 79.756 135.128)
     (descr "Imported from aramcon-logo.svg")
     (tags svg2mod)
-    (attr smd)
+    (attr virtual)
     (fp_text reference svg2mod (at 0 -6.180221) (layer F.SilkS) hide
       (effects (font (size 1.524 1.524) (thickness 0.3048)))
     )
@@ -6064,7 +6066,7 @@
     (descr "surface-mounted straight pin header, 2x05, 1.27mm pitch, double rows")
     (tags "Surface mounted pin header SMD 2x05 1.27mm double row")
     (path /5C3F1CD3)
-    (attr smd)
+    (attr virtual)
     (fp_text reference J6 (at 0 4.235 90) (layer B.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
     )
