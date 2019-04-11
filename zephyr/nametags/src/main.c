@@ -26,6 +26,8 @@ LOG_MODULE_REGISTER(main);
 #include <bluetooth/uuid.h>
 #include <bluetooth/gatt.h>
 
+#include "qrcode.h"
+
 #define LED_PORT LED0_GPIO_CONTROLLER
 #define LED	LED0_GPIO_PIN
 
@@ -38,6 +40,9 @@ LOG_MODULE_REGISTER(main);
 
 #define BT_UUID_DISP       BT_UUID_DECLARE_16(0xfeef)
 #define BT_UUID_DISP_DATA  BT_UUID_DECLARE_16(0xfeee)
+
+#define DISPLAY_WIDTH 296
+#define DISPLAY_HEIGHT 128
 
 static const struct led_rgb red = { .r = 0x02, .g = 0x00, .b = 0x00 };
 static const struct led_rgb green = { .r = 0x0, .g = 0x02, .b = 0x0 };
@@ -118,6 +123,34 @@ static void disconnected(struct bt_conn *conn, u8_t reason) {
 u8_t display_buf[5000] = {0};
 bool display_dirty = false;
 
+static void set_pixel(uint16_t x, uint16_t y, bool value) {
+	uint16_t bitmapOffs = (y / 8) * DISPLAY_WIDTH + x;
+	uint8_t bit = 7 - (y % 8);
+	if (value) {
+		display_buf[bitmapOffs] |= 1 << bit;
+	} else {
+		display_buf[bitmapOffs] &= ~(1 << bit);
+	}
+}
+
+#define QR_VERSION (3)
+
+static void draw_qr(const char *text, uint16_t x, uint16_t y, uint8_t scale) {
+	QRCode qrcode;
+	uint8_t qrcode_data[qrcode_getBufferSize(QR_VERSION)];
+	qrcode_initText(&qrcode, qrcode_data, QR_VERSION, ECC_HIGH, text);
+
+	for (uint8_t qr_y = 0; qr_y < qrcode.size; qr_y++) {
+		for (uint8_t qr_x = 0; qr_x < qrcode.size; qr_x++) {
+			for (uint8_t sx = 0; sx < scale; sx++) {
+				for (uint8_t sy = 0; sy < scale; sy++) {
+					set_pixel(x + qr_x * scale + sx, y + qr_y * scale + sy, !qrcode_getModule(&qrcode, qr_x, qr_y));
+				}
+			}
+		}
+	}
+}
+
 struct write_disp_data_req {
 	u16_t pos:15;
   u8_t dirty:1;
@@ -188,7 +221,7 @@ static void bt_ready(int err) {
 
 void main(void) {
 	LOG_INF("Starting app...\n");
- 
+
 	// LED
 	struct device *gpio = device_get_binding(LED_PORT);
 	gpio_pin_configure(gpio, LED, GPIO_DIR_OUT);
@@ -257,15 +290,17 @@ void main(void) {
 	}	
 
   const struct display_buffer_descriptor desc = {
-    .buf_size = 296 * 128 / 8,
-    .width = 296,
-    .height = 128,
-    .pitch = 296,
+    .buf_size = DISPLAY_WIDTH * DISPLAY_HEIGHT / 8,
+    .width = DISPLAY_WIDTH,
+    .height = DISPLAY_HEIGHT,
+    .pitch = DISPLAY_WIDTH,
   };
 
 	while (1) {
     if (!display_set) {
-      update_display();
+			memset(display_buf, 0xff, sizeof(display_buf));
+			draw_qr("https://urish.org", 6, 6, 4);
+			display_dirty = true;
     }
 
     if (display_dirty) {
