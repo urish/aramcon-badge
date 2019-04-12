@@ -4,7 +4,7 @@
 
 static struct device *gpio_bindings[BUTTON_COUNT]  = {};
 static const u32_t button_pin_map[BUTTON_COUNT] = {SW0_GPIO_PIN, SW1_GPIO_PIN, SW2_GPIO_PIN};
-static const const char *button_port_map[BUTTON_COUNT] = {SW0_GPIO_CONTROLLER, SW1_GPIO_CONTROLLER, SW2_GPIO_CONTROLLER};
+static const char *button_port_map[BUTTON_COUNT] = {SW0_GPIO_CONTROLLER, SW1_GPIO_CONTROLLER, SW2_GPIO_CONTROLLER};
 void init_buttons()
 {
     for (u32_t i = 0; i < BUTTON_COUNT; ++i)
