@@ -93,8 +93,8 @@
 		label = "DISPLAY";
 		spi-max-frequency = <4000000>;
 		reg = <0>;
-		width = <296>;
-		height = <128>;
+		width = <128>;
+		height = <296>;
 		pp-width-bits = <8>;
 		pp-height-bits = <16>;
 		reset-gpios = <&gpio0 6 0>;
