@@ -88,8 +88,8 @@
 	miso-pin = <41>;
 	cs-gpios = <&gpio0 7 0>;
 
-	ssd1673fb@0 {
-		compatible = "solomon,ssd1673fb", "hink,e0154a05";
+	il0373@0 {
+		compatible = "gd,il0373", "gd,gdew029t5";
 		label = "DISPLAY";
 		spi-max-frequency = <4000000>;
 		reg = <0>;
