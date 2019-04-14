@@ -26,6 +26,8 @@ LOG_MODULE_REGISTER(main);
 #include <bluetooth/uuid.h>
 #include <bluetooth/gatt.h>
 
+#include "drivers/buttons.h"
+#include "agenda.h"
 #include "qrcode.h"
 
 #define LED_PORT LED0_GPIO_CONTROLLER
@@ -52,7 +54,7 @@ static const struct led_rgb purple = { .r = 0x10, .g = 0x0, .b = 0x02 };
 static struct led_rgb strip_colors[STRIP_NUM_LEDS];
 
 static uint16_t counter = 0;
-static struct device *display;
+struct device *display;
 static bool bluetooth_ready = false;
 static bool display_set = false;
 static const bt_addr_le_t *remote_device = NULL;
@@ -222,6 +224,8 @@ static void bt_ready(int err) {
 void main(void) {
 	LOG_INF("Starting app...\n");
 
+	init_buttons();
+
 	// LED
 	struct device *gpio = device_get_binding(LED_PORT);
 	gpio_pin_configure(gpio, LED, GPIO_DIR_OUT);
@@ -296,15 +300,25 @@ void main(void) {
     .pitch = DISPLAY_WIDTH,
   };
 
+	memset(display_buf, 0xff, sizeof(display_buf));
+	draw_qr("https://urish.org", 6, 6, 4);
+	display_write(display, 0, 0, &desc, display_buf);
+
 	while (1) {
-    if (!display_set) {
+		if (button_read(LEFT_BUTTON)) {
+			agenda_prev();
+		}
+		if (button_read(MIDDLE_BUTTON)) {
 			memset(display_buf, 0xff, sizeof(display_buf));
 			draw_qr("https://urish.org", 6, 6, 4);
-			display_dirty = true;
-    }
+			display_write(display, 0, 0, &desc, display_buf);
+		}
+		if (button_read(RIGHT_BUTTON)) {
+			agenda_next();
+		}
 
     if (display_dirty) {
-      display_write(display, 0, 0, &desc, display_buf);
+			display_write(display, 0, 0, &desc, display_buf);
       display_dirty = false;
     }
 
