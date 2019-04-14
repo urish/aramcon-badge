@@ -140,7 +140,7 @@ static void set_pixel(uint16_t x, uint16_t y, bool value) {
 static void draw_qr(const char *text, uint16_t x, uint16_t y, uint8_t scale) {
 	QRCode qrcode;
 	uint8_t qrcode_data[qrcode_getBufferSize(QR_VERSION)];
-	qrcode_initText(&qrcode, qrcode_data, QR_VERSION, ECC_HIGH, text);
+	qrcode_initText(&qrcode, qrcode_data, QR_VERSION, ECC_QUARTILE, text);
 
 	for (uint8_t qr_y = 0; qr_y < qrcode.size; qr_y++) {
 		for (uint8_t qr_x = 0; qr_x < qrcode.size; qr_x++) {
@@ -200,6 +200,21 @@ static struct bt_conn_cb conn_callbacks = {
 	.disconnected = disconnected,
 };
 
+static const char* get_name_suffix() {
+	static char name_suffix[7];
+	bt_addr_le_t addr;
+	size_t count = 1;
+	bt_id_get(&addr, &count);
+	sprintf(name_suffix, "%02x%02x%02x", addr.a.val[3], addr.a.val[4], addr.a.val[5]);
+	return name_suffix;
+}
+
+static const char* get_qr_url() {
+	static char url[36];
+	sprintf(url, "https://go.urish.org/AC?b=%s", get_name_suffix());
+	return url;
+}
+
 static void bt_ready(int err) {
 	if (err) {
 		LOG_ERR("Bluetooth init failed (err %d)", err);
@@ -210,6 +225,14 @@ static void bt_ready(int err) {
 
 	bt_conn_cb_register(&conn_callbacks);
 	bt_gatt_service_register(&disp_svc);
+
+	char deviceName[32];
+	sprintf(deviceName, "BADGE-%s", get_name_suffix());
+	err = bt_set_name(deviceName);
+	if (err) {
+		LOG_ERR("Failed to set device name (err %d)", err);
+		return;
+	}
 
 	err = bt_le_adv_start(BT_LE_ADV_CONN_NAME, ad, ARRAY_SIZE(ad), NULL, 0);
 	if (err) {
@@ -301,7 +324,7 @@ void main(void) {
   };
 
 	memset(display_buf, 0xff, sizeof(display_buf));
-	draw_qr("https://urish.org", 6, 6, 4);
+	draw_qr(get_qr_url(), 6, 6, 4);
 	display_write(display, 0, 0, &desc, display_buf);
 
 	while (1) {
@@ -310,7 +333,7 @@ void main(void) {
 		}
 		if (button_read(MIDDLE_BUTTON)) {
 			memset(display_buf, 0xff, sizeof(display_buf));
-			draw_qr("https://urish.org", 6, 6, 4);
+			draw_qr(get_qr_url(), 6, 6, 4);
 			display_write(display, 0, 0, &desc, display_buf);
 		}
 		if (button_read(RIGHT_BUTTON)) {
