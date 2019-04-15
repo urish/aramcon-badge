@@ -16,7 +16,6 @@ LOG_MODULE_REGISTER(main);
 #include <device.h>
 #include <gpio.h>
 #include <stdio.h>
-#include <led_strip.h>
 #include <display/cfb.h>
 #include <misc/util.h>
 
@@ -28,14 +27,11 @@ LOG_MODULE_REGISTER(main);
 
 #include "drivers/battery_voltage.h"
 #include "drivers/buttons.h"
+#include "drivers/led.h"
+#include "drivers/neopixels.h"
+#include "drivers/vibration_motor.h"
 #include "agenda.h"
 #include "qrcode.h"
-
-#define LED_PORT LED0_GPIO_CONTROLLER
-#define LED	LED0_GPIO_PIN
-
-#define STRIP_NUM_LEDS 4
-#define STRIP_DEV_NAME DT_WORLDSEMI_WS2812_0_LABEL
 
 #define SLEEP_TIME 	500
 
@@ -48,13 +44,6 @@ LOG_MODULE_REGISTER(main);
 
 #define DISPLAY_WIDTH 296
 #define DISPLAY_HEIGHT 128
-
-static const struct led_rgb red = { .r = 0x02, .g = 0x00, .b = 0x00 };
-static const struct led_rgb green = { .r = 0x0, .g = 0x02, .b = 0x0 };
-static const struct led_rgb blue = { .r = 0x0, .g = 0x0, .b = 0x02 };
-static const struct led_rgb purple = { .r = 0x10, .g = 0x0, .b = 0x02 };
-
-static struct led_rgb strip_colors[STRIP_NUM_LEDS];
 
 static uint16_t counter = 0;
 struct device *display;
@@ -268,28 +257,23 @@ static void bt_ready(int err) {
 	bluetooth_ready = true;
 }
 
+void init_drivers(void) {
+	init_buttons();
+	init_battery_voltage();
+	init_led();
+	init_neopixels();
+}
+
 void main(void) {
 	LOG_INF("Starting app...\n");
 
-	init_buttons();
-	init_battery_voltage();
-
-	// LED
-	struct device *gpio = device_get_binding(LED_PORT);
-	gpio_pin_configure(gpio, LED, GPIO_DIR_OUT);
+	init_drivers();
   
-	// Neopixels
-	struct device *strip = device_get_binding(STRIP_DEV_NAME);
-	if (!strip) {
-		LOG_ERR("LED strip device %s not found", STRIP_DEV_NAME);
-		return;
-	}
-
-	strip_colors[0] = purple;
-	strip_colors[1] = purple;
-	strip_colors[2] = purple;
-	strip_colors[3] = purple;
-	led_strip_update_rgb(strip, strip_colors, STRIP_NUM_LEDS);
+	write_neopixel(0, purple);
+	write_neopixel(1, purple);
+	write_neopixel(2, purple);
+	write_neopixel(3, purple);
+	flush_neopixels();
 	
 	// Display
 	display = device_get_binding(DISPLAY_DRIVER);
@@ -379,19 +363,19 @@ void main(void) {
       display_dirty = false;
     }
 
-		gpio_pin_write(gpio, LED, counter % 2);
+		write_led(counter % 2);
 		if (counter % 2) {
-			strip_colors[0] = red;
-			strip_colors[1] = green;
-			strip_colors[2] = purple;
-			strip_colors[3] = blue;
+			write_neopixel(0, red);
+			write_neopixel(1, green);
+			write_neopixel(2, purple);
+			write_neopixel(3, blue);
 		} else {
-			strip_colors[0] = green;
-			strip_colors[1] = red;
-			strip_colors[2] = blue;
-			strip_colors[3] = purple;
+			write_neopixel(0, green);
+			write_neopixel(1, red);
+			write_neopixel(2, blue);
+			write_neopixel(3, purple);
 		}
-		led_strip_update_rgb(strip, strip_colors, STRIP_NUM_LEDS);
+		flush_neopixels();
 		counter++;
 	}
 }
