@@ -270,12 +270,12 @@ void main(void) {
 	// Startup sequence: vibrate briefly and light LEDs
 	write_neopixels_all(blue, true);
 	write_vibration_motor(1);
-	k_sleep(200);
+	k_sleep(100);
 	write_vibration_motor(0);
 
-	k_sleep(100);
-	write_vibration_motor(1);
 	k_sleep(200);
+	write_vibration_motor(1);
+	k_sleep(100);
 	write_vibration_motor(0);
 	write_neopixels_all(black, true);  
 
