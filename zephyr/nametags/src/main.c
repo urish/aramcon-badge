@@ -262,18 +262,25 @@ void init_drivers(void) {
 	init_battery_voltage();
 	init_led();
 	init_neopixels();
+	init_vibration_motor();
 }
 
 void main(void) {
 	LOG_INF("Starting app...\n");
 
 	init_drivers();
-  
+
+	// Startup sequence: vibrate briefly and light LEDs
 	write_neopixel(0, purple);
 	write_neopixel(1, purple);
 	write_neopixel(2, purple);
 	write_neopixel(3, purple);
 	flush_neopixels();
+
+	write_vibration_motor(1);
+	k_sleep(200);
+	write_vibration_motor(0);
+  
 	
 	// Display
 	display = device_get_binding(DISPLAY_DRIVER);
