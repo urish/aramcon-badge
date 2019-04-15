@@ -281,6 +281,7 @@ void main(void) {
 	k_sleep(200);
 	write_vibration_motor(0);
   
+	breathe_led(1000);
 	
 	// Display
 	display = device_get_binding(DISPLAY_DRIVER);
@@ -370,7 +371,6 @@ void main(void) {
       display_dirty = false;
     }
 
-		write_led(counter % 2);
 		if (counter % 2) {
 			write_neopixel(0, red);
 			write_neopixel(1, green);

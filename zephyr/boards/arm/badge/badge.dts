@@ -68,6 +68,16 @@
 	status = "ok";
 };
 
+&pwm0 {
+	status = "ok";
+	ch0-pin = <43>;
+	ch0-inverted;
+};
+
+&pwm1 {
+	status = "ok";
+};
+
 &i2c0 {
 	status = "ok";
 	sda-pin = <3>;
