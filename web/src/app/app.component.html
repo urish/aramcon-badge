@@ -1,0 +1,39 @@
+<mat-toolbar color="primary">
+  AramCon Badge Setup
+  <span class="header-fill"></span>
+  <mat-icon *ngIf="connected" (click)="disconnect()" title="Disconnect">bluetooth_connected</mat-icon>
+</mat-toolbar>
+
+<section>
+  <mat-card *ngIf="!connected">
+    <mat-card-content>
+      <button *ngIf="!connecting" mat-raised-button color="primary" (click)="connect()">
+        <mat-icon>bluetooth</mat-icon>
+        Connect
+      </button>
+      <div *ngIf="connecting">
+        Connecting...
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-title>Customize Your Badge</mat-card-title>
+    <mat-card-content>
+      <canvas #preview style="border: solid red 1px;" width="296" height="128"></canvas>
+      <div>
+        <mat-form-field>
+          Your name:
+          <input [(ngModel)]="name" (input)="drawName()" matInput />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-slide-toggle [(ngModel)]="showLogo" (ngModelChange)="drawName()">
+          Show Logo
+        </mat-slide-toggle>
+      </div>
+      <img #logo src="assets/logo.png" style="display:none" (load)="drawName()" />
+    </mat-card-content>
+  </mat-card>
+</section>
