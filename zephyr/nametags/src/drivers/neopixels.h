@@ -7,9 +7,11 @@ static const struct led_rgb red = { .r = 0x20, .g = 0x00, .b = 0x00 };
 static const struct led_rgb green = { .r = 0x0, .g = 0x20, .b = 0x0 };
 static const struct led_rgb blue = { .r = 0x0, .g = 0x0, .b = 0x20 };
 static const struct led_rgb purple = { .r = 0x10, .g = 0x0, .b = 0x20 };
+static const struct led_rgb black = { .r = 0x0, .g = 0x0, .b = 0x0 };
 
 void init_neopixels();
 void write_neopixel(u32_t neopixel_number, struct led_rgb value);
 void flush_neopixels();
+void write_neopixels_all(struct led_rgb value, bool flush);
 
 #endif // __NEOPIXELS_H__

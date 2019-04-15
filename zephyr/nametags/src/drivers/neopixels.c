@@ -9,14 +9,7 @@ struct device *neopixel_strip;
 
 void init_neopixels()
 {
-	// Neopixels
 	neopixel_strip = device_get_binding(NEOPIXEL_STRIP_DEV_NAME);
-
-	neopixel_colors[0] = purple;
-	neopixel_colors[1] = purple;
-	neopixel_colors[2] = purple;
-	neopixel_colors[3] = purple;
-	led_strip_update_rgb(neopixel_strip, neopixel_colors, NEOPIXEL_COUNT);
 }
 
 void write_neopixel(u32_t neopixel_number, struct led_rgb value)
@@ -30,4 +23,16 @@ void write_neopixel(u32_t neopixel_number, struct led_rgb value)
 void flush_neopixels()
 {
 	led_strip_update_rgb(neopixel_strip, neopixel_colors, NEOPIXEL_COUNT);
+}
+
+void write_neopixels_all(struct led_rgb value, bool flush)
+{
+	for (u8_t i = 0; i < NEOPIXEL_COUNT; i++)
+	{
+		neopixel_colors[i] = value;
+	}
+	if (flush)
+	{
+		flush_neopixels();
+	}
 }

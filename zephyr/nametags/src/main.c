@@ -45,7 +45,6 @@ LOG_MODULE_REGISTER(main);
 #define DISPLAY_WIDTH 296
 #define DISPLAY_HEIGHT 128
 
-static uint16_t counter = 0;
 struct device *display;
 static bool bluetooth_ready = false;
 static bool display_set = false;
@@ -83,10 +82,6 @@ void update_display() {
 			cfb_print(display, buf, 0, 80);
 		}
 	}
-
-	char *status = "\\|/-";
-	sprintf(buf, "%c", status[counter % sizeof(status)]);
-	cfb_print(display, buf, 0, 96);
 
 	cfb_framebuffer_finalize(display);
 }
@@ -270,19 +265,20 @@ void main(void) {
 
 	init_drivers();
 
-	// Startup sequence: vibrate briefly and light LEDs
-	write_neopixel(0, purple);
-	write_neopixel(1, purple);
-	write_neopixel(2, purple);
-	write_neopixel(3, purple);
-	flush_neopixels();
+	breathe_led(1000);
 
+	// Startup sequence: vibrate briefly and light LEDs
+	write_neopixels_all(blue, true);
 	write_vibration_motor(1);
 	k_sleep(200);
 	write_vibration_motor(0);
-  
-	breathe_led(1000);
-	
+
+	k_sleep(100);
+	write_vibration_motor(1);
+	k_sleep(200);
+	write_vibration_motor(0);
+	write_neopixels_all(black, true);  
+
 	// Display
 	display = device_get_binding(DISPLAY_DRIVER);
 	if (display == NULL) {
@@ -370,19 +366,5 @@ void main(void) {
 			display_write(display, 0, 0, &desc, display_buf);
       display_dirty = false;
     }
-
-		if (counter % 2) {
-			write_neopixel(0, red);
-			write_neopixel(1, green);
-			write_neopixel(2, purple);
-			write_neopixel(3, blue);
-		} else {
-			write_neopixel(0, green);
-			write_neopixel(1, red);
-			write_neopixel(2, blue);
-			write_neopixel(3, purple);
-		}
-		flush_neopixels();
-		counter++;
 	}
 }
