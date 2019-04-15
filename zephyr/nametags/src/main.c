@@ -353,16 +353,25 @@ void main(void) {
 	display_write(display, 0, 0, &desc, display_buf);
 
 	while (1) {
-		if (button_read(LEFT_BUTTON)) {
-			agenda_prev();
-		}
-		if (button_read(MIDDLE_BUTTON)) {
-			memset(display_buf, 0xff, sizeof(display_buf));
-			draw_qr(get_qr_url(), 6, 6, 4);
-			display_write(display, 0, 0, &desc, display_buf);
-		}
-		if (button_read(RIGHT_BUTTON)) {
-			agenda_next();
+		struct keyboard_event event;
+		int ret = k_msgq_get(&keyboard_event_queue, &event, 500);
+
+		if (!ret & event.pressed) {
+			switch (event.button) {
+				case LEFT_BUTTON:
+					agenda_prev();
+					break;
+
+				case MIDDLE_BUTTON:
+					memset(display_buf, 0xff, sizeof(display_buf));
+					draw_qr(get_qr_url(), 6, 6, 4);
+					display_write(display, 0, 0, &desc, display_buf);
+					break;
+
+				case RIGHT_BUTTON:
+					agenda_next();
+					break;
+			}
 		}
 
     if (display_dirty) {
@@ -383,8 +392,6 @@ void main(void) {
 			strip_colors[3] = purple;
 		}
 		led_strip_update_rgb(strip, strip_colors, STRIP_NUM_LEDS);
-		k_sleep(SLEEP_TIME);
-
 		counter++;
 	}
 }
