@@ -26,6 +26,7 @@ LOG_MODULE_REGISTER(main);
 #include <bluetooth/uuid.h>
 #include <bluetooth/gatt.h>
 
+#include "drivers/battery_voltage.h"
 #include "drivers/buttons.h"
 #include "agenda.h"
 #include "qrcode.h"
@@ -42,6 +43,8 @@ LOG_MODULE_REGISTER(main);
 
 #define BT_UUID_DISP       BT_UUID_DECLARE_16(0xfeef)
 #define BT_UUID_DISP_DATA  BT_UUID_DECLARE_16(0xfeee)
+
+#define BT_UUID_BATT_VOLTAGE BT_UUID_DECLARE_128(0x9a, 0x24, 0xd0, 0xc6, 0xb0, 0x1f, 0x44, 0x4d, 0x85, 0xff, 0x59, 0x12, 0x13, 0x41, 0xad, 0x34)
 
 #define DISPLAY_WIDTH 296
 #define DISPLAY_HEIGHT 128
@@ -183,14 +186,35 @@ static ssize_t write_disp_data(struct bt_conn *conn,
 	return len;
 }
 
+static ssize_t read_battery_voltage_cb(struct bt_conn *conn,
+				const struct bt_gatt_attr *attr,
+				void *buf, u16_t len, u16_t offset)
+{
+	char *value = attr->user_data;
+
+	sample_battery_voltage();
+	sprintf(value, "%.2f", read_battery_voltage());
+
+	return bt_gatt_attr_read(conn, attr, buf, len, offset, value, strlen(value));
+}
+
 char disp_char_buf[20] = {0};
+char battery_voltage_buf[20] = {0};
 
 static struct bt_gatt_attr disp_attrs[] = {
 	BT_GATT_PRIMARY_SERVICE(BT_UUID_DISP),
+
 	BT_GATT_CHARACTERISTIC(BT_UUID_DISP_DATA,
 			       BT_GATT_CHRC_WRITE | BT_GATT_CHRC_INDICATE,
 			       BT_GATT_PERM_WRITE, NULL, write_disp_data,
 			       &disp_char_buf),
+	BT_GATT_CUD("Display Buffer", BT_GATT_PERM_READ),
+
+	BT_GATT_CHARACTERISTIC(BT_UUID_BATT_VOLTAGE,
+			       BT_GATT_CHRC_READ,
+			       BT_GATT_PERM_READ, read_battery_voltage_cb, NULL,
+			       &battery_voltage_buf),
+	BT_GATT_CUD("Battery Voltage", BT_GATT_PERM_READ),
 };
 
 static struct bt_gatt_service disp_svc = BT_GATT_SERVICE(disp_attrs);
@@ -248,6 +272,7 @@ void main(void) {
 	LOG_INF("Starting app...\n");
 
 	init_buttons();
+	init_battery_voltage();
 
 	// LED
 	struct device *gpio = device_get_binding(LED_PORT);

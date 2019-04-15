@@ -5,6 +5,7 @@ import { displayWidth, displayHeight, badgePrefix } from './badge-consts';
 
 const DISPLAY_SERVICE = 0xfeef;
 const DISPLAY_CHARACTERISTIC = 0xfeee;
+const BATTERY_VOLTAGE_CHARACTERISTIC = '34ad4113-1259-ff85-4d44-1fb0c6d0249a';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +17,7 @@ export class BadgeGattService {
 
   public connected = false;
   private displayUpdating = false;
+  public batteryVoltage: string | null = null;
 
   constructor() {}
 
@@ -37,6 +39,9 @@ export class BadgeGattService {
     this.displayCharacteristic = await svc.getCharacteristic(DISPLAY_CHARACTERISTIC);
     console.log('Connected :-)');
     this.connected = true;
+
+    const batteryCharacteristic = await svc.getCharacteristic(BATTERY_VOLTAGE_CHARACTERISTIC);
+    this.batteryVoltage = new TextDecoder().decode(await batteryCharacteristic.readValue());
 
     // Clear screen to white:
     await this.displayCharacteristic.writeValue(new Uint8Array([0xff]));

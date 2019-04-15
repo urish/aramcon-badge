@@ -39,6 +39,10 @@ export class AppComponent {
     return this.badgeGatt.connected;
   }
 
+  get batteryVoltage() {
+    return this.badgeGatt.batteryVoltage;
+  }
+
   drawName() {
     const outputCtx = this.canvasCtx;
     outputCtx.fillStyle = 'white';
