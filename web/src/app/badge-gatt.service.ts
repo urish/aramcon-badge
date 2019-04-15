@@ -1,7 +1,7 @@
 /// <reference types="web-bluetooth" />
 
 import { Injectable } from '@angular/core';
-import { displayWidth, displayHeight } from './badge-consts';
+import { displayWidth, displayHeight, badgePrefix } from './badge-consts';
 
 const DISPLAY_SERVICE = 0xfeef;
 const DISPLAY_CHARACTERISTIC = 0xfeee;
@@ -20,8 +20,14 @@ export class BadgeGattService {
   constructor() {}
 
   async connect() {
+    const queryParams = new URLSearchParams(window.location.search);
+    const badgeId = queryParams.get('b');
+    let filter: BluetoothRequestDeviceFilter = { services: [DISPLAY_SERVICE] };
+    if (badgeId) {
+      filter.name = badgePrefix + badgeId;
+    }
     this.device = await navigator.bluetooth.requestDevice({
-      filters: [{ services: [DISPLAY_SERVICE] }],
+      filters: [filter],
     });
     this.device.addEventListener('gattserverdisconnected', () => {
       this.connected = false;
@@ -45,6 +51,10 @@ export class BadgeGattService {
       this.device = null;
       this.connected = false;
     }
+  }
+
+  get updating() {
+    return this.displayUpdating;
   }
 
   async updateDisplay(ctx: CanvasRenderingContext2D) {
@@ -79,7 +89,6 @@ export class BadgeGattService {
   }
 
   private readCanvas(ctx: CanvasRenderingContext2D) {
-    console.log(displayWidth, displayHeight);
     const { data } = ctx.getImageData(0, 0, displayWidth, displayHeight);
     const bitmap = this.createImage();
     for (let y = 0; y < displayHeight; y++) {
