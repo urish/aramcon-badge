@@ -18,6 +18,8 @@ LOG_MODULE_REGISTER(main);
 #include <stdio.h>
 #include <display/cfb.h>
 #include <misc/util.h>
+#include <flash.h>
+#include <nvs/nvs.h>
 
 #include <bluetooth/bluetooth.h>
 #include <bluetooth/hci.h>
@@ -47,10 +49,42 @@ LOG_MODULE_REGISTER(main);
 #define DISPLAY_WIDTH 296
 #define DISPLAY_HEIGHT 128
 
+#define DISPLAY_ID 2
+#define DISPLAY2_ID 3
+
 struct device *display;
 static bool bluetooth_ready = false;
 static bool display_set = false;
 static const bt_addr_le_t *remote_device = NULL;
+
+
+static const struct display_buffer_descriptor desc = {
+.buf_size = DISPLAY_WIDTH * DISPLAY_HEIGHT / 8,
+.width = DISPLAY_WIDTH,
+.height = DISPLAY_HEIGHT,
+.pitch = DISPLAY_WIDTH,
+};
+
+static struct nvs_fs fs;
+
+void init_storage()
+{
+	int rc = 0;
+	struct flash_pages_info info;
+    fs.offset = DT_FLASH_AREA_STORAGE_OFFSET;
+	rc = flash_get_page_info_by_offs(device_get_binding(DT_FLASH_DEV_NAME),
+					 fs.offset, &info);
+	if (rc) {
+		LOG_ERR("Unable to get page info");
+	}
+	fs.sector_size = info.size;
+	fs.sector_count = 3U;
+
+	rc = nvs_init(&fs, DT_FLASH_DEV_NAME);
+	if (rc) {
+		LOG_ERR("Flash Init failed\n");
+	}
+}
 
 static char *bluetooth_mac_to_str(const bt_addr_le_t* addr) {
 	static char buf[BT_ADDR_LE_STR_LEN];
@@ -66,7 +100,7 @@ void update_display() {
 	char buf[64];
 	cfb_framebuffer_clear(display, true);
 	cfb_print(display, "*** Badge READY! ***", 0, 0);
-
+	
 	if (bluetooth_ready) {
 		sprintf(buf, "Name: %s", bt_get_name());
 		cfb_print(display, buf, 0, 32);
@@ -106,13 +140,18 @@ static void connected(struct bt_conn *conn, u8_t err) {
   update_display();
 }
 
+u8_t display_buf[5000] = {0};
+bool display_dirty = false;
+
 static void disconnected(struct bt_conn *conn, u8_t reason) {
 	LOG_INF("Disconnected from %s (reason %u)\n", bluetooth_mac_to_str(remote_device), reason);
 	remote_device = NULL;
+	nvs_delete(&fs, DISPLAY_ID);
+	nvs_delete(&fs, DISPLAY2_ID);
+	nvs_write(&fs, DISPLAY_ID, display_buf, 2000);
+	nvs_write(&fs, DISPLAY2_ID, display_buf + 2000, 3000);
 }
 
-u8_t display_buf[5000] = {0};
-bool display_dirty = false;
 
 static void set_pixel(uint16_t x, uint16_t y, bool value) {
 	uint16_t bitmapOffs = (y / 8) * DISPLAY_WIDTH + x;
@@ -262,6 +301,7 @@ void init_drivers(void) {
 	init_led();
 	init_neopixels();
 	init_vibration_motor();
+	init_storage();
 }
 
 static void blast() {
@@ -331,27 +371,24 @@ void main(void) {
 		LOG_INF("font width %d, font height %d\n",
 		       font_width, font_height);
 	}
-
+	
 	update_display();
 
-	// Bluetooth
-	int err = bt_enable(bt_ready);
+	int err;
+	err = bt_enable(bt_ready);
 	if (err) {
-		LOG_ERR("Bluetooth init failed (err %d)\n", err);
+		LOG_ERR("Bluetooth Failed to start (err %d)", err);
 		return;
-	}	
-
-  const struct display_buffer_descriptor desc = {
-    .buf_size = DISPLAY_WIDTH * DISPLAY_HEIGHT / 8,
-    .width = DISPLAY_WIDTH,
-    .height = DISPLAY_HEIGHT,
-    .pitch = DISPLAY_WIDTH,
-  };
+	}
+	
+	k_sleep(3000);
 
 	memset(display_buf, 0xff, sizeof(display_buf));
 	draw_qr(get_qr_url(), 6, 6, 4);
 	display_write(display, 0, 0, &desc, display_buf);
 
+	bool qr_mode = false;
+	int rc;
 	while (1) {
 		struct keyboard_event event;
 		int ret = k_msgq_get(&keyboard_event_queue, &event, 500);
@@ -359,16 +396,42 @@ void main(void) {
 		if (!ret & event.pressed) {
 			switch (event.button) {
 				case LEFT_BUTTON:
+					bt_le_adv_stop();
 					blast();
 					break;
 
 				case MIDDLE_BUTTON:
-					memset(display_buf, 0xff, sizeof(display_buf));
-					draw_qr(get_qr_url(), 6, 6, 4);
-					display_write(display, 0, 0, &desc, display_buf);
+					qr_mode = !qr_mode;
+					if(qr_mode) {
+						memset(display_buf, 0xff, sizeof(display_buf));
+						draw_qr(get_qr_url(), 6, 6, 4);
+						display_write(display, 0, 0, &desc, display_buf);
+						err = bt_le_adv_start(BT_LE_ADV_CONN_NAME, ad, ARRAY_SIZE(ad), NULL, 0);
+						if (err) {
+							LOG_ERR("Advertising failed to start (err %d)", err);
+						}
+					} else {
+						bt_le_adv_stop();
+						rc = nvs_read(&fs, DISPLAY_ID, display_buf, 2000);
+						if(rc <= 0) {
+							LOG_ERR("cannot read display buf");
+						} else {
+							
+							rc = nvs_read(&fs, DISPLAY2_ID, display_buf + 2000, 3000);
+							if(rc <= 0) {
+								LOG_ERR("cannot read display buf pt 2");
+							}
+							else {
+								display_dirty = true;
+								LOG_INF("showing display");
+							}
+						}
+					}
+
 					break;
 
 				case RIGHT_BUTTON:
+					bt_le_adv_stop();
 					agenda_next();
 					break;
 			}

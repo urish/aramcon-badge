@@ -3,7 +3,7 @@
   "configurations": [
       {
           "type": "cortex-debug",
-          "request": "launch",
+          "request": "attach",
           "servertype": "jlink",
           "cwd": "${workspaceRoot}",
           "executable": "./nametags/build/zephyr/zephyr.elf",
@@ -13,7 +13,7 @@
       },
       {
         "type": "cortex-debug",
-        "request": "launch",
+        "request": "attach",
         "servertype": "jlink",
         "cwd": "${workspaceRoot}",
         "executable": "./hardware-test/build/zephyr/zephyr.elf",
