@@ -73,7 +73,7 @@ void init_storage()
 {
 	int rc = 0;
 	struct flash_pages_info info;
-    fs.offset = DT_FLASH_AREA_STORAGE_OFFSET;
+  fs.offset = DT_FLASH_AREA_STORAGE_OFFSET;
 	rc = flash_get_page_info_by_offs(device_get_binding(DT_FLASH_DEV_NAME),
 					 fs.offset, &info);
 	if (rc) {
@@ -331,7 +331,7 @@ void main(void) {
 		return;
 	}
 	
-	colorgame_init();
+	colorgame_init(&fs);
 
 	breathe_led(1000);
 

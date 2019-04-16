@@ -8,11 +8,15 @@ LOG_MODULE_REGISTER(colorgame);
 #include "drivers/vibration_motor.h"
 #include "colorgame.h"
 
+
 #define PACKET_VENDOR_ID (0x1337)
 #define RSSI_THRESHOLD (-60)
 #define BLAST_TIMEOUT (5000)
 
-u32_t last_blast;
+#define COLOR_ID 4
+
+static u32_t last_blast;
+static struct nvs_fs * g_fs;
 
 struct __attribute__((__packed__)) colorgame_packet
 {
@@ -76,6 +80,8 @@ void colorgame_packet_handler(void *buf, u8_t len, s8_t rssi)
       my_color.r = packet->r;
       my_color.g = packet->g;
       my_color.b = packet->b;
+      nvs_delete(g_fs, COLOR_ID);
+      nvs_write(g_fs, COLOR_ID, &my_color , sizeof(my_color));
       pulse_vibration_motor(400);
       k_sleep(500);
       write_neopixels_all(my_color, true);
@@ -110,9 +116,15 @@ void colorgame_blast(bool is_advertising)
   last_blast = k_uptime_get_32();
 }
 
-void colorgame_init()
+void colorgame_init(struct nvs_fs * fs)
 {
   last_blast = k_uptime_get_32();
-  u32_t index = sys_rand32_get() % (sizeof(colors) / sizeof(colors[0]));
-  my_color = colors[index];
+  g_fs = fs;
+  int rc = nvs_read(g_fs, COLOR_ID, &my_color , sizeof(my_color));
+  if(rc <= 0) {
+      u32_t index = sys_rand32_get() % (sizeof(colors) / sizeof(colors[0]));
+      my_color = colors[index];
+      nvs_write(g_fs, COLOR_ID, &my_color , sizeof(my_color));
+  }
+
 }
