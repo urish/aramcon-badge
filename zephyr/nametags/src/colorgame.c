@@ -8,7 +8,10 @@ LOG_MODULE_REGISTER(colorgame);
 #include "colorgame.h"
 
 #define PACKET_VENDOR_ID (0x1337)
-#define RSSI_THRESHOLD (-70)
+#define RSSI_THRESHOLD (-60)
+#define BLAST_TIMEOUT (5000)
+
+u32_t last_blast;
 
 struct __attribute__((__packed__)) colorgame_packet
 {
@@ -53,14 +56,22 @@ void colorgame_blast(bool is_advertising)
   const struct bt_data ad[] = {
       BT_DATA(BT_DATA_MANUFACTURER_DATA, &data_packet, sizeof(data_packet)),
   };
+
+  s32_t delta = k_uptime_get_32() - last_blast;
+  if (delta < BLAST_TIMEOUT) {
+    return;
+  }
+
   if (is_advertising) {
     bt_le_adv_update_data(ad, ARRAY_SIZE(ad), NULL, 0);
   } else {
     bt_le_adv_start(BT_LE_ADV_CONN_NAME, ad, ARRAY_SIZE(ad), NULL, 0);
   }
-  
+
+  last_blast = k_uptime_get_32();
 }
 
 void colorgame_init()
 {
+  last_blast = k_uptime_get_32();
 }

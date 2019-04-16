@@ -309,13 +309,13 @@ void init_drivers(void) {
 static void blast() {
 	LOG_INF("Sending a blast packet...");
 	colorgame_blast(is_advertising);
-	k_sleep(1000);
+	k_sleep(250);
 	if (is_advertising) {
 		bt_le_adv_update_data(ad, ARRAY_SIZE(ad), NULL, 0);
 	} else {
 		bt_le_adv_stop();
 	}
-
+	k_sleep(1000);
 	
 }
 
