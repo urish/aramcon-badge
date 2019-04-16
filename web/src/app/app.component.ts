@@ -12,7 +12,8 @@ export class AppComponent {
   @ViewChild('logo') private logoElement: ElementRef<HTMLImageElement>;
 
   public showLogo: boolean = true;
-  public name: string = 'Uri Shaked';
+  public name: string = 'Aramnik Name';
+  public slogan: string = 'Hello, World!';
   public connecting = false;
 
   constructor(private badgeGatt: BadgeGattService) {}
@@ -49,13 +50,16 @@ export class AppComponent {
     outputCtx.fillRect(0, 0, displayWidth, displayHeight);
     outputCtx.fillStyle = 'black';
     outputCtx.textAlign = 'center';
-    outputCtx.font = '48px cursive';
+    outputCtx.font = '36px cursive';
     outputCtx.textBaseline = 'middle';
     const center = (this.showLogo ? 15 : 0) + displayWidth / 2;
     outputCtx.fillText(this.name, center, displayHeight / 2);
     if (this.showLogo) {
       outputCtx.drawImage(this.logoElement.nativeElement, 0, 0);
     }
+
+    outputCtx.font = '20px cursive';
+    outputCtx.fillText(this.slogan, center, displayHeight / 4 * 3 + 10);
     this.badgeGatt.updateDisplay(outputCtx);
   }
 }

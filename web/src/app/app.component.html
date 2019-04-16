@@ -23,14 +23,20 @@
     </mat-card-content>
   </mat-card>
 
-  <mat-card>
+  <mat-card *ngIf="connected">
     <mat-card-title>Customize Your Badge</mat-card-title>
     <mat-card-content>
       <canvas #preview style="border: solid red 1px;" width="296" height="128"></canvas>
       <div>
         <mat-form-field>
-          Your name:
+          Head Line:
           <input [(ngModel)]="name" (input)="drawName()" matInput />
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
+          Slogan:
+          <input [(ngModel)]="slogan" (input)="drawName()" matInput />
         </mat-form-field>
       </div>
       <div>
