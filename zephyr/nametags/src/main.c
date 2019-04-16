@@ -36,6 +36,7 @@ LOG_MODULE_REGISTER(main);
 #include "colorgame.h"
 #include "qrcode.h"
 #include "scanner.h"
+#include "logo.h"
 
 #define SLEEP_TIME 	500
 
@@ -392,7 +393,8 @@ void main(void) {
 	k_sleep(3000);
 
 	memset(display_buf, 0xff, sizeof(display_buf));
-	draw_qr(get_qr_url(), 6, 6, 4);
+	memcpy(display_buf, logo, sizeof(logo));
+	draw_qr(get_qr_url(), 100, 6, 4);
 	display_write(display, 0, 0, &desc, display_buf);
 
 	bool qr_mode = false;
@@ -410,9 +412,10 @@ void main(void) {
 				case MIDDLE_BUTTON:
 					qr_mode = !qr_mode;
 					if(qr_mode) {
-						memset(display_buf, 0xff, sizeof(display_buf));
-						draw_qr(get_qr_url(), 6, 6, 4);
-						display_write(display, 0, 0, &desc, display_buf);
+							memset(display_buf, 0xff, sizeof(display_buf));
+							memcpy(display_buf, logo, sizeof(logo));
+							draw_qr(get_qr_url(), 100, 6, 4);
+							display_write(display, 0, 0, &desc, display_buf);
 						err = bt_le_adv_start(BT_LE_ADV_CONN_NAME, ad, ARRAY_SIZE(ad), NULL, 0);
 						is_advertising = true;
 						if (err) {
