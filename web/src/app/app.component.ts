@@ -50,7 +50,7 @@ export class AppComponent {
     outputCtx.fillRect(0, 0, displayWidth, displayHeight);
     outputCtx.fillStyle = 'black';
     outputCtx.textAlign = 'center';
-    outputCtx.font = '36px cursive';
+    outputCtx.font = '36px Roboto, sans-serif';
     outputCtx.textBaseline = 'middle';
     const center = (this.showLogo ? 15 : 0) + displayWidth / 2;
     outputCtx.fillText(this.name, center, displayHeight / 2);
@@ -58,7 +58,7 @@ export class AppComponent {
       outputCtx.drawImage(this.logoElement.nativeElement, 0, 0);
     }
 
-    outputCtx.font = '20px cursive';
+    outputCtx.font = '20px Roboto, sans-serif';
     outputCtx.fillText(this.slogan, center, displayHeight / 4 * 3 + 10);
     this.badgeGatt.updateDisplay(outputCtx);
   }
