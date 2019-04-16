@@ -41,7 +41,7 @@ void colorgame_packet_handler(void *buf, u8_t len, s8_t rssi)
   }
 }
 
-void colorgame_blast()
+void colorgame_blast(bool is_advertising)
 {
   const struct colorgame_packet data_packet = {
       .vendor_id = PACKET_VENDOR_ID,
@@ -53,8 +53,12 @@ void colorgame_blast()
   const struct bt_data ad[] = {
       BT_DATA(BT_DATA_MANUFACTURER_DATA, &data_packet, sizeof(data_packet)),
   };
-
-  bt_le_adv_update_data(ad, ARRAY_SIZE(ad), NULL, 0);
+  if (is_advertising) {
+    bt_le_adv_update_data(ad, ARRAY_SIZE(ad), NULL, 0);
+  } else {
+    bt_le_adv_start(BT_LE_ADV_CONN_NAME, ad, ARRAY_SIZE(ad), NULL, 0);
+  }
+  
 }
 
 void colorgame_init()

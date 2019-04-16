@@ -5,7 +5,7 @@
 
 void colorgame_packet_handler(void *buf, u8_t len, s8_t rssi);
 
-void colorgame_blast();
+void colorgame_blast(bool is_advertising);
 
 void colorgame_init();
 

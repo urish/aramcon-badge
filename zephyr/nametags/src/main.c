@@ -65,6 +65,7 @@ static const struct display_buffer_descriptor desc = {
 .pitch = DISPLAY_WIDTH,
 };
 
+static bool is_advertising = false;
 static struct nvs_fs fs;
 
 void init_storage()
@@ -288,6 +289,7 @@ static void bt_ready(int err) {
 		LOG_ERR("Advertising failed to start (err %d)", err);
 		return;
 	}
+	is_advertising = true;
 
 	scanner_init();
 
@@ -306,9 +308,15 @@ void init_drivers(void) {
 
 static void blast() {
 	LOG_INF("Sending a blast packet...");
-	colorgame_blast();
+	colorgame_blast(is_advertising);
 	k_sleep(1000);
-	bt_le_adv_update_data(ad, ARRAY_SIZE(ad), NULL, 0);
+	if (is_advertising) {
+		bt_le_adv_update_data(ad, ARRAY_SIZE(ad), NULL, 0);
+	} else {
+		bt_le_adv_stop();
+	}
+
+	
 }
 
 void main(void) {
@@ -396,7 +404,6 @@ void main(void) {
 		if (!ret & event.pressed) {
 			switch (event.button) {
 				case LEFT_BUTTON:
-					bt_le_adv_stop();
 					blast();
 					break;
 
@@ -407,11 +414,13 @@ void main(void) {
 						draw_qr(get_qr_url(), 6, 6, 4);
 						display_write(display, 0, 0, &desc, display_buf);
 						err = bt_le_adv_start(BT_LE_ADV_CONN_NAME, ad, ARRAY_SIZE(ad), NULL, 0);
+						is_advertising = true;
 						if (err) {
 							LOG_ERR("Advertising failed to start (err %d)", err);
 						}
 					} else {
 						bt_le_adv_stop();
+						is_advertising = false;
 						rc = nvs_read(&fs, DISPLAY_ID, display_buf, 2000);
 						if(rc <= 0) {
 							LOG_ERR("cannot read display buf");
@@ -432,6 +441,7 @@ void main(void) {
 
 				case RIGHT_BUTTON:
 					bt_le_adv_stop();
+					is_advertising = false;
 					agenda_next();
 					break;
 			}
