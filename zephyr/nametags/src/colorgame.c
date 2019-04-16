@@ -1,5 +1,6 @@
 #include <logging/log.h>
 LOG_MODULE_REGISTER(colorgame);
+#include <stdlib.h>
 
 #include <bluetooth/bluetooth.h>
 
@@ -21,11 +22,48 @@ struct __attribute__((__packed__)) colorgame_packet
   u8_t b;
 };
 
-static struct led_rgb my_color = {
+static const struct led_rgb colors[] = {
+  //red
+  {
+    .r = 0x20,
+    .g = 0,
+    .b = 0
+  },
+  //green
+  {
     .r = 0,
-    .g = 0x10,
-    .b = 0x10,
+    .g = 0x20,
+    .b = 0
+  },
+  //blue
+  {
+    .r = 0,
+    .g = 0,
+    .b = 0x20
+  },
+  // yellow
+  {
+    .r = 0x20,
+    .g = 0x20,
+    .b = 0
+  },
+  //purple
+    {
+    .r = 0x20,
+    .g = 0,
+    .b = 0x20
+  },
+  //cyan
+    {
+    .r = 0,
+    .g = 0x20,
+    .b = 0x20
+  },
+
 };
+
+
+static struct led_rgb my_color;
 
 void colorgame_packet_handler(void *buf, u8_t len, s8_t rssi)
 {
@@ -39,6 +77,7 @@ void colorgame_packet_handler(void *buf, u8_t len, s8_t rssi)
       my_color.g = packet->g;
       my_color.b = packet->b;
       pulse_vibration_motor(400);
+      k_sleep(500);
       write_neopixels_all(my_color, true);
     }
   }
@@ -74,4 +113,6 @@ void colorgame_blast(bool is_advertising)
 void colorgame_init()
 {
   last_blast = k_uptime_get_32();
+  u32_t index = sys_rand32_get() % (sizeof(colors) / sizeof(colors[0]));
+  my_color = colors[index];
 }

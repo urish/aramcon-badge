@@ -324,6 +324,13 @@ void main(void) {
 	LOG_INF("Starting app...\n");
 
 	init_drivers();
+	int err;
+	err = bt_enable(bt_ready);
+	if (err) {
+		LOG_ERR("Bluetooth Failed to start (err %d)", err);
+		return;
+	}
+	
 	colorgame_init();
 
 	breathe_led(1000);
@@ -382,13 +389,6 @@ void main(void) {
 	}
 	
 	update_display();
-
-	int err;
-	err = bt_enable(bt_ready);
-	if (err) {
-		LOG_ERR("Bluetooth Failed to start (err %d)", err);
-		return;
-	}
 	
 	k_sleep(3000);
 
