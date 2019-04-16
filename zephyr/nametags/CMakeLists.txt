@@ -6,6 +6,7 @@ project(badge_app)
 # Add your source file to the "app" target. This must come after
 # the boilerplate code, which defines the target.
 target_sources(app PRIVATE src/main.c)
+target_sources(app PRIVATE src/colorgame.c)
 target_sources(app PRIVATE src/qrcode.c)
 target_sources(app PRIVATE src/agenda.c)
 target_sources(app PRIVATE src/scanner.c)

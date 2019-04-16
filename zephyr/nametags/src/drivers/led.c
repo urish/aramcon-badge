@@ -22,7 +22,7 @@ void write_led(u32_t value)
   gpio_pin_write(gpio, LED0_GPIO_PIN, value);
 }
 
-void breathe_timer_handler(struct k_timer *dummy)
+static void breathe_timer_handler(struct k_timer *dummy)
 {
   static u16_t led_level = 0;
   static s8_t direction = 1;

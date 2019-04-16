@@ -17,3 +17,16 @@ void write_vibration_motor(u32_t value)
 {
 	gpio_pin_write(gpio, VIBRATION_MOTOR_PIN, value);
 }
+
+static void pulse_timer_handler(struct k_timer *dummy)
+{
+	write_vibration_motor(0);
+}
+
+K_TIMER_DEFINE(pulse_timer, pulse_timer_handler, NULL);
+
+void pulse_vibration_motor(u32_t ms)
+{
+	write_vibration_motor(1);
+	k_timer_start(&pulse_timer, ms, 0);
+}

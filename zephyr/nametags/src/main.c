@@ -31,6 +31,7 @@ LOG_MODULE_REGISTER(main);
 #include "drivers/neopixels.h"
 #include "drivers/vibration_motor.h"
 #include "agenda.h"
+#include "colorgame.h"
 #include "qrcode.h"
 #include "scanner.h"
 
@@ -263,10 +264,18 @@ void init_drivers(void) {
 	init_vibration_motor();
 }
 
+static void blast() {
+	LOG_INF("Sending a blast packet...");
+	colorgame_blast();
+	k_sleep(1000);
+	bt_le_adv_update_data(ad, ARRAY_SIZE(ad), NULL, 0);
+}
+
 void main(void) {
 	LOG_INF("Starting app...\n");
 
 	init_drivers();
+	colorgame_init();
 
 	breathe_led(1000);
 
@@ -350,7 +359,7 @@ void main(void) {
 		if (!ret & event.pressed) {
 			switch (event.button) {
 				case LEFT_BUTTON:
-					agenda_prev();
+					blast();
 					break;
 
 				case MIDDLE_BUTTON:

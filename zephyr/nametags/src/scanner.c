@@ -2,18 +2,21 @@
 LOG_MODULE_REGISTER(scanner);
 
 #include <zephyr/types.h>
-#include "drivers/neopixels.h"
 
 #include <bluetooth/bluetooth.h>
 #include <bluetooth/hci.h>
 
+#include "drivers/neopixels.h"
+#include "colorgame.h"
+#include "scanner.h"
+
 static int counter = 0;
 
-#define PACKET_MAGIC (0xf00d)
+#define PACKET_VENDOR_ID (0xf00d)
 
 struct __attribute__((__packed__)) control_packet
 {
-  u16_t magic;
+  u16_t vendor_id;
   u8_t r;
   u8_t g;
   u8_t b;
@@ -45,9 +48,13 @@ static void scan_cb(const bt_addr_le_t *addr, s8_t rssi, u8_t adv_type,
     u8_t content_len = len - 1;
     struct control_packet *content = net_buf_simple_pull_mem(ad, content_len);
 
+    if (type == BT_DATA_MANUFACTURER_DATA) {
+      colorgame_packet_handler(content, content_len, rssi);
+    }
+
     if (type == BT_DATA_MANUFACTURER_DATA &&
         content_len >= sizeof(struct control_packet) &&
-        content->magic == PACKET_MAGIC)
+        content->vendor_id == PACKET_VENDOR_ID)
     {
       LOG_INF("Control packet: R=%02x, G=%02x, B=%02x", content->r, content->g, content->b);
       const struct led_rgb color = {
