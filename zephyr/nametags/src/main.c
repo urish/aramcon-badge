@@ -32,6 +32,7 @@ LOG_MODULE_REGISTER(main);
 #include "drivers/vibration_motor.h"
 #include "agenda.h"
 #include "qrcode.h"
+#include "scanner.h"
 
 #define SLEEP_TIME 	500
 
@@ -247,6 +248,8 @@ static void bt_ready(int err) {
 		LOG_ERR("Advertising failed to start (err %d)", err);
 		return;
 	}
+
+	scanner_init();
 
 	LOG_INF("Advertising successfully started\n");
 	bluetooth_ready = true;
