@@ -110,7 +110,7 @@ static void vs1053_write(uint8_t addr, uint16_t data)
   uint8_t buf[4] = {VS_WRITE_COMMAND, addr, data >> 8, data & 0xFF};
   const struct spi_buf reset = {
       .buf = &buf,
-      .len = 1,
+      .len = sizeof(buf),
   };
   const struct spi_buf_set tx = {
       .buffers = &reset,
