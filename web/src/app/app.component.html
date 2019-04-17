@@ -44,7 +44,14 @@
           Show Logo
         </mat-slide-toggle>
       </div>
+      <div>
+        <mat-form-field>
+          Custom image URL:
+          <input [(ngModel)]="customImageUrl" matInput />
+        </mat-form-field>
+      </div>
       <img #logo src="assets/logo.png" style="display:none" (load)="drawName()" />
+      <img #customImage [src]="customImageUrl" style="display:none" (load)="drawName()" />
     </mat-card-content>
   </mat-card>
   <br />

@@ -5,15 +5,17 @@ import { displayWidth, displayHeight } from './badge-consts';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
   @ViewChild('preview') private canvas: ElementRef<HTMLCanvasElement>;
   @ViewChild('logo') private logoElement: ElementRef<HTMLImageElement>;
+  @ViewChild('customImage') private customImageElement: ElementRef<HTMLImageElement>;
 
   public showLogo: boolean = true;
   public name: string = 'Aramnik Name';
   public slogan: string = 'Hello, World!';
+  public customImageUrl: string;
   public connecting = false;
 
   constructor(private badgeGatt: BadgeGattService) {}
@@ -58,8 +60,13 @@ export class AppComponent {
       outputCtx.drawImage(this.logoElement.nativeElement, 0, 0);
     }
 
+    if (this.customImageUrl) {
+      const imageEl = this.customImageElement.nativeElement;
+      outputCtx.drawImage(imageEl, displayWidth - imageEl.width, (displayHeight - imageEl.height) / 2);
+    }
+
     outputCtx.font = '20px Roboto, sans-serif';
-    outputCtx.fillText(this.slogan, center, displayHeight / 4 * 3 + 10);
+    outputCtx.fillText(this.slogan, center, (displayHeight / 4) * 3 + 10);
     this.badgeGatt.updateDisplay(outputCtx);
   }
 }
