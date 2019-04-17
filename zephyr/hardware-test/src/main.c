@@ -134,6 +134,9 @@ void write_outputs()
 	write_led(counter % 2);
 	flush_neopixels();
 	flush_display();
+	if (!button_val[0]) {
+		vs1053_test(40, 500);
+	}
 }
 
 void main(void)

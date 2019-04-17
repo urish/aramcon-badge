@@ -11,5 +11,8 @@
 
 extern void init_sound();
 extern bool sound_sanity();
+extern void vs1053_set_volume(uint8_t left, uint8_t right);
+extern void vs1053_send_data(u8_t *buf, u8_t len);
+extern void vs1053_test(uint8_t n, uint16_t ms);
 
 #endif // __SOUND_H__

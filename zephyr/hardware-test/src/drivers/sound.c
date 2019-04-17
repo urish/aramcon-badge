@@ -108,19 +108,46 @@ static uint16_t vs1053_read(uint8_t addr)
 static void vs1053_write(uint8_t addr, uint16_t data)
 {
   uint8_t buf[4] = {VS_WRITE_COMMAND, addr, data >> 8, data & 0xFF};
-  const struct spi_buf reset = {
+  const struct spi_buf write_buf = {
       .buf = &buf,
       .len = sizeof(buf),
   };
   const struct spi_buf_set tx = {
-      .buffers = &reset,
-      .count = 1};
+      .buffers = &write_buf,
+      .count = 1,
+  };
 
   int ret = spi_write(spi, &config, &tx);
   if (!ret)
   {
     LOG_ERR("SPI write failed: %d", ret);
   }
+}
+
+void vs1053_send_data(u8_t *buf, u8_t len)
+{
+  struct spi_buf data_buf = {
+      .buf = buf,
+      .len = len,
+  };
+  const struct spi_buf_set tx = {
+      .buffers = &data_buf,
+      .count = 1,
+  };
+
+  gpio_pin_write(command_data_gpio, SOUND_xDCS_PIN, 0);
+  for (uint16_t i = 0; i < len; i += 32)
+  {
+    data_buf.buf = &buf[i];
+    data_buf.len = MIN(32, len - i);
+
+    int ret = spi_write(spi, &config, &tx);
+    if (!ret)
+    {
+      LOG_ERR("SPI write failed: %d", ret);
+    }
+  }
+  gpio_pin_write(command_data_gpio, SOUND_xDCS_PIN, 1);
 }
 
 static bool vs1053_is_ready()
@@ -142,6 +169,48 @@ static bool vs1053_wait_for_ready()
   }
 
   return false;
+}
+
+void vs1053_soft_reset(void)
+{
+  vs1053_write(SPI_MODE, SM_SDINEW | SM_RESET);
+  k_sleep(2);
+  vs1053_wait_for_ready();
+  vs1053_write(SPI_HDAT0, 0xABAD);
+  vs1053_write(SPI_HDAT1, 0x1DEA);
+  k_sleep(100);
+  bool sanity_pass = vs1053_read(SPI_HDAT0) == 0xABAD && vs1053_read(SPI_HDAT1) == 0x1DEA;
+  if (!sanity_pass)
+  {
+    LOG_WRN("VS1053 Sanity failed!");
+  }
+
+  vs1053_write(SPI_CLOCKF, 0xC000);
+  vs1053_write(SPI_AUDATA, 0xBB81);
+  vs1053_write(SPI_BASS, 0x0055);
+  vs1053_write(SPI_VOL, 0x4040);
+  vs1053_wait_for_ready();
+}
+
+void vs1053_set_volume(uint8_t left, uint8_t right)
+{
+  uint16_t v = (left << 8) | right;
+  vs1053_write(SPI_VOL, v);
+}
+
+void vs1053_reset()
+{
+  gpio_pin_write(reset_gpio, SOUND_XRESET_PIN, 0);
+  k_sleep(100);
+  gpio_pin_write(reset_gpio, SOUND_XRESET_PIN, 1);
+  k_sleep(100);
+
+  vs1053_soft_reset();
+  k_sleep(100);
+
+  vs1053_write(SPI_CLOCKF, 0x6000);
+
+  vs1053_set_volume(0, 0);
 }
 
 void init_sound()
@@ -184,4 +253,22 @@ bool sound_sanity(u32_t value)
   bool pass = vs1053_read(SPI_HDAT0) == 0xABAD && vs1053_read(SPI_HDAT1) == 0x1DEA;
   LOG_INF("Sound sanity %s: %04x, %04x...", pass ? "PASS" : "FAIL", vs1053_read(SPI_HDAT0), vs1053_read(SPI_HDAT1));
   return pass;
+}
+
+void vs1053_test(uint8_t n, uint16_t ms)
+{
+  vs1053_reset();
+  uint16_t mode = vs1053_read(SPI_MODE);
+  mode |= 0x0020;
+  vs1053_write(SPI_MODE, mode);
+
+  vs1053_wait_for_ready();
+
+  char buf1[] = {0x53, 0xEF, 0x6E, n, 0x00, 0x00, 0x00, 0x00};
+  vs1053_send_data(buf1, sizeof(buf1));
+
+  k_sleep(ms);
+
+  char buf2[] = {0x45, 0x78, 0x69, 0x74, 0x00, 0x00, 0x00, 0x00};
+  vs1053_send_data(buf2, sizeof(buf2));
 }
