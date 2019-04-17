@@ -51,7 +51,7 @@
         </mat-form-field>
       </div>
       <img #logo src="assets/logo.png" style="display:none" (load)="drawName()" />
-      <img #customImage [src]="customImageUrl" style="display:none" (load)="drawName()" />
+      <img #customImage [src]="corsUrl(customImageUrl)" crossorigin style="display:none" (load)="drawName()" />
     </mat-card-content>
   </mat-card>
   <br />

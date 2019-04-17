@@ -46,6 +46,12 @@ export class AppComponent {
     return this.badgeGatt.batteryVoltage;
   }
 
+  corsUrl(url: string) {
+    if (url) {
+      return `https://cors-anywhere.herokuapp.com/${url}`;
+    }
+  }
+
   drawName() {
     const outputCtx = this.canvasCtx;
     outputCtx.fillStyle = 'white';
