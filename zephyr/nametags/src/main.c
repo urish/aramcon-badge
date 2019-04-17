@@ -31,6 +31,7 @@ LOG_MODULE_REGISTER(main);
 #include "drivers/buttons.h"
 #include "drivers/led.h"
 #include "drivers/neopixels.h"
+#include "drivers/sound.h"
 #include "drivers/vibration_motor.h"
 #include "agenda.h"
 #include "colorgame.h"
@@ -67,6 +68,7 @@ static const struct display_buffer_descriptor desc = {
 };
 
 static bool is_advertising = false;
+static bool sound_sanity_result = false;
 static struct nvs_fs fs;
 
 void init_storage()
@@ -102,7 +104,8 @@ void update_display() {
 	char buf[64];
 	cfb_framebuffer_clear(display, true);
 	cfb_print(display, "*** Badge READY! ***", 0, 0);
-	
+	sprintf(buf, "Sound sanity: %s", (sound_sanity_result ? "True" : "False"));
+	cfb_print(display, buf, 0, 16);
 	if (bluetooth_ready) {
 		sprintf(buf, "Name: %s", bt_get_name());
 		cfb_print(display, buf, 0, 32);
@@ -305,6 +308,7 @@ void init_drivers(void) {
 	init_neopixels();
 	init_vibration_motor();
 	init_storage();
+	init_sound();
 }
 
 static void blast() {
@@ -332,7 +336,9 @@ void main(void) {
 	}
 	
 	colorgame_init(&fs);
+	sound_sanity_result = sound_sanity();
 
+	vs1053_test(40, 500);
 	breathe_led(1000);
 
 	// Startup sequence: vibrate briefly and light LEDs
