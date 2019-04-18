@@ -68,7 +68,7 @@ static const struct display_buffer_descriptor desc = {
 };
 
 static bool is_advertising = false;
-static bool sound_sanity_result = false;
+static bool sound_err = false;
 static struct nvs_fs fs;
 
 void init_storage()
@@ -104,7 +104,7 @@ void update_display() {
 	char buf[64];
 	cfb_framebuffer_clear(display, true);
 	cfb_print(display, "*** Badge READY! ***", 0, 0);
-	sprintf(buf, "Sound sanity: %s", (sound_sanity_result ? "True" : "False"));
+	sprintf(buf, "Sound sanity: %s", (sound_err ? "FAIL" : "pass"));
 	cfb_print(display, buf, 0, 16);
 	if (bluetooth_ready) {
 		sprintf(buf, "Name: %s", bt_get_name());
@@ -116,11 +116,6 @@ void update_display() {
 		if (count) {
 			sprintf(buf, "Mac:  %s", bluetooth_mac_to_str(&addr));
 			cfb_print(display, buf, 0, 48);
-		}
-
-		if (remote_device) {
-			sprintf(buf, "Connected! %s", bluetooth_mac_to_str(remote_device));
-			cfb_print(display, buf, 0, 80);
 		}
 	}
 
@@ -308,7 +303,7 @@ void init_drivers(void) {
 	init_neopixels();
 	init_vibration_motor();
 	init_storage();
-	init_sound();
+	sound_err = init_sound();
 }
 
 static void blast() {
@@ -336,9 +331,6 @@ void main(void) {
 	}
 	
 	colorgame_init(&fs);
-	sound_sanity_result = sound_sanity();
-
-	vs1053_test(40, 500);
 	breathe_led(1000);
 
 	// Startup sequence: vibrate briefly and light LEDs
@@ -396,7 +388,11 @@ void main(void) {
 	
 	update_display();
 	
-	k_sleep(3000);
+	if (!sound_err) {
+		vs1053_test(0b01000010, 300); // 500hz, 300ms
+	}
+
+	k_sleep(2000);
 
 	memset(display_buf, 0xff, sizeof(display_buf));
 	memcpy(display_buf, logo, sizeof(logo));
