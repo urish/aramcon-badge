@@ -202,8 +202,13 @@ static ssize_t write_disp_data(struct bt_conn *conn,
     // This means: clear screen
     memset(&display_buf, *((u8_t*)buf), sizeof(display_buf));
   } else {
-    memcpy(&display_buf[req->pos], req->data, len - 2);
-    display_dirty = req->dirty;
+		u8_t data_len = len - 2;
+		if (req->pos + data_len <= sizeof(display_buf)) {
+    	memcpy(&display_buf[req->pos], req->data, data_len);
+    	display_dirty = req->dirty;
+		} else {
+			LOG_WRN("Tried to write beyond end of buffer: %d", req->pos);
+		}
   }
 
   display_set = true;
