@@ -6,7 +6,7 @@ nRF52840-Based Smart Badge with Bluetooth, Thread Mesh Network, 2.9" ePaper Disp
 
 ### Prerequisites
 1. Install [nrfutil](https://github.com/NordicSemiconductor/pc-nrfutil) using `pip` (on all platforms) or [download windows binary](https://github.com/NordicSemiconductor/pc-nrfutil/releases)
-2. Build a firmware hex file (see [firmware/nametags](firmware/nametags) for instructions) 
+2. Grab a .HEX file from the [releases](https://github.com/urish/aramcon-badge/releases) page, or follow the [project's build instructions](firmware/nametags). 
 
 ### Instructions
 1. Remove the battery from your badge
