@@ -6,7 +6,7 @@ nRF52840-Based Smart Badge with Bluetooth, Thread Mesh Network, 2.9" ePaper Disp
 
 ### Prerequisites
 1. Install [nrfutil](https://github.com/NordicSemiconductor/pc-nrfutil) using `pip` (on all platforms) or [download windows binary](https://github.com/NordicSemiconductor/pc-nrfutil/releases)
-2. Grab a .HEX file from the [releases](https://github.com/urish/aramcon-badge/releases) page, or follow the [project's build instructions](firmware/nametags). 
+2. Grab a .HEX file from the [releases](https://github.com/urish/aramcon-badge/releases) page, or follow the [project build instructions](firmware/nametags). 
 
 ### Instructions
 1. Remove the battery from your badge
@@ -15,9 +15,13 @@ nRF52840-Based Smart Badge with Bluetooth, Thread Mesh Network, 2.9" ePaper Disp
 4. Press the left key while switching to "USB" position
 5. The badge should appear as a Serial port in your computer
 6. Using nrfutil, create an application package from your HEX file (e.g. `zephyr.hex`):
+
     `nrfutil pkg generate --hw-version 52 --sd-req=0x00 --application zephyr.hex --application-version 1 pkg.zip`
+    
 7. Use nrfutil to flash the board:
+
     `nrfutil dfu usb-serial -pkg pkg.zip -p COM11`
+    
     Change `COM11` to the name of the serial port on your platform (e.g. `/dev/ttyUSB0`)
 
 ## Directory Structure
