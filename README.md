@@ -77,7 +77,7 @@ nRF52840-Based Smart Badge with Bluetooth, Thread Mesh Network, 2.9" ePaper Disp
 | P1.02 | Serial Flash       | CS       |
 | P1.04 | Serial Flash       | WP/IO2   |
 | P1.06 | Serial Flash       | HOLD/IO3 |
-| P1.10 | E-Paper, MP3 Codec | MISO     |
+| P1.09 | E-Paper, MP3 Codec | MISO     |
 | P1.10 | E-Paper, MP3 Codec | MOSI     |
 | P1.11 | Red LED            | Cathode  |
 | P1.13 | VS1003 MP3 Codec   | CS       |
