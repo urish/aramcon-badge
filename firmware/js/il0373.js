@@ -58,7 +58,7 @@ class IL0373 {
 
   _send(data, isData) {
     digitalWrite(this.dc, isData ? C.DATA : C.CMD);
-    this.spi.send(data, this.cs);
+    this.spi.write(data, this.cs);
   }
 
   reset() {
