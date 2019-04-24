@@ -20,9 +20,11 @@ display = Adafruit_IL0373(128, 296, spi,
 display.set_black_buffer(1, False)
 display.set_color_buffer(1, False)
 
-display.fill(Adafruit_EPD.BLACK)
+while True:
+  display.fill(Adafruit_EPD.BLACK)
 
-rtc_instance = rtc.RTC()
-clock.draw_time(display, rtc_instance.datetime)
+  rtc_instance = rtc.RTC()
+  clock.draw_time(display, rtc_instance.datetime)
 
-display.display()
+  display.display()
+  time.sleep(60-time.time()%60)
