@@ -1,6 +1,6 @@
-Note: This bootloader is deprecated please use the UF2 bootloader.
-https://github.com/urish/aramcon-badge/releases/tag/Bootloader-27-6-2019
-Source - https://github.com/bmeisels/Adafruit_nRF52_Bootloader/tree/aramcon_badge
+# Deprecation notice
+This bootloader is deprecated. Please use the [UF2 bootloader](https://github.com/urish/aramcon-badge/releases/tag/Bootloader-27-6-2019) instead. ([Source code for the new bootloader](https://github.com/bmeisels/Adafruit_nRF52_Bootloader/tree/aramcon_badge))
+
 
 # Bootloader for AramCon Badge (Zephyr App)
 Instructions:
