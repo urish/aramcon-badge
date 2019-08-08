@@ -1,30 +1,26 @@
 import board
-import digitalio
 import busio
 import time
 import rtc
-from adafruit_epd.epd import Adafruit_EPD
-from adafruit_epd.il0373 import Adafruit_IL0373
-
+import adafruit_il0373
+import displayio
 import clock
+from adafruit_display_shapes.rect import Rect
 
-# Initialize the SPI bus and setup the display
+displayio.release_displays()
+
 spi = busio.SPI(board.SCK, MISO=board.MISO, MOSI=board.MOSI)
-display = Adafruit_IL0373(128, 296, spi,
-    cs_pin=digitalio.DigitalInOut(board.DISP_CS),
-    dc_pin=digitalio.DigitalInOut(board.DISP_DC),
-    rst_pin=digitalio.DigitalInOut(board.DISP_RESET),
-    busy_pin=digitalio.DigitalInOut(board.DISP_BUSY),
-    sramcs_pin = None,
-)
-display.set_black_buffer(1, False)
-display.set_color_buffer(1, False)
+display_bus = displayio.FourWire(spi, command=board.DISP_DC, chip_select=board.DISP_CS, reset=board.DISP_RESET,
+                                 baudrate=1000000)
+time.sleep(1)
+display = adafruit_il0373.IL0373(display_bus, width=296, height=128, 
+                                 rotation=270, seconds_per_frame=5, busy_pin=board.DISP_BUSY)
 
 while True:
-  display.fill(Adafruit_EPD.BLACK)
-
   rtc_instance = rtc.RTC()
-  clock.draw_time(display, rtc_instance.datetime)
-
-  display.display()
+  group = displayio.Group()
+  group.append(Rect(0, 0, display.width, display.height, fill=0xffffff))
+  group.append(clock.draw_time(rtc_instance.datetime, 48, 40))
+  display.show(group)
+  display.wait_for_frame()
   time.sleep(60-time.time()%60)
