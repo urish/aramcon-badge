@@ -5,6 +5,7 @@
 import board
 import busio
 from digitalio import DigitalInOut, Pull
+from analogio import AnalogIn
 import neopixel
 import adafruit_lis3dh
 
@@ -16,6 +17,7 @@ class Badge:
         self._middle.switch_to_input(pull=Pull.UP)
         self._right = DigitalInOut(board.RIGHT_BUTTON)
         self._right.switch_to_input(pull=Pull.UP)
+        self._battery = AnalogIn(board.BATTERY_SENSE)
         self._led = DigitalInOut(board.LED)
         self._led.switch_to_output(value=True)
         self._vibration = DigitalInOut(board.VIBRATION_MOTOR)
@@ -80,6 +82,11 @@ class Badge:
     def acceleration(self):
         """Obtain acceleration as a tuple with 3 elements: (x, y, z)"""
         return self._lis3dh.acceleration
+
+    @property
+    def battery_voltage(self):
+        """The battery voltage (if currently operating off the battery)"""
+        return (self._battery.value * 3.3) / 65536
 
 badge = Badge()
 
