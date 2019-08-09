@@ -79,6 +79,11 @@ class Badge:
         return self._pixels
 
     @property
+    def i2c(self):
+        """direct access to the I2C bus"""
+        return self._i2c
+
+    @property
     def acceleration(self):
         """Obtain acceleration as a tuple with 3 elements: (x, y, z)"""
         return self._lis3dh.acceleration
@@ -89,5 +94,3 @@ class Badge:
         return (self._battery.value * 3.3) / 65536
 
 badge = Badge()
-
-print("READY")
