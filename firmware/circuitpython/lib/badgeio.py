@@ -22,7 +22,7 @@ class Badge:
         self._led.switch_to_output(value=True)
         self._vibration = DigitalInOut(board.VIBRATION_MOTOR)
         self._vibration.switch_to_output()
-        self._pixels = neopixel.NeoPixel(board.NEOPIXELS, 4)
+        self._pixels = neopixel.NeoPixel(board.NEOPIXEL, 4)
         self._i2c = busio.I2C(board.SCL, board.SDA)
         self._lis3dh = adafruit_lis3dh.LIS3DH_I2C(self._i2c, address=0x18)
 
