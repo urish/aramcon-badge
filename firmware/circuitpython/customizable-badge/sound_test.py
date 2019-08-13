@@ -6,16 +6,8 @@ import time
 
 player = None
 
-def getLed(pin):
-    led = digitalio.DigitalInOut(pin)
-    led.direction = digitalio.Direction.OUTPUT
-    led.value = True
-    return led
-
 def init(spi):
     global player
-    r = getLed(board.LED)
-    r.value = False
     player = Player(
         spi,
         xResetPin = board.SND_RESET,

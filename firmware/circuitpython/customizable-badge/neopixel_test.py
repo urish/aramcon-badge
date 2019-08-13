@@ -1,13 +1,10 @@
 # CircuitPython demo - NeoPixel
 import time
 import board
-import neopixel
+from badgeio import badge
 
-pixel_pin = board.NEOPIXELS
-num_pixels = 4
-
-pixels = neopixel.NeoPixel(pixel_pin, num_pixels, brightness=0.05)
-
+pixels = badge.pixels
+pixels.brightness=0.05
 
 def wheel(pos):
     # Input a value 0 to 255 to get a color value.
@@ -24,7 +21,7 @@ def wheel(pos):
 
 
 def color_chase(color, wait):
-    for i in range(num_pixels):
+    for i in range(len(pixels)):
         pixels[i] = color
         time.sleep(wait)
         pixels.show()
@@ -33,8 +30,8 @@ def color_chase(color, wait):
 
 def rainbow_cycle(wait):
     for j in range(255):
-        for i in range(num_pixels):
-            rc_index = (i * 256 // num_pixels) + j
+        for i in range(len(pixels)):
+            rc_index = (i * 256 // len(pixels)) + j
             pixels[i] = wheel(rc_index & 255)
         pixels.show()
         time.sleep(wait)
