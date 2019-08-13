@@ -6,6 +6,7 @@ import board
 import busio
 from digitalio import DigitalInOut, Pull
 from analogio import AnalogIn
+from displayio import FourWire
 import neopixel
 import adafruit_lis3dh
 
@@ -25,6 +26,9 @@ class Badge:
         self._pixels = neopixel.NeoPixel(board.NEOPIXEL, 4)
         self._i2c = busio.I2C(board.SCL, board.SDA)
         self._lis3dh = adafruit_lis3dh.LIS3DH_I2C(self._i2c, address=0x18)
+        self._spi = None
+        self._display_bus = None
+        self._display = None
 
     @property
     def left(self):
@@ -82,6 +86,28 @@ class Badge:
     def i2c(self):
         """direct access to the I2C bus"""
         return self._i2c
+
+    @property
+    def spi(self):
+        """direct access to the SPI bus"""
+        if not self._spi:
+            self._spi = busio.SPI(board.SCK, MISO=board.MISO, MOSI=board.MOSI)
+        return self._spi
+
+    @property 
+    def display_bus(self):
+        if not self._display_bus:
+            self._display_bus = FourWire(self.spi, command=board.DISP_DC, chip_select=board.DISP_CS,
+                                         reset=board.DISP_RESET, baudrate=1000000)
+        return self._display_bus
+
+    @property
+    def display(self):
+        if not self._display:
+            import adafruit_il0373
+            self._display = adafruit_il0373.IL0373(self.display_bus, width=296, height=128, rotation=270,
+                                                   seconds_per_frame=5, busy_pin=board.DISP_BUSY)
+        return self._display
 
     @property
     def acceleration(self):
