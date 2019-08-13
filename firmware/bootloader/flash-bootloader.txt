@@ -1,4 +1,0 @@
-r
-loadfile bootloader_combined.hex
-g
-exit

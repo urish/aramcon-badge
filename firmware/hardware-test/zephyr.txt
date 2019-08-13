@@ -1,3 +1,0 @@
-export ZEPHYR_TOOLCHAIN_VARIANT=ze
-export ZEPHYR_SDK_INSTALL_DIR=/home/uri/zephyr-sdk/
-source /mnt/c/plow/zephyr/zephyr-env.sh
