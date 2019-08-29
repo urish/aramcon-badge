@@ -28,3 +28,6 @@ You can find information about the bulb protocol in the following blog post:
 
 https://medium.com/@urish/reverse-engineering-a-bluetooth-lightbulb-56580fcb7546
 
+And this is how to convert the bulb into a wireless (battery-powered) one:
+
+https://medium.com/@urish/how-to-make-your-very-own-wireless-extra-magic-smart-bulb-bb40b4e3a726
