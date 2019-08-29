@@ -3,7 +3,7 @@
 #
 # Usage:
 # Left button - prev slide
-# Middle button - nothing
+# Middle button - play applause sound
 # Right button - next slide
 
 from adafruit_hid.keyboard import Keyboard
@@ -24,7 +24,7 @@ while True:
         badge.pixels.fill(0x0)
         
     if badge.middle:
-        print("Middle")
+        badge.play_file('sounds/claps.mp3')
     
     if badge.right:
         print("Right")
