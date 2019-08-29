@@ -42,6 +42,17 @@ SM_SDINEW   = 0x800
 SM_ADPCM    = 0x1000
 SM_ADPCM_HP = 0x2000
 
+class MidiAdapter:
+    def __init__(self, player):
+        self._player = player
+    
+    def write(self, values, count):
+        # We need to add a zero before each byte
+        data = bytearray(count*2)
+        for i in range(count):
+            data[i*2 + 1] = values[i]
+        self._player.writeData(data)
+
 class Player:
     def __init__(self, spi, xResetPin, dReqPin, xDCSPin, xCSPin, CSPin = None):
         self.xReset = digitalio.DigitalInOut(xResetPin)
@@ -65,7 +76,7 @@ class Player:
     
     def reset(self):
         self.xReset.value = False
-        time.sleep(0.002); # It is a must, 2ms
+        time.sleep(0.002)  # It is a must, 2ms
         self.xCS.value = True
         self.xDCS.value = True
         self.xReset.value = True
@@ -158,3 +169,28 @@ class Player:
         self.setVolume(1)
   
         self.waitForDREQ()
+
+    @property
+    def chipVersion(self):
+        return (self.readRegister(SPI_STATUS) >> 4) & 0x7
+    
+    def initMidi(self, rtmidiTable):
+        """
+        Configures the chip for real-time midi playback.
+        A real-time midi plugin code is required, for details see 
+        http://www.vlsi.fi/fileadmin/software/VS10XX/rtmidi.pdf 
+
+        Returns an object with a `write()` method. This method
+        takes two parameters: a bytes object with a MIDI message
+        and a length. Call this method to send a MIDI message
+        to the chip, e.g.:
+
+        midi_out = player.initMidi(plugin_data)
+        midi_out.write(bytes([0x90, 0x40, 0x7f]), 3)
+        """
+        for (addr, values) in rtmidiTable:
+            self.writeRegister(SPI_WRAMADDR, addr)
+            for value in values:
+                self.writeRegister(SPI_WRAM, value)
+        self.writeRegister(SPI_AIADDR, 0x50 if self.chipVersion >= 4 else 0x30)
+        return MidiAdapter(self)

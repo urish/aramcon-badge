@@ -30,6 +30,7 @@ class Badge:
         self._display_bus = None
         self._display = None
         self._sound = None
+        self._midi = None
 
     @property
     def left(self):
@@ -137,5 +138,14 @@ class Badge:
             buf = bytearray(32)
             while snd_file.readinto(buf):
                 self.sound.writeData(buf)
+    
+    @property
+    def midi(self):
+        """Provides a real time MIDI interface for the audio chip"""
+        if not self._midi:
+            from adafruit_midi import MIDI
+            from rtmidi1003b import plugin
+            self._midi = MIDI(midi_out=self.sound.initMidi(plugin))
+        return self._midi
 
 badge = Badge()
