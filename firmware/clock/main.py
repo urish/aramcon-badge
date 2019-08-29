@@ -17,5 +17,7 @@ while True:
   group.append(Rect(0, 0, display.width, display.height, fill=0xffffff))
   group.append(clock.draw_time(rtc_instance.datetime, 48, 40))
   display.show(group)
-  display.wait_for_frame()
+  while display.time_to_refresh > 0:
+    pass
+  display.refresh()
   time.sleep(60-time.time()%60)
