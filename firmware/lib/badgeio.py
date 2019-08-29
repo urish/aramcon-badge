@@ -29,6 +29,7 @@ class Badge:
         self._spi = None
         self._display_bus = None
         self._display = None
+        self._sound = None
 
     @property
     def left(self):
@@ -118,5 +119,23 @@ class Badge:
     def battery_voltage(self):
         """The battery voltage (if currently operating off the battery)"""
         return (self._battery.value * 3.3) / 65536
+    
+    @property
+    def sound(self):
+        """Play sounds and MIDI"""
+        if not self._sound:
+            from vs1053 import Player
+            self._sound = Player(self.spi, xResetPin = board.SND_RESET,dReqPin = board.SND_DREQ,
+                                 xDCSPin = board.SND_XDCS, xCSPin = board.SND_CS)
+        return self._sound
+    
+    def play_file(self, path, volume = None):
+        """Plays the given mp3 file. Volume is optional, between 0 and 1"""
+        if volume:
+            self.sound.setVolume(volume)
+        with open(path, mode='rb') as snd_file:
+            buf = bytearray(32)
+            while snd_file.readinto(buf):
+                self.sound.writeData(buf)
 
 badge = Badge()

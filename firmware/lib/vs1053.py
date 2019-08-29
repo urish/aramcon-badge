@@ -131,6 +131,15 @@ class Player:
         rightVal = round((1 - right) * 255)
         self.writeRegister(SPI_VOL, leftVal << 8 | rightVal)
     
+    def sineTest(self, n, seconds):
+        """See datasheet for explanation of how `n` is converted into frequency"""
+        mode = self.readRegister(SPI_MODE)
+        self.writeRegister(SPI_MODE, mode | 0x20)
+        self.writeData(bytes([0x53, 0xEF, 0x6E, n, 0, 0, 0, 0]))
+        time.sleep(seconds)
+        self.writeData(bytes([0x45, 0x78, 0x69, 74, 0, 0, 0, 0]))
+        self.writeRegister(SPI_MODE, mode | 0x04)
+    
     def softReset(self):
         """ Soft Reset of VS10xx """
         self.writeRegister(SPI_MODE, 0x0804) # Newmode, Reset, No L1-2
@@ -141,7 +150,7 @@ class Player:
         time.sleep(0.1)
         # Sanity check
         if self.readRegister(SPI_HDAT0) != 0xABAD or self.readRegister(SPI_HDAT1) != 0x1DEA:
-            pass# raise RuntimeError("VS10xx Reset failed!")
+            raise RuntimeError("VS10xx Reset failed!")
   
         self.writeRegister(SPI_CLOCKF,0xC000)   # Set the clock
         self.writeRegister(SPI_AUDATA,0xBB81)   # Sample rate 48k, stereo
