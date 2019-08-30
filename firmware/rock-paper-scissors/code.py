@@ -43,24 +43,35 @@ icons = [
     displayio.OnDiskBitmap(open("/res/hand-scissors-regular.bmp", "rb"))]
 
 def render_menu(menu_name, options, selected_index):
-    g = displayio.Group()
+    option_base_x = 100
+    option_base_y = 60
+    option_stride_y = 20
+    controls = ['left', 'select', 'right']
+    control_base_x = 30
+    control_stride_x = 100
+    control_base_y = 120
 
-    base_x = 100
-    base_y = 60
-    stride_y = 20
+    frame = displayio.Group(max_size=6)
+
     menu_name_label = Label(terminalio.FONT, text=menu_name)
-    menu_name_label.x = 80
-    menu_name_label.y = 20
-    g.append(menu_name_label)
+    menu_name_group = displayio.Group(scale=2, x=35, y=20)
+    menu_name_group.append(menu_name_label)
+    frame.append(menu_name_group)
 
     for i in range(len(options)):
         option_text = '-> ' if i == selected_index else ''
         option_text += options[i]
-        label = Label(terminalio.FONT, text=option_text)
-        label.x = base_x
-        label.y = base_y + stride_y * i
-        g.append(label)
-    display.show(g)
+        option_label = Label(terminalio.FONT, text=option_text)
+        option_label.x = option_base_x
+        option_label.y = option_base_y + option_stride_y * i
+        frame.append(option_label)
+
+    for i in range(len(controls)):
+        control_label = Label(terminalio.FONT, text=controls[i])
+        control_label.x = control_base_x + control_stride_x * i
+        control_label.y = control_base_y
+        frame.append(control_label)
+    display.show(frame)
 
 def run_menu(menu_name, options):
     should_refresh = True
