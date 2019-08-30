@@ -8,9 +8,9 @@ import { displayWidth, displayHeight } from './badge-consts';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  @ViewChild('preview') private canvas: ElementRef<HTMLCanvasElement>;
-  @ViewChild('logo') private logoElement: ElementRef<HTMLImageElement>;
-  @ViewChild('customImage') private customImageElement: ElementRef<HTMLImageElement>;
+  @ViewChild('preview', { static: false }) private canvas: ElementRef<HTMLCanvasElement>;
+  @ViewChild('logo', { static: false }) private logoElement: ElementRef<HTMLImageElement>;
+  @ViewChild('customImage', { static: false }) private customImageElement: ElementRef<HTMLImageElement>;
 
   public showLogo: boolean = true;
   public name: string = 'Aramnik Name';
