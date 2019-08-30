@@ -111,52 +111,40 @@ def join_game(game_host):
 
 def run_game(uart):
     game_options = ['Rock', 'Paper', 'Scissors']
+    render_game_menu()
     selected_game_option = run_game_menu()
     send_choice(uart, selected_game_option)
     other_player_choice = receive_choice(uart)
     game_result = resolve_game(str([selected_game_option, other_player_choice]))
     render_status('{} |{} vs {}|'.format(game_result, game_options[selected_game_option], game_options[other_player_choice]))
 
-def render_game_menu(selected_index):
+def render_game_menu():
     g = displayio.Group(max_size = 6)
 
     base_x = 30
     base_y = 34
     current_x = base_x
     for i in range(len(icons)):
-        selected = (selected_index == i)
-        shader = displayio.ColorConverter() if selected else palette
-        grid = displayio.TileGrid(icons[i], pixel_shader=shader, x=current_x, y=base_y)
-        if selected:
-            bounding_box = Rect(grid.x - 5, grid.y - 5, icons[i].width + 10, icons[i].height + 10, fill=0xffffff)
-            g.append(bounding_box)
+        grid = displayio.TileGrid(icons[i], pixel_shader=palette, x=current_x, y=base_y)
         g.append(grid)
-
         current_x += 90
 
     display.show(g)
 
-def run_game_menu():
-    should_refresh = True
-    selected_index = 0
-
     while True:
-        if not should_refresh:
-            if badge.right:
-                selected_index += 1
-                selected_index = selected_index % 3
-                should_refresh = True
-            elif badge.left:
-                selected_index -= 1
-                selected_index = selected_index % 3
-                should_refresh = True
-            elif badge.middle:
-                return selected_index
-
-        if should_refresh and (display.time_to_refresh == 0):
-            render_game_menu(selected_index)
+        if display.time_to_refresh == 0:
             display.refresh()
-            should_refresh = False
+            break
+        time.sleep(1)
+
+def run_game_menu():
+    while True:
+        if badge.left:
+            return 0
+        elif badge.middle:
+            return 1
+        if badge.right:
+            return 2
 
 def send_choice(uart, index):
     buttons = [ButtonPacket.BUTTON_1, ButtonPacket.BUTTON_2, ButtonPacket.BUTTON_3]
