@@ -102,18 +102,8 @@ def host_game():
 
 uart_client = UARTClient()
 
-def join_game():
-    render_status('Searching')
-    scanner = Scanner()
-    uart_addresses = []
-
-    # Keep trying to find a UART peripheral
-    while not uart_addresses:
-        uart_addresses = ScanEntry.with_service_uuid(scanner.scan(2), NUS_SERVICE_UUID)
-    hosts = [str(se.name, 'utf-8') for se in uart_addresses if str(se.name, 'utf-8').startswith('rps')]
-    print('Found hosts: {}'.format(hosts))
-    selected_host = run_menu('Please choose host:', hosts)
-    uart_client.connect(uart_addresses[selected_host].address, 5)
+def join_game(game_host):
+    uart_client.connect(game_host.address, 5)
     if uart_client.connected:
         run_game(uart_client)
         uart_client.disconnect()
@@ -202,16 +192,32 @@ def resolve_game(choices):
         '[2, 2]': TIE}
     return options[choices]
 
+def scan_for_games():
+    scanner = Scanner()
+    uart_addresses = []
+
+    uart_addresses = ScanEntry.with_service_uuid(scanner.scan(2), NUS_SERVICE_UUID)
+    if uart_addresses is None:
+        return None
+    return [se for se in uart_addresses if str(se.name, 'utf-8').startswith('rps')]
+
 def play_game():
     while True:
-        game_host_options = ['Host Game', 'Join Game']
+        game_host_options = ['Host game']
+        game_hosts = scan_for_games()
+        if not game_hosts is None:
+            game_host_options += [str(game_host.name, 'utf-8') for game_host in game_hosts]
+        
         selected_host_option = run_menu(menu_name='Rock Paper Scissors', options=game_host_options)
-        print(game_host_options[selected_host_option])
+        host_option_name = game_host_options[selected_host_option]
+        print(host_option_name)
 
-        if selected_host_option == 0:
+        
+        if host_option_name == 'Host game':
             host_game()
         else:
-            join_game()
+            host_name = next(game_host for game_host in game_hosts if str(game_host.name, 'utf-8') == host_option_name)
+            join_game(host_name)
 
 def main():
     play_game()
