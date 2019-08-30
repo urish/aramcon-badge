@@ -2,4 +2,6 @@
 *.jlink
 *.emSession
 Output
+/firmware/rock-paper-scissors/lib
+/firmware/rock-paper-scissors/res-src
 
