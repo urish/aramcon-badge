@@ -126,10 +126,11 @@ uart_client = UARTClient()
 
 def join_game(game_host):
     uart_client.connect(game_host.address, 5)
-    if uart_client.connected:
-        run_game(uart_client)
-        uart_client.disconnect()
-        time.sleep(5)
+    while not uart_client.connected:
+        pass
+    run_game(uart_client)
+    uart_client.disconnect()
+    time.sleep(5)
 
 def run_game(uart):
     game_options = ['Rock', 'Paper', 'Scissors']
