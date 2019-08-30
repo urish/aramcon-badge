@@ -7,6 +7,7 @@ import busio
 from digitalio import DigitalInOut, Pull
 from analogio import AnalogIn
 from displayio import FourWire
+import displayio
 import neopixel
 import adafruit_lis3dh
 
@@ -107,6 +108,7 @@ class Badge:
     def display(self):
         if not self._display:
             import adafruit_il0373
+            displayio.release_displays()
             self._display = adafruit_il0373.IL0373(self.display_bus, width=296, height=128, rotation=270,
                                                    seconds_per_frame=5, busy_pin=board.DISP_BUSY)
         return self._display

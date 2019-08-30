@@ -52,7 +52,7 @@ _START_SEQUENCE = (
     b"\x01\x05\x03\x00\x2b\x2b\x09" # power setting
     b"\x06\x03\x17\x17\x17" # booster soft start
     b"\x04\x80\xc8" # power on and wait 200 ms
-    b"\x00\x01\x9f" # panel setting *
+    b"\x00\x01\xcf" # panel setting
     b"\x50\x01\x37" # CDI setting
     b"\x30\x01\x29" # PLL
     b"\x61\x03\x00\x00\x00" # Resolution
@@ -80,8 +80,15 @@ class IL0373(displayio.EPaperDisplay):
         start_sequence[26] = width & 0xFF
         start_sequence[27] = (height >> 8) & 0xFF
         start_sequence[28] = height & 0xFF
+
+        if "third_color" not in kwargs:
+            _write_black_ram_command = 0x13
+            start_sequence[17] = 0xdf
+        else:
+            _write_black_ram_command = 0x10
+
         super().__init__(bus, start_sequence, _STOP_SEQUENCE, **kwargs,
                          ram_width=160, ram_height=296,
                          busy_state=False,
-                         write_black_ram_command=0x13, write_color_ram_command=0x10,
-                         color_bits_inverted=True, refresh_display_command=0x12)
+                         write_black_ram_command=_write_black_ram_command, write_color_ram_command=0x13,
+                         black_bits_inverted=True, color_bits_inverted=True, refresh_display_command=0x12)

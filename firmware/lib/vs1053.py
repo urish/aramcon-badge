@@ -3,7 +3,6 @@
 
 import digitalio
 import time
-import board
 
 SPI_BAUDRATE = 2000000
 
