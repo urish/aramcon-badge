@@ -6,7 +6,6 @@ import board
 import busio
 from digitalio import DigitalInOut, Pull
 from analogio import AnalogIn
-from displayio import FourWire
 import displayio
 import neopixel
 import adafruit_lis3dh
@@ -100,8 +99,8 @@ class Badge:
     @property 
     def display_bus(self):
         if not self._display_bus:
-            self._display_bus = FourWire(self.spi, command=board.DISP_DC, chip_select=board.DISP_CS,
-                                         reset=board.DISP_RESET, baudrate=1000000)
+            self._display_bus = displayio.FourWire(self.spi, command=board.DISP_DC, chip_select=board.DISP_CS,
+                                                   reset=board.DISP_RESET, baudrate=1000000)
         return self._display_bus
 
     @property
@@ -149,5 +148,16 @@ class Badge:
             from rtmidi1003b import plugin
             self._midi = MIDI(midi_out=self.sound.initMidi(plugin))
         return self._midi
+
+    def show_bitmap(self, path):
+        """Draws the bitmap from the given file. Must be in .bmp format"""
+        image = displayio.OnDiskBitmap(open(path, "rb"))
+        grid = displayio.TileGrid(image, pixel_shader=displayio.ColorConverter())
+        group = displayio.Group(max_size=1)
+        group.append(grid)
+        self.display.show(group)
+        while self.display.time_to_refresh > 0:
+            pass
+        self.display.refresh()
 
 badge = Badge()
