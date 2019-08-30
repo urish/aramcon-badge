@@ -221,7 +221,7 @@ def run_game_menu():
 def send_choice(uart, index):
     buttons = [ButtonPacket.BUTTON_1, ButtonPacket.BUTTON_2, ButtonPacket.BUTTON_3]
     button_packet = ButtonPacket(buttons[index], True)
-    while True:
+    for i in range(3):
         try:
             uart.write(button_packet.to_bytes())
             break
