@@ -6,6 +6,8 @@ from badgeio import badge
 import time
 import binascii
 
+import gamepad
+
 import bleio
 from adafruit_ble.scanner import Scanner, ScanEntry
 from adafruit_ble.uart import NUS_SERVICE_UUID
@@ -20,6 +22,16 @@ from adafruit_display_shapes.rect import Rect
 import terminalio
 
 display = badge.display
+
+BUTTON_LEFT = 1 << 0
+BUTTON_MIDDLE = 1 << 1
+BUTTON_RIGHT = 1 << 2
+
+pad = gamepad.GamePad(
+    badge._left,
+    badge._middle,
+    badge._right
+)
 
 palette = displayio.Palette(2)
 palette[0] = 0xffffff
@@ -52,20 +64,30 @@ def render_menu(menu_name, options, selected_index):
 
 def run_menu(menu_name, options):
     should_refresh = True
+    selection_complete = False
     selected_index = 0
     menu_size = len(options)
 
     while True:
         if not should_refresh:
-            if badge.right:
+            buttons = pad.get_pressed()
+            if buttons & BUTTON_RIGHT:
                 selected_index += 1
                 selected_index = selected_index % menu_size
                 should_refresh = True
-            elif badge.left:
+            elif buttons & BUTTON_LEFT:
                 selected_index -= 1
                 selected_index = selected_index % menu_size
                 should_refresh = True
-            elif badge.middle:
+            elif buttons & BUTTON_MIDDLE:
+                selection_complete = True
+
+            while buttons:
+                # Wait for all buttons to be released.
+                buttons = pad.get_pressed()
+                time.sleep(0.1)
+            
+            if selection_complete:
                 return selected_index
 
         if should_refresh and (display.time_to_refresh == 0):
@@ -138,13 +160,23 @@ def render_game_menu():
         time.sleep(1)
 
 def run_game_menu():
+    selection = -1
     while True:
-        if badge.left:
-            return 0
-        elif badge.middle:
-            return 1
-        if badge.right:
-            return 2
+        buttons = pad.get_pressed()
+        if buttons & BUTTON_LEFT:
+            selection = 0
+        elif buttons & BUTTON_MIDDLE:
+            selection = 1
+        elif buttons & BUTTON_RIGHT:
+            selection = 2
+
+        while buttons:
+            # Wait for all buttons to be released.
+            buttons = pad.get_pressed()
+            time.sleep(0.1)
+
+        if selection != -1:
+            return selection
 
 def send_choice(uart, index):
     buttons = [ButtonPacket.BUTTON_1, ButtonPacket.BUTTON_2, ButtonPacket.BUTTON_3]
