@@ -118,9 +118,7 @@ def host_game():
     while not uart_server.connected:
         pass
     uart_server.stop_advertising()
-    run_game(uart_server)
-    uart_server.disconnect()
-    time.sleep(5)
+    return uart_server
 
 uart_client = UARTClient()
 
@@ -128,9 +126,7 @@ def join_game(game_host):
     uart_client.connect(game_host.address, 5)
     while not uart_client.connected:
         pass
-    run_game(uart_client)
-    uart_client.disconnect()
-    time.sleep(5)
+    return uart_client
 
 def run_game(uart):
     game_options = ['Rock', 'Paper', 'Scissors']
@@ -222,26 +218,37 @@ def scan_for_games():
         return None
     return [se for se in uart_addresses if str(se.name, 'utf-8').startswith('rps')]
 
-def play_game():
-    while True:
-        game_host_options = ['Host game']
+def setup_game():
+    selected_host = None
+    while selected_host is None:
+        game_host_options = ['Host game', 'Rescan']
         game_hosts = scan_for_games()
         if not game_hosts is None:
             game_host_options += [str(game_host.name, 'utf-8') for game_host in game_hosts]
         
         selected_host_option = run_menu(menu_name='Rock Paper Scissors', options=game_host_options)
         host_option_name = game_host_options[selected_host_option]
-        print(host_option_name)
-
-        
         if host_option_name == 'Host game':
-            host_game()
+            return host_game()
+        elif host_option_name == 'Rescan':
+            continue
         else:
             host_name = next(game_host for game_host in game_hosts if str(game_host.name, 'utf-8') == host_option_name)
-            join_game(host_name)
+            return join_game(host_name)
 
 def main():
-    play_game()
+    while True:
+        uart = setup_game()
+        while True:
+            run_game(uart)
+            selected_option = run_menu('Rematch?', ['yes', 'no'])
+            send_choice(uart, selected_option)
+            other_player_choice = receive_choice(uart)
+            if (selected_option or other_player_choice) == 1:
+                render_status('disconnecting')
+                break
+        uart.disconnect()
+        time.sleep(5)
 
 if __name__ == '__main__':
     main()
