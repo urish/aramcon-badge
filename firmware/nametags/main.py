@@ -1,16 +1,18 @@
 # Nametags app for Aramcon Badge
 # Copyright (C) 2019, Uri Shaked
 
-import displayio
-from badgeio import badge
-import ui
 import random
 import time
+from badgeio import badge
+from name_server import NameServer
+import ui
 
 def main():
-    displayio.release_displays()
     ui.display_qr()
+    name = NameServer()
+    name.start_advertising()
     while True:
+        name.update()
         badge.vibration = badge.left
         if badge.middle:
             badge.pixels.fill(random.randrange(0xffffff))

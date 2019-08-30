@@ -1,22 +1,19 @@
-# Nametags app for Aramcon Badge
-# Copyright (C) 2019, Uri Shaked
-
 from badgeio import badge
 import adafruit_miniqr
 import bleio
 import displayio
 
+palette = displayio.Palette(2)
+palette[0] = 0x000000
+palette[1] = 0xFFFFFF
+
 inverse_palette = displayio.Palette(2)
 inverse_palette[0] = 0xFFFFFF
 inverse_palette[1] = 0x000000
-    
-def white_background():
-    bitmap = displayio.Bitmap(badge.display.width, badge.display.height, 1)
-    return displayio.TileGrid(bitmap, pixel_shader=inverse_palette)
 
 def banner():
     image = displayio.OnDiskBitmap(open("/assets/banner.bmp", "rb"))
-    return displayio.TileGrid(image, pixel_shader=displayio.ColorConverter())
+    return displayio.TileGrid(image, pixel_shader=inverse_palette)
 
 def bitmap_QR(matrix):
     BORDER_PIXELS  = 2
@@ -39,11 +36,10 @@ def display_qr():
     qr.add_data(get_qr_url().encode('utf-8'))
     qr.make()
     qr_bitmap = bitmap_QR(qr.matrix)
-    qr_img = displayio.TileGrid(qr_bitmap, pixel_shader=inverse_palette)
+    qr_img = displayio.TileGrid(qr_bitmap, pixel_shader=palette)
     qr_group = displayio.Group(scale=4, x=96, y=6)
     qr_group.append(qr_img)
     frame = displayio.Group()
-    frame.append(white_background())
     frame.append(qr_group)
     frame.append(banner())
     badge.display.show(frame)

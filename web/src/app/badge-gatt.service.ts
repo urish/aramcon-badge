@@ -44,7 +44,6 @@ export class BadgeGattService {
     this.batteryVoltage = new TextDecoder().decode(await batteryCharacteristic.readValue());
 
     // Clear screen to white:
-    await this.displayCharacteristic.writeValue(new Uint8Array([0xff]));
     for (let i = 0; i < this.lastImage.length; i++) {
       this.lastImage[i] = 0xff;
     }
@@ -62,6 +61,26 @@ export class BadgeGattService {
     return this.displayUpdating;
   }
 
+  async writeBuffer(bytes: Uint8Array) {
+    for (let i = 0; i < bytes.length; i += 20) {
+      await this.displayCharacteristic.writeValue(bytes.slice(i, i + 20));
+    }
+  }
+
+  async sendImageChunk(newBitmap: Uint8Array, offset: number) {
+    const maxChunkSize = 0x7f;
+    const remainingBytes = newBitmap.length - offset;
+    let chunkSize = Math.min(maxChunkSize, remainingBytes);
+    while (chunkSize > 0 && newBitmap[offset + chunkSize] === this.lastImage[offset + chunkSize]) {
+      chunkSize--;
+    }
+    const chunk = newBitmap.slice(offset, offset + chunkSize);
+    await this.writeBuffer(new Uint8Array([chunkSize | 0x80, offset & 0xff, offset >> 8, ...chunk]));
+    for (let i = offset; i < offset + chunkSize; i++) {
+      this.lastImage[i] = newBitmap[i];
+    }
+  }
+
   async updateDisplay(ctx: CanvasRenderingContext2D) {
     if (this.displayUpdating || !this.displayCharacteristic) {
       return;
@@ -73,17 +92,12 @@ export class BadgeGattService {
         updated = false;
         const currentImage = this.readCanvas(ctx);
         for (let i = 0; i < currentImage.length; i++) {
-          if (this.lastImage[i] != currentImage[i]) {
-            const data = [i & 0xff, (i >> 8) | 0x80, ...currentImage.slice(i, i + 18)];
-            await this.displayCharacteristic.writeValue(new Uint8Array(data));
-            for (let j = 0; j < 18; j++) {
-              this.lastImage[i + j] = currentImage[i + j];
-            }
-            updated = true;
-            break;
+          if (currentImage[i] != this.lastImage[i]) {
+            await this.sendImageChunk(currentImage, i);
           }
         }
       } while (updated);
+      await this.displayCharacteristic.writeValue(new Uint8Array([0]));
     } finally {
       this.displayUpdating = false;
     }
@@ -100,8 +114,8 @@ export class BadgeGattService {
       for (let x = 0; x < displayWidth; x++) {
         const point = data[(y * displayWidth + x) * 4];
         if (point > 0x80) {
-          const bitmapOffs = Math.floor(y / 8) * displayWidth + x;
-          const bit = 7 - (y % 8);
+          const bitmapOffs = (y * displayWidth) / 8 + Math.floor(x / 8);
+          const bit = x % 8;
           bitmap[bitmapOffs] |= 1 << bit;
         }
       }
