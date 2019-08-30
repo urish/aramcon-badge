@@ -44,26 +44,36 @@ icons = [
 
 def render_menu(menu_name, options, selected_index):
     option_base_x = 100
+    option_stride_x = 95
     option_base_y = 60
-    option_stride_y = 20
+    option_stride_y = 15
+
     controls = ['left', 'select', 'right']
     control_base_x = 30
     control_stride_x = 100
     control_base_y = 120
 
-    frame = displayio.Group(max_size=6)
+    frame = displayio.Group(max_size=13)
 
     menu_name_label = Label(terminalio.FONT, text=menu_name)
     menu_name_group = displayio.Group(scale=2, x=35, y=20)
     menu_name_group.append(menu_name_label)
     frame.append(menu_name_group)
 
-    for i in range(len(options)):
+    number_of_options = len(options)
+    extended_menu = 0
+    if number_of_options > 3:
+        extended_menu = 1
+        option_base_x = 30
+        
+    for i in range(number_of_options):
         option_text = '-> ' if i == selected_index else ''
         option_text += options[i]
         option_label = Label(terminalio.FONT, text=option_text)
-        option_label.x = option_base_x
-        option_label.y = option_base_y + option_stride_y * i
+        x = i // 3
+        y = i % 3
+        option_label.x = option_base_x + option_stride_x * x * extended_menu
+        option_label.y = option_base_y + option_stride_y * y
         frame.append(option_label)
 
     for i in range(len(controls)):
