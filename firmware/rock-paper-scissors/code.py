@@ -1,7 +1,3 @@
-"""
-Used with ble_demo_central.py. Receives Bluefruit LE ColorPackets from a central,
-and updates a NeoPixel FeatherWing to show the history of the received packets.
-"""
 from badgeio import badge
 import time
 import binascii
@@ -42,23 +38,39 @@ icons = [
     displayio.OnDiskBitmap(open("/res/hand-paper-regular.bmp", "rb")),
     displayio.OnDiskBitmap(open("/res/hand-scissors-regular.bmp", "rb"))]
 
+def show_frame(group, refresh = True):
+    display.show(group)
+    while refresh:
+        if display.time_to_refresh == 0:
+            display.refresh()
+            break
+
+def large_label(text, x = 0, y = 0, scale = 2):
+    group = displayio.Group(scale=scale, x = x, y = y)
+    group.append(Label(terminalio.FONT, text=text))
+    return group
+
+def wait_for_button_release():
+    while pad.get_pressed():
+        pass
+
+def create_controls(controls, base_x = 30, stride_x = 100, base_y = 120):
+    frame = displayio.Group(max_size=3, x = base_x, y = base_y)
+    for idx, label in enumerate(controls):
+        frame.append(Label(terminalio.FONT, text=label, x = stride_x * idx))
+    return frame
+
 def render_menu(menu_name, options, selected_index):
     option_base_x = 100
     option_stride_x = 95
     option_base_y = 60
     option_stride_y = 15
 
-    controls = ['left', 'select', 'right']
-    control_base_x = 30
-    control_stride_x = 100
-    control_base_y = 120
+    controls = ['UP', 'SELECT', 'DOWN']
 
     frame = displayio.Group(max_size=13)
 
-    menu_name_label = Label(terminalio.FONT, text=menu_name)
-    menu_name_group = displayio.Group(scale=2, x=35, y=20)
-    menu_name_group.append(menu_name_label)
-    frame.append(menu_name_group)
+    frame.append(large_label(menu_name, x=35, y=20))
 
     number_of_options = len(options)
     extended_menu = 0
@@ -76,11 +88,7 @@ def render_menu(menu_name, options, selected_index):
         option_label.y = option_base_y + option_stride_y * y
         frame.append(option_label)
 
-    for i in range(len(controls)):
-        control_label = Label(terminalio.FONT, text=controls[i])
-        control_label.x = control_base_x + control_stride_x * i
-        control_label.y = control_base_y
-        frame.append(control_label)
+    frame.append(create_controls(controls))
     display.show(frame)
 
 def run_menu(menu_name, options):
@@ -103,10 +111,7 @@ def run_menu(menu_name, options):
             elif buttons & BUTTON_MIDDLE:
                 selection_complete = True
 
-            while buttons:
-                # Wait for all buttons to be released.
-                buttons = pad.get_pressed()
-                time.sleep(0.1)
+            wait_for_button_release()
             
             if selection_complete:
                 return selected_index
@@ -116,28 +121,30 @@ def run_menu(menu_name, options):
             display.refresh()
             should_refresh = False
 
-def render_status(status):
+def render_status(status, controls = None):
     g = displayio.Group()
 
     connected_label = Label(terminalio.FONT, text=status)
     connected_label.x = 80
     connected_label.y = 60
     g.append(connected_label)
-    display.show(g)
-    while True:
-        if display.time_to_refresh == 0:
-            display.refresh()
-            break
+
+    if controls:
+        g.append(create_controls(controls))
+
+    show_frame(g)
 
 device_name = 'rps-{}'.format(str(binascii.hexlify(bytearray(reversed(bleio.adapter.address.address_bytes[0:2]))), 'utf-8'))
 uart_server = UARTServer(name=device_name)
 
 def host_game():
-    
     uart_server.start_advertising()
-    render_status('Hosting on {}'.format(device_name))
+    render_status('Hosting on {}'.format(device_name), [' ', 'CANCEL'])
     while not uart_server.connected:
-        pass
+        if pad.get_pressed() & BUTTON_MIDDLE:
+            uart_server.stop_advertising()
+            wait_for_button_release()
+            return False
     uart_server.stop_advertising()
     return uart_server
 
@@ -150,13 +157,16 @@ def join_game(game_host):
     return uart_client
 
 def run_game(uart):
-    game_options = ['Rock', 'Paper', 'Scissors']
     render_game_menu()
     selected_game_option = run_game_menu()
+    badge.pixels.fill((0, 10, 0))
+    badge.vibration = True
     send_choice(uart, selected_game_option)
+    time.sleep(0.25)
+    badge.vibration = False
     other_player_choice = receive_choice(uart)
-    game_result = resolve_game(str([selected_game_option, other_player_choice]))
-    render_status('{} |{} vs {}|'.format(game_result, game_options[selected_game_option], game_options[other_player_choice]))
+    badge.pixels.fill((0, 0, 0))
+    return (selected_game_option, other_player_choice)
 
 def render_game_menu():
     g = displayio.Group(max_size = 6)
@@ -168,14 +178,29 @@ def render_game_menu():
         grid = displayio.TileGrid(icons[i], pixel_shader=palette, x=current_x, y=base_y)
         g.append(grid)
         current_x += 90
+    show_frame(g)
 
-    display.show(g)
+def render_game_over(game_result, my_choice, opponent_choice):
+    frame = displayio.Group(max_size=10)
+
+    game_options = ['Rock', 'Paper', 'Scissors']
+    game_summary = '{} vs {}'.format(game_options[my_choice], game_options[opponent_choice])
+
+    frame.append(large_label(game_result, x=90, y=20))
+    frame.append(Label(terminalio.FONT, text=game_summary, x=94, y=50))
+    frame.append(large_label('Rematch?', x=90, y=80))
+    frame.append(create_controls(['YES', ' ', 'NO']))
+
+    show_frame(frame)
 
     while True:
-        if display.time_to_refresh == 0:
-            display.refresh()
-            break
-        time.sleep(1)
+        buttons = pad.get_pressed()
+        if buttons & BUTTON_LEFT:
+            wait_for_button_release()
+            return True
+        elif buttons & BUTTON_RIGHT:
+            wait_for_button_release()
+            return False
 
 def run_game_menu():
     selection = -1
@@ -188,10 +213,7 @@ def run_game_menu():
         elif buttons & BUTTON_RIGHT:
             selection = 2
 
-        while buttons:
-            # Wait for all buttons to be released.
-            buttons = pad.get_pressed()
-            time.sleep(0.1)
+        wait_for_button_release()
 
         if selection != -1:
             return selection
@@ -245,12 +267,14 @@ def setup_game():
         game_host_options = ['Host game', 'Rescan']
         game_hosts = scan_for_games()
         if not game_hosts is None:
-            game_host_options += [str(game_host.name, 'utf-8') for game_host in game_hosts]
+            game_host_options = [str(game_host.name, 'utf-8') for game_host in game_hosts] + game_host_options
         
         selected_host_option = run_menu(menu_name='Rock Paper Scissors', options=game_host_options)
         host_option_name = game_host_options[selected_host_option]
         if host_option_name == 'Host game':
-            return host_game()
+            game = host_game()
+            if game:
+                return game
         elif host_option_name == 'Rescan':
             continue
         else:
@@ -261,15 +285,17 @@ def main():
     while True:
         uart = setup_game()
         while True:
-            run_game(uart)
-            selected_option = run_menu('Rematch?', ['yes', 'no'])
-            send_choice(uart, selected_option)
-            other_player_choice = receive_choice(uart)
-            if (selected_option or other_player_choice) == 1:
-                render_status('disconnecting')
+            my_choice, opponent_choice = run_game(uart)
+            game_result = resolve_game(str([my_choice, opponent_choice]))
+            play_again = render_game_over(game_result, my_choice, opponent_choice)
+            send_choice(uart, play_again)
+            if play_again:
+                play_again = receive_choice(uart)
+            if not play_again:
+                render_status('Disconnecting...')
                 break
         uart.disconnect()
-        time.sleep(5)
+        time.sleep(2)
 
 if __name__ == '__main__':
     main()
