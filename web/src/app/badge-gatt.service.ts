@@ -71,7 +71,7 @@ export class BadgeGattService {
     const maxChunkSize = 0x7f;
     const remainingBytes = newBitmap.length - offset;
     let chunkSize = Math.min(maxChunkSize, remainingBytes);
-    while (chunkSize > 0 && newBitmap[offset + chunkSize] === this.lastImage[offset + chunkSize]) {
+    while (chunkSize > 0 && newBitmap[offset + chunkSize - 1] === this.lastImage[offset + chunkSize - 1]) {
       chunkSize--;
     }
     const chunk = newBitmap.slice(offset, offset + chunkSize);
@@ -90,10 +90,12 @@ export class BadgeGattService {
       let updated = false;
       do {
         updated = false;
-        const currentImage = this.readCanvas(ctx);
+        let currentImage = this.readCanvas(ctx);
         for (let i = 0; i < currentImage.length; i++) {
-          if (currentImage[i] != this.lastImage[i]) {
+          if (currentImage[i] !== this.lastImage[i]) {
             await this.sendImageChunk(currentImage, i);
+            currentImage = this.readCanvas(ctx);
+            updated = true;
           }
         }
       } while (updated);
