@@ -16,11 +16,15 @@ nRF52840-Based Smart Badge with Bluetooth, Thread Mesh Network, 2.9" ePaper Disp
 
 ## Directory Structure
 
-### Badge firmware
+### CircuitPython Demo Apps
 
-* [firmware/customizable-badge](firmware/customizable-badge) - Name tags firmware
-* [firmware/clock](firmware/clock) - Simple clock demo
+* [firmware/nametags](firmware/nametags) - Name tags firmware 📛
 * [firmware/lib](firmware/lib) - Common libraries you need for running the other programs
+* [firmware/clock](firmware/clock) - Simple clock demo ⌚
+* [firmware/rock-paper-scissors](firmware/rock-paper-scissors) - Rock-Paper Scisscors game for 2 players 🤘
+* [firmware/clicker](firmware/clicker) - Simple USB HID Clicker with Applause function
+* [firmware/touch-piano](firmware/touch-piano) - Capacitive Touch piano (requires MPR121 breakout board) 🎹
+* [firmware/magicblue-bulb](firmware/magicblue-bulb) - Control a Bluetooth light bulb (Magic Blue) 💡
 
 ### Other stuff
 
