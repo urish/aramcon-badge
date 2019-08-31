@@ -23,11 +23,9 @@ BUTTON_LEFT = 1 << 0
 BUTTON_MIDDLE = 1 << 1
 BUTTON_RIGHT = 1 << 2
 
-pad = gamepad.GamePad(
-    badge._left,
-    badge._middle,
-    badge._right
-)
+WIN = 'You won'
+LOSE = 'You Lost'
+TIE =  "It's a tie"
 
 palette = displayio.Palette(2)
 palette[0] = 0xffffff
@@ -38,21 +36,20 @@ icons = [
     displayio.OnDiskBitmap(open("/res/hand-paper-regular.bmp", "rb")),
     displayio.OnDiskBitmap(open("/res/hand-scissors-regular.bmp", "rb"))]
 
-def show_frame(group, refresh = True):
-    display.show(group)
-    while refresh:
-        if display.time_to_refresh == 0:
-            display.refresh()
-            break
+pad = gamepad.GamePad(
+    badge._left,
+    badge._middle,
+    badge._right)
 
-def large_label(text, x = 0, y = 0, scale = 2):
+
+device_name = 'rps-{}'.format(str(binascii.hexlify(bytearray(reversed(bleio.adapter.address.address_bytes[0:2]))), 'utf-8'))
+uart_server = UARTServer(name=device_name)
+uart_client = UARTClient()
+
+def create_large_label(text, x = 0, y = 0, scale = 2):
     group = displayio.Group(scale=scale, x = x, y = y)
     group.append(Label(terminalio.FONT, text=text))
     return group
-
-def wait_for_button_release():
-    while pad.get_pressed():
-        pass
 
 def create_controls(controls, base_x = 30, stride_x = 100, base_y = 120):
     frame = displayio.Group(max_size=3, x = base_x, y = base_y)
@@ -70,7 +67,7 @@ def create_menu(menu_name, options, selected_index):
 
     frame = displayio.Group(max_size=13)
 
-    frame.append(large_label(menu_name, x=35, y=20))
+    frame.append(create_large_label(menu_name, x=35, y=20))
 
     number_of_options = len(options)
     extended_menu = 0
@@ -90,6 +87,61 @@ def create_menu(menu_name, options, selected_index):
 
     frame.append(create_controls(controls))
     return frame
+
+def create_game_menu():
+    frame = displayio.Group(max_size = 6)
+
+    base_x = 30
+    base_y = 34
+    current_x = base_x
+    for i in range(len(icons)):
+        grid = displayio.TileGrid(icons[i], pixel_shader=palette, x=current_x, y=base_y)
+        frame.append(grid)
+        current_x += 90
+
+    return frame
+
+def create_game_over_menu(match_results, game_result, my_choice, opponent_choice):
+    frame = displayio.Group(max_size=10)
+
+    game_options = ['Rock', 'Paper', 'Scissors']
+    game_summary = '{} vs {}'.format(game_options[my_choice], game_options[opponent_choice])
+
+    frame.append(create_large_label(game_result, x=90, y=20))
+    frame.append(create_large_label(text=game_summary, x=50, y=50))
+    frame.append(create_large_label('Rematch?', x=90, y=80))
+    match_results_label = Label(
+        terminalio.FONT,
+        text='W-{}/L-{}/T-{}'.format(match_results[WIN], match_results[LOSE], match_results[TIE]))
+    match_results_label.x = 110
+    match_results_label.y = 110
+    frame.append(match_results_label)
+    frame.append(create_controls(['YES',' ','NO']))
+    return frame
+
+def create_status(status, controls = None):
+    frame = displayio.Group()
+
+    connected_label = Label(terminalio.FONT, text=status)
+    connected_label.x = 80
+    connected_label.y = 60
+    frame.append(connected_label)
+
+    if controls:
+        frame.append(create_controls(controls))
+
+    return frame
+
+def show_frame(group, refresh = True):
+    display.show(group)
+    while refresh:
+        if display.time_to_refresh == 0:
+            display.refresh()
+            break
+
+def wait_for_button_release():
+    while pad.get_pressed():
+        pass
 
 def run_menu(menu_name, options):
     should_refresh = True
@@ -120,22 +172,6 @@ def run_menu(menu_name, options):
             show_frame(create_menu(menu_name, options, selected_index))
             should_refresh = False
 
-def create_status(status, controls = None):
-    frame = displayio.Group()
-
-    connected_label = Label(terminalio.FONT, text=status)
-    connected_label.x = 80
-    connected_label.y = 60
-    frame.append(connected_label)
-
-    if controls:
-        frame.append(create_controls(controls))
-
-    return frame
-
-device_name = 'rps-{}'.format(str(binascii.hexlify(bytearray(reversed(bleio.adapter.address.address_bytes[0:2]))), 'utf-8'))
-uart_server = UARTServer(name=device_name)
-
 def host_game():
     uart_server.start_advertising()
     show_frame(create_status('Hosting on {}'.format(device_name), [' ', 'CANCEL']))
@@ -147,62 +183,11 @@ def host_game():
     uart_server.stop_advertising()
     return uart_server
 
-uart_client = UARTClient()
-
 def join_game(game_host):
     uart_client.connect(game_host.address, 5)
     while not uart_client.connected:
         pass
     return uart_client
-
-def run_game(uart):
-    show_frame(create_game_menu())
-    selected_game_option = run_game_menu()
-    badge.pixels.fill((0, 10, 0))
-    badge.vibration = True
-    send_choice(uart, selected_game_option)
-    time.sleep(0.25)
-    badge.vibration = False
-    other_player_choice = receive_choice(uart)
-    badge.pixels.fill((0, 0, 0))
-    return (selected_game_option, other_player_choice)
-
-def create_game_menu():
-    frame = displayio.Group(max_size = 6)
-
-    base_x = 30
-    base_y = 34
-    current_x = base_x
-    for i in range(len(icons)):
-        grid = displayio.TileGrid(icons[i], pixel_shader=palette, x=current_x, y=base_y)
-        frame.append(grid)
-        current_x += 90
-
-    return frame
-
-def create_game_over_menu(game_result, my_choice, opponent_choice):
-    frame = displayio.Group(max_size=10)
-
-    game_options = ['Rock', 'Paper', 'Scissors']
-    game_summary = '{} vs {}'.format(game_options[my_choice], game_options[opponent_choice])
-
-    frame.append(large_label(game_result, x=90, y=20))
-    frame.append(Label(terminalio.FONT, text=game_summary, x=94, y=50))
-    frame.append(large_label('Rematch?', x=90, y=80))
-    frame.append(create_controls(['YES', ' ', 'NO']))
-    return frame
-
-def run_game_over(game_result, my_choice, opponent_choice):
-    show_frame(create_game_over_menu(game_result, my_choice, opponent_choice))
-
-    while True:
-        buttons = pad.get_pressed()
-        if buttons & BUTTON_LEFT:
-            wait_for_button_release()
-            return True
-        elif buttons & BUTTON_RIGHT:
-            wait_for_button_release()
-            return False
 
 def run_game_menu():
     selection = -1
@@ -237,9 +222,29 @@ def receive_choice(uart):
         if isinstance(packet, ButtonPacket):
             return [ButtonPacket.BUTTON_1, ButtonPacket.BUTTON_2, ButtonPacket.BUTTON_3].index(packet.button)
 
-WIN = 'You won'
-LOSE = 'You Lost'
-TIE =  "It's a tie"
+def run_game(uart):
+    show_frame(create_game_menu())
+    selected_game_option = run_game_menu()
+    badge.pixels.fill((0, 10, 0))
+    badge.vibration = True
+    send_choice(uart, selected_game_option)
+    time.sleep(0.25)
+    badge.vibration = False
+    other_player_choice = receive_choice(uart)
+    badge.pixels.fill((0, 0, 0))
+    return (selected_game_option, other_player_choice)
+
+def run_game_over_menu(match_results, game_result, my_choice, opponent_choice):
+    show_frame(create_game_over_menu(match_results, game_result, my_choice, opponent_choice))
+
+    while True:
+        buttons = pad.get_pressed()
+        if buttons & BUTTON_LEFT:
+            wait_for_button_release()
+            return True
+        elif buttons & BUTTON_RIGHT:
+            wait_for_button_release()
+            return False
 
 def resolve_game(choices):
     options = {
@@ -286,10 +291,12 @@ def setup_game():
 def main():
     while True:
         uart = setup_game()
+        match_results = {WIN :0, LOSE: 0, TIE: 0}
         while True:
             my_choice, opponent_choice = run_game(uart)
             game_result = resolve_game(str([my_choice, opponent_choice]))
-            play_again = run_game_over(game_result, my_choice, opponent_choice)
+            match_results[game_result] += 1
+            play_again = run_game_over_menu(match_results, game_result, my_choice, opponent_choice)
             send_choice(uart, play_again)
             if play_again:
                 play_again = receive_choice(uart)
