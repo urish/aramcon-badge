@@ -225,7 +225,7 @@ def receive_choice(uart):
 def run_game(uart):
     show_frame(create_game_menu())
     selected_game_option = run_game_menu()
-    badge.pixels.fill((0, 10, 0))
+    badge.pixels.fill((10, 0, 10))
     badge.vibration = True
     send_choice(uart, selected_game_option)
     time.sleep(0.25)
@@ -235,16 +235,30 @@ def run_game(uart):
     return (selected_game_option, other_player_choice)
 
 def run_game_over_menu(match_results, game_result, my_choice, opponent_choice):
+    game_results_colors = {
+        WIN: (0, 10, 0),
+        LOSE: (10, 0, 0),
+        TIE: (10, 10, 0)
+    }
+    play_again = False
+    selection_complete = False
+
     show_frame(create_game_over_menu(match_results, game_result, my_choice, opponent_choice))
+    badge.pixels.fill(game_results_colors[game_result])
 
     while True:
         buttons = pad.get_pressed()
         if buttons & BUTTON_LEFT:
-            wait_for_button_release()
-            return True
+            selection_complete = True
+            play_again = True
         elif buttons & BUTTON_RIGHT:
+            selection_complete = True
+            play_again = False
+
+        if selection_complete:
             wait_for_button_release()
-            return False
+            badge.pixels.fill((0,0,0))
+            return play_again
 
 def resolve_game(choices):
     options = {
