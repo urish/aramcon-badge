@@ -60,7 +60,7 @@ def create_controls(controls, base_x = 30, stride_x = 100, base_y = 120):
         frame.append(Label(terminalio.FONT, text=label, x = stride_x * idx))
     return frame
 
-def render_menu(menu_name, options, selected_index):
+def create_menu(menu_name, options, selected_index):
     option_base_x = 100
     option_stride_x = 95
     option_base_y = 60
@@ -89,7 +89,7 @@ def render_menu(menu_name, options, selected_index):
         frame.append(option_label)
 
     frame.append(create_controls(controls))
-    display.show(frame)
+    return frame
 
 def run_menu(menu_name, options):
     should_refresh = True
@@ -110,36 +110,35 @@ def run_menu(menu_name, options):
                 should_refresh = True
             elif buttons & BUTTON_MIDDLE:
                 selection_complete = True
-
-            wait_for_button_release()
             
             if selection_complete:
+                wait_for_button_release()
                 return selected_index
 
-        if should_refresh and (display.time_to_refresh == 0):
-            render_menu(menu_name, options, selected_index)
-            display.refresh()
+        if should_refresh:
+            wait_for_button_release()
+            show_frame(create_menu(menu_name, options, selected_index))
             should_refresh = False
 
-def render_status(status, controls = None):
-    g = displayio.Group()
+def create_status(status, controls = None):
+    frame = displayio.Group()
 
     connected_label = Label(terminalio.FONT, text=status)
     connected_label.x = 80
     connected_label.y = 60
-    g.append(connected_label)
+    frame.append(connected_label)
 
     if controls:
-        g.append(create_controls(controls))
+        frame.append(create_controls(controls))
 
-    show_frame(g)
+    return frame
 
 device_name = 'rps-{}'.format(str(binascii.hexlify(bytearray(reversed(bleio.adapter.address.address_bytes[0:2]))), 'utf-8'))
 uart_server = UARTServer(name=device_name)
 
 def host_game():
     uart_server.start_advertising()
-    render_status('Hosting on {}'.format(device_name), [' ', 'CANCEL'])
+    show_frame(create_status('Hosting on {}'.format(device_name), [' ', 'CANCEL']))
     while not uart_server.connected:
         if pad.get_pressed() & BUTTON_MIDDLE:
             uart_server.stop_advertising()
@@ -157,7 +156,7 @@ def join_game(game_host):
     return uart_client
 
 def run_game(uart):
-    render_game_menu()
+    show_frame(create_game_menu())
     selected_game_option = run_game_menu()
     badge.pixels.fill((0, 10, 0))
     badge.vibration = True
@@ -168,19 +167,20 @@ def run_game(uart):
     badge.pixels.fill((0, 0, 0))
     return (selected_game_option, other_player_choice)
 
-def render_game_menu():
-    g = displayio.Group(max_size = 6)
+def create_game_menu():
+    frame = displayio.Group(max_size = 6)
 
     base_x = 30
     base_y = 34
     current_x = base_x
     for i in range(len(icons)):
         grid = displayio.TileGrid(icons[i], pixel_shader=palette, x=current_x, y=base_y)
-        g.append(grid)
+        frame.append(grid)
         current_x += 90
-    show_frame(g)
 
-def render_game_over(game_result, my_choice, opponent_choice):
+    return frame
+
+def create_game_over_menu(game_result, my_choice, opponent_choice):
     frame = displayio.Group(max_size=10)
 
     game_options = ['Rock', 'Paper', 'Scissors']
@@ -190,8 +190,10 @@ def render_game_over(game_result, my_choice, opponent_choice):
     frame.append(Label(terminalio.FONT, text=game_summary, x=94, y=50))
     frame.append(large_label('Rematch?', x=90, y=80))
     frame.append(create_controls(['YES', ' ', 'NO']))
+    return frame
 
-    show_frame(frame)
+def run_game_over(game_result, my_choice, opponent_choice):
+    show_frame(create_game_over_menu(game_result, my_choice, opponent_choice))
 
     while True:
         buttons = pad.get_pressed()
@@ -287,12 +289,12 @@ def main():
         while True:
             my_choice, opponent_choice = run_game(uart)
             game_result = resolve_game(str([my_choice, opponent_choice]))
-            play_again = render_game_over(game_result, my_choice, opponent_choice)
+            play_again = run_game_over(game_result, my_choice, opponent_choice)
             send_choice(uart, play_again)
             if play_again:
                 play_again = receive_choice(uart)
             if not play_again:
-                render_status('Disconnecting...')
+                show_frame(create_status('Disconnecting...'))
                 break
         uart.disconnect()
         time.sleep(2)
