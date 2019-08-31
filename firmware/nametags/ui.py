@@ -1,7 +1,11 @@
+# Nametags app for Aramcon Badge
+# Copyright (C) 2019, Uri Shaked
+
 from badgeio import badge
 import adafruit_miniqr
 import bleio
 import displayio
+import time
 
 palette = displayio.Palette(2)
 palette[0] = 0x000000
@@ -43,4 +47,12 @@ def display_qr():
     frame.append(qr_group)
     frame.append(banner())
     badge.display.show(frame)
+    time.sleep(badge.display.time_to_refresh)
     badge.display.refresh()
+
+def display_nametag():
+    try:
+        badge.show_bitmap('/nametag.bmp', inverse_palette)
+        return True
+    except:
+        return False

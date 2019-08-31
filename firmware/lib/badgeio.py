@@ -149,10 +149,10 @@ class Badge:
             self._midi = MIDI(midi_out=self.sound.initMidi(plugin))
         return self._midi
 
-    def show_bitmap(self, path):
+    def show_bitmap(self, path, pixel_shader=displayio.ColorConverter()):
         """Draws the bitmap from the given file. Must be in .bmp format"""
         image = displayio.OnDiskBitmap(open(path, "rb"))
-        grid = displayio.TileGrid(image, pixel_shader=displayio.ColorConverter())
+        grid = displayio.TileGrid(image, pixel_shader=pixel_shader)
         group = displayio.Group(max_size=1)
         group.append(grid)
         self.display.show(group)

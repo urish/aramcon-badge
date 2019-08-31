@@ -5,7 +5,7 @@ import { displayWidth, displayHeight, badgePrefix } from './badge-consts';
 
 const DISPLAY_SERVICE = 0xfeef;
 const DISPLAY_CHARACTERISTIC = 0xfeee;
-const BATTERY_VOLTAGE_CHARACTERISTIC = '34ad4113-1259-ff85-4d44-1fb0c6d0249a';
+const BATTERY_VOLTAGE_CHARACTERISTIC = 0xfeed;
 
 @Injectable({
   providedIn: 'root',
@@ -40,13 +40,13 @@ export class BadgeGattService {
     console.log('Connected :-)');
     this.connected = true;
 
+    // Clear screen to black:
+    for (let i = 0; i < this.lastImage.length; i++) {
+      this.lastImage[i] = 0x0;
+    }
+    
     const batteryCharacteristic = await svc.getCharacteristic(BATTERY_VOLTAGE_CHARACTERISTIC);
     this.batteryVoltage = new TextDecoder().decode(await batteryCharacteristic.readValue());
-
-    // Clear screen to white:
-    for (let i = 0; i < this.lastImage.length; i++) {
-      this.lastImage[i] = 0xff;
-    }
   }
 
   disconnect() {
