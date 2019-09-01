@@ -11,13 +11,9 @@ palette = displayio.Palette(2)
 palette[0] = 0x000000
 palette[1] = 0xFFFFFF
 
-inverse_palette = displayio.Palette(2)
-inverse_palette[0] = 0xFFFFFF
-inverse_palette[1] = 0x000000
-
 def banner():
     image = displayio.OnDiskBitmap(open("/assets/banner.bmp", "rb"))
-    return displayio.TileGrid(image, pixel_shader=inverse_palette)
+    return displayio.TileGrid(image, pixel_shader=displayio.ColorConverter())
 
 def bitmap_QR(matrix):
     BORDER_PIXELS  = 2
@@ -47,12 +43,13 @@ def display_qr():
     frame.append(qr_group)
     frame.append(banner())
     badge.display.show(frame)
-    time.sleep(badge.display.time_to_refresh)
+    while badge.display.time_to_refresh > 0:
+        pass
     badge.display.refresh()
 
 def display_nametag():
     try:
-        badge.show_bitmap('/nametag.bmp', inverse_palette)
+        badge.show_bitmap('/nametag.bmp')
         return True
     except:
         return False

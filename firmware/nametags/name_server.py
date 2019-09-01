@@ -34,8 +34,8 @@ class NameServer:
         self._bitmap = displayio.Bitmap(badge.display.width, badge.display.height, 2)
         self._spinner = LedSpinner(badge.pixels)
         self._palette = displayio.Palette(2)
-        self._palette[0] = 0xffffff
-        self._palette[1] = 0x000000
+        self._palette[0] = 0x000000
+        self._palette[1] = 0xffffff
         self._offset = 0
         self._bufsize = 0
         self._dirty = False
