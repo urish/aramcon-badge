@@ -91,4 +91,4 @@ class IL0373(displayio.EPaperDisplay):
                          ram_width=160, ram_height=296,
                          busy_state=False,
                          write_black_ram_command=_write_black_ram_command, write_color_ram_command=0x13,
-                         black_bits_inverted=True, color_bits_inverted=True, refresh_display_command=0x12)
+                         color_bits_inverted=True, refresh_display_command=0x12)
