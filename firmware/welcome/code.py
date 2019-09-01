@@ -31,6 +31,6 @@ display.show(frame)
 display.refresh()
 
 while True:
-  for i in range(4):
-    badge.pixels[i] = (255 * badge.left, 255 * badge.middle, 255 * badge.right)
-  badge.vibration = badge.left
+    for i in range(4):
+        badge.pixels[i] = (255 * badge.left, 255 * badge.middle, 255 * badge.right)
+    badge.vibration = badge.left
