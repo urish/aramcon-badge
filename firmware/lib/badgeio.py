@@ -8,7 +8,6 @@ from digitalio import DigitalInOut, Pull
 from analogio import AnalogIn
 import displayio
 import neopixel
-import adafruit_lis3dh
 
 class Badge:
     def __init__(self):
@@ -25,7 +24,7 @@ class Badge:
         self._vibration.switch_to_output()
         self._pixels = neopixel.NeoPixel(board.NEOPIXEL, 4)
         self._i2c = busio.I2C(board.SCL, board.SDA)
-        self._lis3dh = adafruit_lis3dh.LIS3DH_I2C(self._i2c, address=0x18)
+        self._lis3dh = None
         self._spi = None
         self._display_bus = None
         self._display = None
@@ -115,6 +114,9 @@ class Badge:
     @property
     def acceleration(self):
         """Obtain acceleration as a tuple with 3 elements: (x, y, z)"""
+        if not self._lis3dh:
+            import adafruit_lis3dh
+            self._lis3dh = adafruit_lis3dh.LIS3DH_I2C(self._i2c, address=0x18)
         return self._lis3dh.acceleration
 
     @property
