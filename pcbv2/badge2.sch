@@ -4,7 +4,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 1 3
+Sheet 1 4
 Title ""
 Date ""
 Rev ""
@@ -1007,4 +1007,10 @@ Text Label 4800 4400 3    50   ~ 0
 SAO_GPIO1
 Wire Wire Line
 	4800 4350 4800 4800
+$Sheet
+S 9700 4050 950  350 
+U 5D9D2F80
+F0 "LiPo" 50
+F1 "lipo.sch" 50
+$EndSheet
 $EndSCHEMATC

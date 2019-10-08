@@ -4,4 +4,5 @@
   (lib (name PMPB15XP_115)(type Legacy)(uri ${KIPRJMOD}/lib/PMPB15XP_115.lib)(options "")(descr ""))
   (lib (name LIS2DH12TR)(type Legacy)(uri ${KIPRJMOD}/lib/LIS2DH12TR.lib)(options "")(descr ""))
   (lib (name badge2-rescue)(type Legacy)(uri ${KIPRJMOD}/badge2-rescue.lib)(options "")(descr ""))
+  (lib (name RT9013)(type Legacy)(uri ${KIPRJMOD}/lib/RT9013.lib)(options "")(descr ""))
 )
