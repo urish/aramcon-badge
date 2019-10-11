@@ -27,6 +27,7 @@ _autosave-*
 
 # Cache
 fp-info-cache
+.svg2shenzhen-cache
 
 # Gerber output directory
 gerber
