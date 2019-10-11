@@ -903,4 +903,60 @@ Wire Wire Line
 	9100 4750 8900 4750
 Text Label 8900 4750 0    50   ~ 0
 SDA
+$Comp
+L Connector:Conn_01x08_Female J4
+U 1 1 5DAFBF97
+P 7800 5500
+F 0 "J4" H 7828 5476 50  0000 L CNN
+F 1 "Conn_01x08_Female" H 7828 5385 50  0000 L CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x08_P2.54mm_Horizontal" H 7800 5500 50  0001 C CNN
+F 3 "~" H 7800 5500 50  0001 C CNN
+	1    7800 5500
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5DB0509B
+P 7350 5300
+F 0 "#PWR?" H 7350 5050 50  0001 C CNN
+F 1 "GND" V 7355 5172 50  0000 R CNN
+F 2 "" H 7350 5300 50  0001 C CNN
+F 3 "" H 7350 5300 50  0001 C CNN
+	1    7350 5300
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	7600 5300 7350 5300
+$Comp
+L power:+3.3V #PWR?
+U 1 1 5DB09B35
+P 7400 5200
+F 0 "#PWR?" H 7400 5050 50  0001 C CNN
+F 1 "+3.3V" H 7415 5373 50  0000 C CNN
+F 2 "" H 7400 5200 50  0001 C CNN
+F 3 "" H 7400 5200 50  0001 C CNN
+	1    7400 5200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7600 5200 7400 5200
+Text Label 7500 5400 2    50   ~ 0
+SDA
+Wire Wire Line
+	7600 5400 7350 5400
+Text Label 7350 5500 0    50   ~ 0
+SCL
+Wire Wire Line
+	7600 5500 7350 5500
+Wire Wire Line
+	5250 2050 5250 1700
+Text Label 5250 2000 1    50   ~ 0
+FM_~RST
+Text Label 7550 5700 2    50   ~ 0
+FM_~RST
+Wire Wire Line
+	7600 5700 7350 5700
+NoConn ~ 7600 5600
+NoConn ~ 7600 5800
+NoConn ~ 7600 5900
 $EndSCHEMATC
