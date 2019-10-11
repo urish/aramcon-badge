@@ -367,44 +367,6 @@ $EndComp
 Wire Wire Line
 	4350 6200 3900 6200
 $Comp
-L LED:WS2812B D8
-U 1 1 5C3CF153
-P 4650 6650
-F 0 "D8" V 4604 6991 50  0000 L CNN
-F 1 "WS2812B" V 4695 6991 50  0000 L CNN
-F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 4700 6350 50  0001 L TNN
-F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 4750 6275 50  0001 L TNN
-	1    4650 6650
-	0    1    1    0   
-$EndComp
-$Comp
-L LED:WS2812B D9
-U 1 1 5C3CF19D
-P 4650 7350
-F 0 "D9" V 4604 7691 50  0000 L CNN
-F 1 "WS2812B" V 4695 7691 50  0000 L CNN
-F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 4700 7050 50  0001 L TNN
-F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 4750 6975 50  0001 L TNN
-	1    4650 7350
-	0    1    1    0   
-$EndComp
-Wire Wire Line
-	4950 6150 4950 6650
-Connection ~ 4950 6150
-Wire Wire Line
-	4950 7350 4950 6650
-Connection ~ 4950 6650
-Wire Wire Line
-	4350 6200 4350 6650
-Connection ~ 4350 6200
-Wire Wire Line
-	4350 6650 4350 7350
-Connection ~ 4350 6650
-Wire Wire Line
-	4650 6950 4650 7050
-Wire Wire Line
-	4650 6350 4650 6150
-$Comp
 L Switch:SW_Push SW1
 U 1 1 5C3D29EC
 P 6800 2650
