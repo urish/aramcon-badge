@@ -3189,6 +3189,11 @@
       (net 73 "Net-(U3-Pad27)"))
     (pad 26 smd rect (at 6.35 6.29) (size 1.524 0.635) (layers F.Cu F.Paste F.Mask)
       (net 91 "Net-(BTN6-Pad2)"))
+    (model 3d-models/E73-2G4M08S1C.wrl
+      (offset (xyz 6.5 -9 0))
+      (scale (xyz 0.3937007874 0.3937007874 0.3937007874))
+      (rotate (xyz 0 0 -90))
+    )
   )
 
   (module AA_battery_clip:BK-53_MPD_AAClip (layer F.Cu) (tedit 59E2D3C4) (tstamp 5C9788B7)
