@@ -423,73 +423,8 @@ Wire Wire Line
 	5800 2700 6100 2700
 Text Label 5850 2700 0    50   ~ 0
 V_BAT
-$Comp
-L Memory_Flash:AT25SF081-SSHD-X U5
-U 1 1 5C51FC1A
-P 3400 5100
-F 0 "U5" H 4041 5146 50  0000 L CNN
-F 1 "GD25Q16C" H 4041 5055 50  0000 L CNN
-F 2 "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm" H 3400 4500 50  0001 C CNN
-F 3 "https://www.adestotech.com/wp-content/uploads/DS-AT25SF081_045.pdf" H 3400 5100 50  0001 C CNN
-	1    3400 5100
-	0    1    1    0   
-$EndComp
-$Comp
-L power:GND #PWR?
-U 1 1 5C51FD2C
-P 2850 5100
-AR Path="/5C1D48B0/5C51FD2C" Ref="#PWR?"  Part="1" 
-AR Path="/5C51FD2C" Ref="#PWR0171"  Part="1" 
-F 0 "#PWR0171" H 2850 4850 50  0001 C CNN
-F 1 "GND" H 2855 4927 50  0000 C CNN
-F 2 "" H 2850 5100 50  0001 C CNN
-F 3 "" H 2850 5100 50  0001 C CNN
-	1    2850 5100
-	0    1    1    0   
-$EndComp
-Wire Wire Line
-	2900 5100 2850 5100
-$Comp
-L power:+3.3V #PWR0172
-U 1 1 5C522E76
-P 4000 5100
-F 0 "#PWR0172" H 4000 4950 50  0001 C CNN
-F 1 "+3.3V" H 4015 5273 50  0000 C CNN
-F 2 "" H 4000 5100 50  0001 C CNN
-F 3 "" H 4000 5100 50  0001 C CNN
-	1    4000 5100
-	0    1    1    0   
-$EndComp
-Wire Wire Line
-	4000 5100 3900 5100
-Wire Wire Line
-	3150 4350 3150 4500
-Wire Wire Line
-	3150 4500 3200 4500
-Wire Wire Line
-	3300 4350 3300 4500
-Wire Wire Line
-	3450 4350 3450 4500
-Wire Wire Line
-	3450 4500 3400 4500
-Wire Wire Line
-	3500 4500 3500 4400
-Wire Wire Line
-	3500 4400 3600 4400
-Wire Wire Line
-	3600 4400 3600 4350
-Wire Wire Line
-	3750 4350 3750 4500
-Wire Wire Line
-	3750 4500 3600 4500
-Wire Wire Line
-	3600 5700 3600 6050
-Text Label 3600 6050 1    50   ~ 0
-FLASH_SO
 Wire Wire Line
 	3900 4350 3900 4800
-Text Label 3900 4750 1    50   ~ 0
-FLASH_SO
 $Comp
 L Device:Buzzer BZ1
 U 1 1 5C558E48
@@ -940,4 +875,90 @@ F 3 "" H 1600 2700 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	1800 2700 1600 2700
+$Comp
+L Memory_Flash:W25Q32JVSS U5
+U 1 1 5C51FC1A
+P 3000 5700
+F 0 "U5" H 3350 5300 50  0000 L CNN
+F 1 "W25Q128JVSIQ" H 2400 5350 50  0000 L CNN
+F 2 "Package_SO:SOIC-8_5.23x5.23mm_P1.27mm" H 3000 5100 50  0001 C CNN
+F 3 "https://datasheet.lcsc.com/szlcsc/Winbond-Elec-W25Q128JVSIQTR_C97521.pdf" H 3000 5700 50  0001 C CNN
+F 4 "C97521" H 3000 5700 50  0001 C CNN "LCSC Part"
+	1    3000 5700
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5C51FD2C
+P 3000 5200
+AR Path="/5C1D48B0/5C51FD2C" Ref="#PWR?"  Part="1" 
+AR Path="/5C51FD2C" Ref="#PWR0171"  Part="1" 
+F 0 "#PWR0171" H 3000 4950 50  0001 C CNN
+F 1 "GND" H 3005 5027 50  0000 C CNN
+F 2 "" H 3000 5200 50  0001 C CNN
+F 3 "" H 3000 5200 50  0001 C CNN
+	1    3000 5200
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3000 5200 3000 5300
+$Comp
+L power:+3.3V #PWR0172
+U 1 1 5C522E76
+P 3000 6200
+F 0 "#PWR0172" H 3000 6050 50  0001 C CNN
+F 1 "+3.3V" H 3015 6373 50  0000 C CNN
+F 2 "" H 3000 6200 50  0001 C CNN
+F 3 "" H 3000 6200 50  0001 C CNN
+	1    3000 6200
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	3000 6200 3000 6100
+Wire Wire Line
+	2500 5800 2100 5800
+Text Label 2100 5800 0    50   ~ 0
+FLASH_DO
+Wire Wire Line
+	3750 4350 3750 4800
+Text Label 3600 4800 1    50   ~ 0
+FLASH_CLK
+Text Label 3950 5600 2    50   ~ 0
+FLASH_CLK
+Wire Wire Line
+	3500 5600 3950 5600
+Wire Wire Line
+	3600 4350 3600 4800
+Text Label 3450 4800 1    50   ~ 0
+FLASH_CS
+Text Label 3950 5800 2    50   ~ 0
+FLASH_CS
+Wire Wire Line
+	3950 5800 3500 5800
+Wire Wire Line
+	3450 4350 3450 4800
+Wire Wire Line
+	3150 4350 3150 4800
+Text Label 3150 4800 1    50   ~ 0
+FLASH_IO3
+Text Label 2100 5500 0    50   ~ 0
+FLASH_IO3
+Wire Wire Line
+	2500 5500 2100 5500
+Wire Wire Line
+	2500 5600 2100 5600
+Text Label 2100 5600 0    50   ~ 0
+FLASH_IO2
+Text Label 3300 4800 1    50   ~ 0
+FLASH_IO2
+Wire Wire Line
+	3300 4350 3300 4800
+Text Label 3900 4800 1    50   ~ 0
+FLASH_DO
+Text Label 3750 4800 1    50   ~ 0
+FLASH_DI
+Text Label 2100 5900 0    50   ~ 0
+FLASH_DI
+Wire Wire Line
+	2100 5900 2500 5900
 $EndSCHEMATC
