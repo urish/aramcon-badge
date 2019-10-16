@@ -110,23 +110,6 @@ MISO
 Text Label 5100 2000 1    50   ~ 0
 SCLK
 Wire Wire Line
-	8300 1450 8650 1450
-Text Label 8350 1450 0    50   ~ 0
-SWDIO
-Text Label 8350 1350 0    50   ~ 0
-SWDCLK
-$Comp
-L power:+3.3V #PWR0148
-U 1 1 5C1C8FC9
-P 7800 750
-F 0 "#PWR0148" H 7800 600 50  0001 C CNN
-F 1 "+3.3V" H 7815 923 50  0000 C CNN
-F 2 "" H 7800 750 50  0001 C CNN
-F 3 "" H 7800 750 50  0001 C CNN
-	1    7800 750 
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
 	2400 3750 2000 3750
 Wire Wire Line
 	2400 3600 2000 3600
@@ -134,17 +117,6 @@ Text Label 2100 3600 0    50   ~ 0
 SWDIO
 Text Label 2050 3750 0    50   ~ 0
 SWDCLK
-$Comp
-L power:GND #PWR0149
-U 1 1 5C1CA857
-P 7800 2250
-F 0 "#PWR0149" H 7800 2000 50  0001 C CNN
-F 1 "GND" H 7805 2077 50  0000 C CNN
-F 2 "" H 7800 2250 50  0001 C CNN
-F 3 "" H 7800 2250 50  0001 C CNN
-	1    7800 2250
-	1    0    0    -1  
-$EndComp
 Text Label 8700 2150 0    50   ~ 0
 MOSI
 Text Label 8700 2250 0    50   ~ 0
@@ -181,8 +153,6 @@ Wire Wire Line
 	8700 2250 9100 2250
 Wire Wire Line
 	8700 2150 9100 2150
-Wire Wire Line
-	8300 1350 8650 1350
 $Comp
 L power:GND #PWR0162
 U 1 1 5C2E4386
@@ -398,21 +368,6 @@ Wire Wire Line
 Connection ~ 7000 3050
 Wire Wire Line
 	7000 3050 7000 3450
-$Comp
-L badge2-rescue:Conn_ARM_JTAG_SWD_10-Connector J6
-U 1 1 5C3F1CD3
-P 7800 1450
-F 0 "J6" V 7250 1500 50  0000 R CNN
-F 1 "Conn_ARM_JTAG_SWD_10" V 7350 1850 50  0000 R CNN
-F 2 "Connector_PinHeader_1.27mm:PinHeader_2x05_P1.27mm_Vertical_SMD" H 7850 900 50  0001 L TNN
-F 3 "http://infocenter.arm.com/help/topic/com.arm.doc.faqs/attached/13634/cortex_debug_connectors.pdf" V 7450 200 50  0001 C CNN
-	1    7800 1450
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	7800 2050 7800 2250
-Wire Wire Line
-	7800 750  7800 850 
 $Comp
 L Connector_Generic:Conn_02x03_Odd_Even J2
 U 1 1 5C4210C2
@@ -640,7 +595,7 @@ L Connector_Generic:Conn_02x04_Counter_Clockwise J1
 U 1 1 5D98ABD9
 P 4600 900
 F 0 "J1" H 4650 1217 50  0000 C CNN
-F 1 "Conn_02x04_Counter_Clockwise" H 4650 1126 50  0000 C CNN
+F 1 "SOICbite" H 4650 1126 50  0000 C CNN
 F 2 "SOICbite:SOIC_clipProgSmall" H 4600 900 50  0001 C CNN
 F 3 "~" H 4600 900 50  0001 C CNN
 	1    4600 900 
