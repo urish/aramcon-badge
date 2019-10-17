@@ -368,48 +368,9 @@ Wire Wire Line
 Connection ~ 7000 3050
 Wire Wire Line
 	7000 3050 7000 3450
-$Comp
-L Connector_Generic:Conn_02x03_Odd_Even J2
-U 1 1 5C4210C2
-P 7650 4650
-F 0 "J2" H 7700 4867 50  0000 C CNN
-F 1 "SAO_CONN" H 7700 4950 50  0000 C CNN
-F 2 "Connector_PinSocket_2.54mm:PinSocket_2x03_P2.54mm_Vertical" H 7650 4650 50  0001 C CNN
-F 3 "~" H 7650 4650 50  0001 C CNN
-	1    7650 4650
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:+3.3V #PWR0166
-U 1 1 5C4211E2
-P 7150 4550
-F 0 "#PWR0166" H 7150 4400 50  0001 C CNN
-F 1 "+3.3V" H 7165 4723 50  0000 C CNN
-F 2 "" H 7150 4550 50  0001 C CNN
-F 3 "" H 7150 4550 50  0001 C CNN
-	1    7150 4550
-	0    -1   -1   0   
-$EndComp
-Wire Wire Line
-	7450 4550 7150 4550
-$Comp
-L power:GND #PWR0167
-U 1 1 5C42404A
-P 8150 4550
-F 0 "#PWR0167" H 8150 4300 50  0001 C CNN
-F 1 "GND" V 8155 4422 50  0000 R CNN
-F 2 "" H 8150 4550 50  0001 C CNN
-F 3 "" H 8150 4550 50  0001 C CNN
-	1    8150 4550
-	0    -1   -1   0   
-$EndComp
-Wire Wire Line
-	7450 4650 7200 4650
-Text Label 7350 4650 2    50   ~ 0
+Text Label 8600 4500 2    50   ~ 0
 SDA
-Wire Wire Line
-	7950 4650 8200 4650
-Text Label 8050 4650 0    50   ~ 0
+Text Label 6700 4500 0    50   ~ 0
 SCL
 Wire Wire Line
 	5800 3600 6100 3600
@@ -657,8 +618,6 @@ Wire Wire Line
 Wire Wire Line
 	1750 1000 2050 1000
 Wire Wire Line
-	8150 4550 7950 4550
-Wire Wire Line
 	4950 4350 4950 4700
 Wire Wire Line
 	5100 4350 5100 4700
@@ -678,14 +637,10 @@ Wire Wire Line
 	4950 2050 4950 1650
 Text Label 4950 2000 1    50   ~ 0
 SAO_GPIO2
-Wire Wire Line
-	7000 4750 7450 4750
-Text Label 7000 4750 0    50   ~ 0
+Text Label 8600 4700 2    50   ~ 0
 SAO_GPIO1
-Text Label 8050 4750 0    50   ~ 0
+Text Label 6700 4700 0    50   ~ 0
 SAO_GPIO2
-Wire Wire Line
-	7950 4750 8450 4750
 Text Label 4800 4400 3    50   ~ 0
 SAO_GPIO1
 Wire Wire Line
@@ -987,4 +942,50 @@ Wire Wire Line
 Connection ~ 1600 2700
 Wire Wire Line
 	1600 2700 1600 2600
+$Comp
+L badgelife_shitty_addon_v169bis:Badgelife_sao_connector_v169bis J2
+U 1 1 5C4210C2
+P 7650 4500
+F 0 "J2" V 7229 4497 50  0000 C CNN
+F 1 "SAO_CONN" V 7300 4500 50  0000 C CNN
+F 2 "badge:Badgelife-SAOv169-BADGE-2x3" H 7650 4500 50  0001 C CNN
+F 3 "" H 7650 4500 50  0001 C CNN
+F 4 "SFH11-NBPC-D03-ST-BK-ND" H 7650 4500 50  0001 C CNN "Digikey Part"
+	1    7650 4500
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR0167
+U 1 1 5C42404A
+P 7000 4300
+F 0 "#PWR0167" H 7000 4050 50  0001 C CNN
+F 1 "GND" V 7005 4172 50  0000 R CNN
+F 2 "" H 7000 4300 50  0001 C CNN
+F 3 "" H 7000 4300 50  0001 C CNN
+	1    7000 4300
+	0    1    1    0   
+$EndComp
+$Comp
+L power:+3.3V #PWR0166
+U 1 1 5C4211E2
+P 8400 4300
+F 0 "#PWR0166" H 8400 4150 50  0001 C CNN
+F 1 "+3.3V" H 8415 4473 50  0000 C CNN
+F 2 "" H 8400 4300 50  0001 C CNN
+F 3 "" H 8400 4300 50  0001 C CNN
+	1    8400 4300
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	8200 4700 8600 4700
+Wire Wire Line
+	8200 4500 8600 4500
+Wire Wire Line
+	7100 4700 6700 4700
+Wire Wire Line
+	7100 4500 6700 4500
+Wire Wire Line
+	7000 4300 7100 4300
+Wire Wire Line
+	8200 4300 8400 4300
 $EndSCHEMATC
