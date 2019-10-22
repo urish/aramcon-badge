@@ -539,6 +539,7 @@ F 0 "J3" H 1107 2317 50  0000 C CNN
 F 1 "USB_C_Receptacle_USB2.0" H 1107 2226 50  0000 C CNN
 F 2 "Connector_USB:USB_C_Receptacle_Amphenol_12401548E4-2A" H 1150 1450 50  0001 C CNN
 F 3 "https://www.usb.org/sites/default/files/documents/usb_type-c.zip" H 1150 1450 50  0001 C CNN
+F 4 "C388659" H 1000 1450 50  0001 C CNN "LCSC Part"
 	1    1000 1450
 	1    0    0    -1  
 $EndComp
