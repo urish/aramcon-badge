@@ -147,12 +147,10 @@ AR Path="/5DAAA5CF/5DAAD2A9" Ref="U7"  Part="1"
 F 0 "U7" H 8950 6170 50  0000 C CNN
 F 1 "LIS2DH12TR" H 8950 6079 50  0000 C CNN
 F 2 "Package_LGA:LGA-12_2x2mm_P0.5mm" H 8950 5400 50  0001 L BNN
-F 3 "497-14851-1-ND" H 8950 5400 50  0001 L BNN
-F 4 "LGA-12 STMicroelectronics" H 8950 5400 50  0001 L BNN "Field4"
-F 5 "https://www.digikey.com/product-detail/en/stmicroelectronics/LIS2DH12TR/497-14851-1-ND/4899838?utm_source=snapeda&utm_medium=aggregator&utm_campaign=symbol" H 8950 5400 50  0001 L BNN "Field5"
-F 6 "STMicroelectronics" H 8950 5400 50  0001 L BNN "Field6"
-F 7 "LIS2DH12TR" H 8950 5400 50  0001 L BNN "Field7"
-F 8 "MEMS digital output motion sensor: ultra low-power high performance 3-axes femto accelerometer" H 8950 5400 50  0001 L BNN "Field8"
+F 3 "~" H 8950 5400 50  0001 L BNN
+F 4 "497-14851-1-ND" H 8950 5400 50  0001 L BNN "Digikey Part"
+F 5 "MEMS digital output motion sensor: ultra low-power high performance 3-axes femto accelerometer" H 8950 5400 50  0001 L BNN "Description"
+F 6 "C110926" H 8950 5400 50  0001 C CNN "LCSC Part"
 	1    8950 5400
 	1    0    0    -1  
 $EndComp

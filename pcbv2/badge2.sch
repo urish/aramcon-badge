@@ -494,6 +494,7 @@ F 0 "J1" H 4650 1217 50  0000 C CNN
 F 1 "SOICbite" H 4650 1126 50  0000 C CNN
 F 2 "SOICbite:SOIC_clipProgSmall" H 4600 900 50  0001 C CNN
 F 3 "~" H 4600 900 50  0001 C CNN
+F 4 "True" H 4600 900 50  0001 C CNN "No Assembly"
 	1    4600 900 
 	1    0    0    -1  
 $EndComp
