@@ -5,4 +5,5 @@
   (lib (name AA_battery_clip)(type KiCad)(uri ${KIPRJMOD}/AA_battery_clip.pretty)(options "")(descr ""))
   (lib (name SOICbite)(type KiCad)(uri ${KIPRJMOD}/SOICbite.pretty)(options "")(descr ""))
   (lib (name badge)(type KiCad)(uri ${KIPRJMOD}/badge.pretty)(options "")(descr ""))
+  (lib (name bcaaapc)(type KiCad)(uri ${KIPRJMOD}/bcaaapc.pretty)(options "")(descr ""))
 )
