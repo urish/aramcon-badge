@@ -6,4 +6,5 @@
   (lib (name SOICbite)(type KiCad)(uri ${KIPRJMOD}/SOICbite.pretty)(options "")(descr ""))
   (lib (name badge)(type KiCad)(uri ${KIPRJMOD}/badge.pretty)(options "")(descr ""))
   (lib (name bcaaapc)(type KiCad)(uri ${KIPRJMOD}/bcaaapc.pretty)(options "")(descr ""))
+  (lib (name jst)(type KiCad)(uri ${KIPRJMOD}/jst.pretty)(options "")(descr ""))
 )
