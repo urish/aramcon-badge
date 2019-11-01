@@ -1,6 +1,6 @@
 EESchema Schematic File Version 4
 LIBS:badge2-cache
-EELAYER 30 0
+EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -860,7 +860,7 @@ $EndComp
 Wire Wire Line
 	1700 2600 1600 2600
 $Comp
-L Memory_Flash:W25Q32JVSS U5
+L badge2-rescue:W25Q32JVSS-Memory_Flash U5
 U 1 1 5C51FC1A
 P 3000 5700
 F 0 "U5" H 3350 5300 50  0000 L CNN

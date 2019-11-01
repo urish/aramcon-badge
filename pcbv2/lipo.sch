@@ -1,6 +1,6 @@
 EESchema Schematic File Version 4
 LIBS:badge2-cache
-EELAYER 30 0
+EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -61,8 +61,9 @@ U 1 1 5D9D64A0
 P 6650 3400
 F 0 "BT2" H 6768 3496 50  0000 L CNN
 F 1 "Battery_Cell" H 6768 3405 50  0000 L CNN
-F 2 "Connector_JST:JST_EH_S2B-EH_1x02_P2.50mm_Horizontal" V 6650 3460 50  0001 C CNN
-F 3 "~" V 6650 3460 50  0001 C CNN
+F 2 "jst:JST_PH_B2B-PH-K_02x2.00mm_Straight" V 6650 3460 50  0001 C CNN
+F 3 "http://www.jst-mfg.com/product/pdf/eng/ePH.pdf" V 6650 3460 50  0001 C CNN
+F 4 "B2B-PH-K-S(LF)(SN)" H 6650 3400 50  0001 C CNN "Digikey Part"
 	1    6650 3400
 	1    0    0    -1  
 $EndComp
@@ -142,7 +143,7 @@ $EndComp
 Wire Wire Line
 	6300 4150 6300 4350
 $Comp
-L RT9013:RT9013-XXXB U8
+L badge2-rescue:RT9013-XXXB-RT9013 U8
 U 1 1 5D9DA7E0
 P 8000 3400
 F 0 "U8" H 8000 3886 59  0000 C CNN

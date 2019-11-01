@@ -1,6 +1,6 @@
 EESchema Schematic File Version 4
 LIBS:badge2-cache
-EELAYER 30 0
+EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -33,8 +33,9 @@ U 1 1 5C4AE687
 P 3650 4850
 F 0 "BT1" H 3768 4946 50  0000 L CNN
 F 1 "Battery_Cell" H 3768 4855 50  0000 L CNN
-F 2 "AA_battery_clip:BK-53_MPD_AAClip" V 3650 4910 50  0001 C CNN
-F 3 "~" V 3650 4910 50  0001 C CNN
+F 2 "bcaaapc:bcaaapc" V 3650 4910 50  0001 C CNN
+F 3 "http://www.memoryprotectiondevices.com/datasheets/BCAAAPC-datasheet.pdf" V 3650 4910 50  0001 C CNN
+F 4 "BCAAAPC-ND" H 3650 4850 50  0001 C CNN "Digikey Part"
 	1    3650 4850
 	0    1    1    0   
 $EndComp
