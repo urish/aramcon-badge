@@ -29,13 +29,13 @@ $EndComp
 $Comp
 L power:GND #PWR0101
 U 1 1 5C1F19F6
-P 4500 1600
-F 0 "#PWR0101" H 4500 1350 50  0001 C CNN
-F 1 "GND" H 4505 1427 50  0000 C CNN
-F 2 "" H 4500 1600 50  0001 C CNN
-F 3 "" H 4500 1600 50  0001 C CNN
-	1    4500 1600
-	0    -1   -1   0   
+P 4500 1500
+F 0 "#PWR0101" H 4500 1250 50  0001 C CNN
+F 1 "GND" H 4505 1327 50  0000 C CNN
+F 2 "" H 4500 1500 50  0001 C CNN
+F 3 "" H 4500 1500 50  0001 C CNN
+	1    4500 1500
+	0    1    1    0   
 $EndComp
 $Comp
 L power:GND #PWR0102
@@ -62,12 +62,12 @@ $EndComp
 $Comp
 L power:+3.3V #PWR0104
 U 1 1 5C1F1A95
-P 4650 1900
-F 0 "#PWR0104" H 4650 1750 50  0001 C CNN
-F 1 "+3.3V" H 4650 2050 50  0000 C CNN
-F 2 "" H 4650 1900 50  0001 C CNN
-F 3 "" H 4650 1900 50  0001 C CNN
-	1    4650 1900
+P 4650 1700
+F 0 "#PWR0104" H 4650 1550 50  0001 C CNN
+F 1 "+3.3V" H 4650 1850 50  0000 C CNN
+F 2 "" H 4650 1700 50  0001 C CNN
+F 3 "" H 4650 1700 50  0001 C CNN
+	1    4650 1700
 	1    0    0    -1  
 $EndComp
 NoConn ~ 4200 2050
@@ -92,31 +92,27 @@ F 3 "" H 1000 2500 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	2400 3000 2250 3000
-Text Label 2300 3000 0    50   ~ 0
+Text Label 2250 3000 0    50   ~ 0
 D-
 Wire Wire Line
 	2400 3150 2250 3150
 Text Label 2250 3150 0    50   ~ 0
 D+
 Wire Wire Line
-	4800 2050 4800 1700
-Wire Wire Line
 	5100 2050 5100 1700
 Wire Wire Line
 	5800 3900 6100 3900
-Text Label 5850 3900 0    50   ~ 0
+Text Label 6100 3900 2    50   ~ 0
 MOSI
-Text Label 4800 2000 1    50   ~ 0
-MISO
-Text Label 5100 2000 1    50   ~ 0
+Text Label 5100 1700 3    50   ~ 0
 SCLK
 Wire Wire Line
 	2400 3750 2000 3750
 Wire Wire Line
 	2400 3600 2000 3600
-Text Label 2100 3600 0    50   ~ 0
+Text Label 2000 3600 0    50   ~ 0
 SWDIO
-Text Label 2050 3750 0    50   ~ 0
+Text Label 2000 3750 0    50   ~ 0
 SWDCLK
 Text Label 8700 2150 0    50   ~ 0
 MOSI
@@ -177,9 +173,9 @@ F 3 "" H 2000 750 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	4650 1900 4650 2050
+	4650 1700 4650 2050
 Wire Wire Line
-	4500 1600 4500 2050
+	4500 1500 4500 2050
 Wire Wire Line
 	4350 1900 4350 2050
 $Comp
@@ -382,13 +378,13 @@ Wire Wire Line
 	5800 3600 6100 3600
 Wire Wire Line
 	5800 3750 6100 3750
-Text Label 5900 3600 0    50   ~ 0
+Text Label 6100 3600 2    50   ~ 0
 SCL
-Text Label 5900 3750 0    50   ~ 0
+Text Label 6100 3750 2    50   ~ 0
 SDA
 Wire Wire Line
 	5800 2700 6100 2700
-Text Label 5850 2700 0    50   ~ 0
+Text Label 6100 2700 2    50   ~ 0
 V_BAT
 Wire Wire Line
 	3900 4350 3900 4800
@@ -448,7 +444,7 @@ F 3 "" H 1400 7100 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	1100 6900 800  6900
-Text Label 850  6900 0    50   ~ 0
+Text Label 800  6900 0    50   ~ 0
 VIBRATOR
 Wire Wire Line
 	4050 4350 4050 4750
@@ -540,7 +536,7 @@ Text Label 5250 1100 2    50   ~ 0
 SWDIO
 Wire Wire Line
 	4900 1100 5250 1100
-Text Label 4950 900  0    50   ~ 0
+Text Label 5250 900  2    50   ~ 0
 SWDCLK
 Wire Wire Line
 	4900 900  5250 900 
@@ -637,9 +633,9 @@ Wire Wire Line
 	4950 4350 4950 4700
 Wire Wire Line
 	5100 4350 5100 4700
-Text Label 4950 4350 3    50   ~ 0
+Text Label 4950 4700 1    50   ~ 0
 DISPDC
-Text Label 5100 4400 3    50   ~ 0
+Text Label 5100 4700 1    50   ~ 0
 DISPCS
 Wire Wire Line
 	4350 4350 4350 4700
@@ -647,17 +643,17 @@ Wire Wire Line
 	4500 4350 4500 4700
 Text Label 4350 4700 1    50   ~ 0
 DISPBUSY
-Text Label 4500 4650 1    50   ~ 0
+Text Label 4500 4700 1    50   ~ 0
 DISPRST
 Wire Wire Line
-	4950 2050 4950 1650
-Text Label 4950 2000 1    50   ~ 0
+	4950 2050 4950 1600
+Text Label 4950 1600 3    50   ~ 0
 SAO_GPIO2
 Text Label 8600 4700 2    50   ~ 0
 SAO_GPIO1
 Text Label 6700 4700 0    50   ~ 0
 SAO_GPIO2
-Text Label 4800 4400 3    50   ~ 0
+Text Label 4800 4800 1    50   ~ 0
 SAO_GPIO1
 Wire Wire Line
 	4800 4350 4800 4800
@@ -790,16 +786,16 @@ $EndComp
 $Comp
 L power:GND #PWR0120
 U 1 1 5DB0509B
-P 7350 5300
-F 0 "#PWR0120" H 7350 5050 50  0001 C CNN
-F 1 "GND" V 7355 5172 50  0000 R CNN
-F 2 "" H 7350 5300 50  0001 C CNN
-F 3 "" H 7350 5300 50  0001 C CNN
-	1    7350 5300
+P 7250 5300
+F 0 "#PWR0120" H 7250 5050 50  0001 C CNN
+F 1 "GND" V 7255 5172 50  0000 R CNN
+F 2 "" H 7250 5300 50  0001 C CNN
+F 3 "" H 7250 5300 50  0001 C CNN
+	1    7250 5300
 	0    1    1    0   
 $EndComp
 Wire Wire Line
-	7600 5300 7350 5300
+	7600 5300 7250 5300
 $Comp
 L power:+3.3V #PWR0121
 U 1 1 5DB09B35
@@ -813,25 +809,18 @@ F 3 "" H 7400 5200 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	7600 5200 7400 5200
-Text Label 7500 5400 2    50   ~ 0
+Text Label 7250 5400 0    50   ~ 0
 SDA
 Wire Wire Line
-	7600 5400 7350 5400
-Text Label 7350 5500 0    50   ~ 0
+	7600 5400 7250 5400
+Text Label 7250 5500 0    50   ~ 0
 SCL
 Wire Wire Line
-	7600 5500 7350 5500
+	7600 5500 7250 5500
 Wire Wire Line
 	5250 2050 5250 1700
-Text Label 5250 2000 1    50   ~ 0
+Text Label 7250 5700 0    50   ~ 0
 FM_~RST
-Text Label 7550 5700 2    50   ~ 0
-FM_~RST
-Wire Wire Line
-	7600 5700 7350 5700
-NoConn ~ 7600 5600
-NoConn ~ 7600 5800
-NoConn ~ 7600 5900
 $Comp
 L Switch:SW_Push BTN6
 U 1 1 5DB3D78E
@@ -1026,4 +1015,34 @@ NoConn ~ 4900 1000
 NoConn ~ 4400 1000
 NoConn ~ 4400 900 
 NoConn ~ 4650 6150
+Wire Wire Line
+	7250 5700 7600 5700
+Text Label 7250 5600 0    50   ~ 0
+FM_~SEN
+Wire Wire Line
+	7250 5600 7600 5600
+Text Label 7250 5800 0    50   ~ 0
+FM_GPIO1
+Text Label 7250 5900 0    50   ~ 0
+FM_GPIO2
+Wire Wire Line
+	7600 5900 7250 5900
+Wire Wire Line
+	7600 5800 7250 5800
+Text Label 4200 4800 1    50   ~ 0
+FM_~SEN
+Wire Wire Line
+	4200 4350 4200 4800
+Text Label 2000 3300 0    50   ~ 0
+FM_GPIO1
+Wire Wire Line
+	2400 3300 2000 3300
+Text Label 2000 3450 0    50   ~ 0
+FM_GPIO2
+Wire Wire Line
+	2400 3450 2000 3450
+NoConn ~ 2400 3900
+Text Label 5250 1700 3    50   ~ 0
+FM_~RST
+NoConn ~ 4800 2050
 $EndSCHEMATC
