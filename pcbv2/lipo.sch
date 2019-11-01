@@ -1,6 +1,6 @@
 EESchema Schematic File Version 4
 LIBS:badge2-cache
-EELAYER 26 0
+EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -143,7 +143,7 @@ $EndComp
 Wire Wire Line
 	6300 4150 6300 4350
 $Comp
-L badge2-rescue:RT9013-XXXB-RT9013 U8
+L RT9013:RT9013-XXXB U8
 U 1 1 5D9DA7E0
 P 8000 3400
 F 0 "U8" H 8000 3886 59  0000 C CNN
