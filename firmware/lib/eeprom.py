@@ -28,18 +28,21 @@ class EEPROM:
             return [mem_addr]
         else:
             return [mem_addr >> 8, mem_addr & 0xff]
-    
-    def read(self, mem_addr, size):
+
+    def readinto(self, mem_addr, buf):
         mem_addr = self._encode_addr(mem_addr)
         while not self._i2c.try_lock():
             pass
         try:
-            buf = bytearray(size)
             self._i2c.writeto(self._addr, bytearray(mem_addr), stop=False)
             self._i2c.readfrom_into(self._addr, buf)
-            return buf
         finally:
             self._i2c.unlock()
+    
+    def read(self, mem_addr, size):
+        buf = bytearray(size)
+        self.readinto(mem_addr, buf)
+        return buf
 
     def _write(self, mem_addr, buf):
         """ must write to a single page """
