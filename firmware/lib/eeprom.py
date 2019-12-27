@@ -29,6 +29,11 @@ class EEPROM:
         else:
             return [mem_addr >> 8, mem_addr & 0xff]
 
+    @property
+    def size(self):
+        """The size of the EEPROM, in bytes"""
+        return self._eeprom_size
+
     def readinto(self, mem_addr, buf):
         mem_addr = self._encode_addr(mem_addr)
         while not self._i2c.try_lock():
