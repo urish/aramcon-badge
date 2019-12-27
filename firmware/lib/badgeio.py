@@ -23,7 +23,7 @@ class Badge:
         self._vibration = DigitalInOut(board.VIBRATION_MOTOR)
         self._vibration.switch_to_output()
         self._pixels = neopixel.NeoPixel(board.NEOPIXEL, 4)
-        self._i2c = busio.I2C(board.SCL, board.SDA)
+        self._i2c = None
         self._lis3dh = None
         self._spi = None
         self._display_bus = None
@@ -86,6 +86,8 @@ class Badge:
     @property
     def i2c(self):
         """direct access to the I2C bus"""
+        if not self._i2c:
+            self._i2c = busio.I2C(board.SCL, board.SDA)
         return self._i2c
 
     @property
