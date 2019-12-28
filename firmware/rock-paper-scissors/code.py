@@ -4,11 +4,11 @@ import binascii
 
 import gamepad
 
-import bleio
-from adafruit_ble.scanner import Scanner, ScanEntry
-from adafruit_ble.uart import NUS_SERVICE_UUID
-from adafruit_ble.uart_client import UARTClient
-from adafruit_ble.uart_server import UARTServer
+from adafruit_ble import BLERadio
+from adafruit_ble.advertising import Advertisement
+from adafruit_ble.advertising.standard import ProvideServicesAdvertisement
+from adafruit_ble.services.nordic import UARTService
+
 from adafruit_bluefruit_connect.packet import Packet
 from adafruit_bluefruit_connect.button_packet import ButtonPacket
 
@@ -41,10 +41,11 @@ pad = gamepad.GamePad(
     badge._middle,
     badge._right)
 
-
-device_name = 'rps-{}'.format(str(binascii.hexlify(bytearray(reversed(bleio.adapter.address.address_bytes[0:2]))), 'utf-8'))
-uart_server = UARTServer(name=device_name)
-uart_client = UARTClient()
+ble = BLERadio()
+uart_service = UARTService()
+host_advertisement = ProvideServicesAdvertisement(uart_service)
+device_name = 'rps-{}'.format(str(binascii.hexlify(bytearray(reversed(ble.address_bytes[0:2]))), 'utf-8'))
+host_advertisement.complete_name = device_name
 
 def create_large_label(text, x = 0, y = 0, scale = 2):
     group = displayio.Group(scale=scale, x = x, y = y)
@@ -137,6 +138,7 @@ def show_frame(group, refresh = True):
     while refresh:
         if display.time_to_refresh == 0:
             display.refresh()
+            time.sleep(0.1)
             break
 
 def wait_for_button_release():
@@ -173,21 +175,20 @@ def run_menu(menu_name, options):
             should_refresh = False
 
 def host_game():
-    uart_server.start_advertising()
     show_frame(create_status('Hosting on {}'.format(device_name), [' ', 'CANCEL']))
-    while not uart_server.connected:
+    ble.start_advertising(host_advertisement)
+    while not ble.connected:
         if pad.get_pressed() & BUTTON_MIDDLE:
-            uart_server.stop_advertising()
+            ble.stop_advertising()
             wait_for_button_release()
             return False
-    uart_server.stop_advertising()
-    return uart_server
+    return uart_service
 
-def join_game(game_host):
-    uart_client.connect(game_host.address, 5)
-    while not uart_client.connected:
+def join_game(host_adv):
+    uart_connection = ble.connect(host_adv)
+    while not uart_connection.connected:
         pass
-    return uart_client
+    return uart_connection[UARTService]
 
 def run_game_menu():
     selection = -1
@@ -274,13 +275,16 @@ def resolve_game(choices):
     return options[choices]
 
 def scan_for_games():
-    scanner = Scanner()
-    uart_addresses = []
-
-    uart_addresses = ScanEntry.with_service_uuid(scanner.scan(2), NUS_SERVICE_UUID)
-    if uart_addresses is None:
-        return None
-    return [se for se in uart_addresses if str(se.name, 'utf-8').startswith('rps')]
+    hosts = {}
+    for adv in ble.start_scan(ProvideServicesAdvertisement, timeout=5):
+        if UARTService in adv.services:
+            if not adv.complete_name:
+                continue
+            name = adv.complete_name
+            if name.startswith('rps') and name not in hosts:
+                hosts[name] = adv
+                print("Found host {}".format(name))
+    return hosts
 
 def setup_game():
     selected_host = None
@@ -288,7 +292,7 @@ def setup_game():
         game_host_options = ['Host game', 'Rescan']
         game_hosts = scan_for_games()
         if not game_hosts is None:
-            game_host_options = [str(game_host.name, 'utf-8') for game_host in game_hosts] + game_host_options
+            game_host_options = [host_name for host_name in game_hosts] + game_host_options
         
         selected_host_option = run_menu(menu_name='Rock Paper Scissors', options=game_host_options)
         host_option_name = game_host_options[selected_host_option]
@@ -299,8 +303,8 @@ def setup_game():
         elif host_option_name == 'Rescan':
             continue
         else:
-            host_name = next(game_host for game_host in game_hosts if str(game_host.name, 'utf-8') == host_option_name)
-            return join_game(host_name)
+            host_adv = game_hosts[host_option_name]
+            return join_game(host_adv)
 
 def main():
     while True:
@@ -317,7 +321,8 @@ def main():
             if not play_again:
                 show_frame(create_status('Disconnecting...'))
                 break
-        uart.disconnect()
+        for connection in ble.connections:
+            connection.disconnect()
         time.sleep(2)
 
 if __name__ == '__main__':
