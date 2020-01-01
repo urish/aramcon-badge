@@ -1,5 +1,4 @@
 EESchema Schematic File Version 4
-LIBS:badge2-cache
 EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
@@ -612,4 +611,14 @@ F 4 "C77336" H 5600 3100 50  0001 C CNN "LCSC Part"
 	1    5600 3100
 	0    1    1    0   
 $EndComp
+Text Notes 4300 1650 0    50   ~ 0
+Battery Load Sharing System design based on Microchip's AN1149\nhttp://ww1.microchip.com/downloads/en/appnotes/01149c.pdf
+Wire Notes Line
+	4250 1450 6900 1450
+Wire Notes Line
+	6900 1450 6900 1700
+Wire Notes Line
+	6900 1700 4250 1700
+Wire Notes Line
+	4250 1700 4250 1450
 $EndSCHEMATC
