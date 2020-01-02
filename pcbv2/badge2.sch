@@ -1065,4 +1065,68 @@ Wire Wire Line
 Connection ~ 950  6900
 Wire Wire Line
 	950  6900 550  6900
+$Comp
+L Device:R R6
+U 1 1 5E0E6DE0
+P 6400 900
+AR Path="/5E0E6DE0" Ref="R6"  Part="1" 
+F 0 "R6" V 6500 900 50  0000 L CNN
+F 1 "10K" V 6400 850 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 6330 900 50  0001 C CNN
+F 3 "~" H 6400 900 50  0001 C CNN
+F 4 "C25804" H 6400 900 50  0001 C CNN "LCSC Part"
+F 5 "0603WAF1002T5E" H 6400 900 50  0001 C CNN "Vendor"
+	1    6400 900 
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:R R7
+U 1 1 5E0ECD1B
+P 6400 1100
+AR Path="/5E0ECD1B" Ref="R7"  Part="1" 
+F 0 "R7" V 6500 1100 50  0000 L CNN
+F 1 "10K" V 6400 1050 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 6330 1100 50  0001 C CNN
+F 3 "~" H 6400 1100 50  0001 C CNN
+F 4 "C25804" H 6400 1100 50  0001 C CNN "LCSC Part"
+F 5 "0603WAF1002T5E" H 6400 1100 50  0001 C CNN "Vendor"
+	1    6400 1100
+	0    -1   -1   0   
+$EndComp
+Text Label 6050 900  0    50   ~ 0
+SCL
+Text Label 6050 1100 0    50   ~ 0
+SDA
+Wire Wire Line
+	6250 900  6050 900 
+Wire Wire Line
+	6050 1100 6250 1100
+$Comp
+L power:+3.3V #PWR02
+U 1 1 5E1052E7
+P 6700 1000
+F 0 "#PWR02" H 6700 850 50  0001 C CNN
+F 1 "+3.3V" H 6715 1173 50  0000 C CNN
+F 2 "" H 6700 1000 50  0001 C CNN
+F 3 "" H 6700 1000 50  0001 C CNN
+	1    6700 1000
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	6550 900  6550 1000
+Wire Wire Line
+	6550 1000 6700 1000
+Wire Wire Line
+	6550 1000 6550 1100
+Connection ~ 6550 1000
+Text Notes 6200 700  0    50   ~ 0
+I²C Pullups
+Wire Notes Line
+	5900 550  7000 550 
+Wire Notes Line
+	7000 550  7000 1200
+Wire Notes Line
+	7000 1200 5900 1200
+Wire Notes Line
+	5900 1200 5900 550 
 $EndSCHEMATC
