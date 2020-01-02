@@ -2,7 +2,7 @@
 
   (general
     (thickness 1.6)
-    (drawings 17)
+    (drawings 16)
     (tracks 997)
     (zones 0)
     (modules 73)
@@ -5446,9 +5446,6 @@
   )
   (gr_text + (at 185.275 109.825) (layer F.SilkS)
     (effects (font (size 1 1) (thickness 0.15)))
-  )
-  (gr_text "Rev 1.0" (at 259 101.65) (layer F.SilkS)
-    (effects (font (size 1.5 1.5) (thickness 0.3)))
   )
   (gr_text POWER (at 270.7 133.4 90) (layer F.SilkS) (tstamp 5DBE3FD0)
     (effects (font (size 1 1) (thickness 0.15)))
