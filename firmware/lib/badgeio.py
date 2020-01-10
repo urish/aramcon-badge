@@ -118,7 +118,7 @@ class Badge:
         """Obtain acceleration as a tuple with 3 elements: (x, y, z)"""
         if not self._lis3dh:
             import adafruit_lis3dh
-            self._lis3dh = adafruit_lis3dh.LIS3DH_I2C(self._i2c, address=0x18)
+            self._lis3dh = adafruit_lis3dh.LIS3DH_I2C(self.i2c, address=0x18)
         return self._lis3dh.acceleration
 
     @property
