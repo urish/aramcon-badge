@@ -1,3 +1,13 @@
+# This repository has been been deprecated!
+
+Please use the following repos instead:
+
+* [Badge Firmware](https://github.com/aramcon-badge/aramcon-firmware)
+* [Badge Hardward (PCB)](https://github.com/aramcon-badge/aramcon-hardware)
+* [Badge Web App](https://github.com/aramcon-badge/badge-web-app)
+
+---
+
 ## Smart Badge Project
 
 nRF52840-Based Smart Badge with Bluetooth, Thread Mesh Network, 2.9" ePaper Display, Neopixels, built-in MP3 Sound decoder and more!
